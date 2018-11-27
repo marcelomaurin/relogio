@@ -42,4 +42,69 @@ object frmConfig: TfrmConfig
     Caption = 'Salvar'
     TabOrder = 0
   end
+  object edURL: TEdit
+    Left = 8
+    Height = 23
+    Top = 23
+    Width = 308
+    TabOrder = 1
+    Text = 'edURL'
+  end
+  object lbPort: TLabel
+    Left = 8
+    Height = 15
+    Top = 48
+    Width = 31
+    Caption = 'Serial:'
+    ParentColor = False
+    OnClick = lbPortClick
+  end
+  object edPort: TEdit
+    Left = 8
+    Height = 23
+    Top = 64
+    Width = 112
+    TabOrder = 2
+    Text = 'COM1:'
+  end
+  object lbPort1: TLabel
+    Left = 136
+    Height = 15
+    Top = 48
+    Width = 50
+    Caption = 'Baudrate:'
+    ParentColor = False
+  end
+  object cbBaudrate: TComboBox
+    Left = 137
+    Height = 23
+    Top = 65
+    Width = 179
+    ItemHeight = 15
+    TabOrder = 3
+    Text = 'cbBaudrate'
+  end
+  object lbPort2: TLabel
+    Left = 8
+    Height = 15
+    Top = 96
+    Width = 56
+    Caption = 'File Alarm:'
+    ParentColor = False
+    OnClick = lbPortClick
+  end
+  object fileAlarme: TFileNameEdit
+    Left = 8
+    Height = 23
+    Top = 112
+    Width = 308
+    FileName = 'fileAlarme'
+    FilterIndex = 0
+    HideDirectories = False
+    ButtonWidth = 23
+    NumGlyphs = 1
+    MaxLength = 0
+    TabOrder = 4
+    Text = 'fileAlarme'
+  end
 end

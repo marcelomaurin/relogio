@@ -6,8 +6,8 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  StdCtrls, Buttons, acs_audio, acs_misc, acs_mixer, SdpoSerial, lNetComponents,
-  LedNumber, AdvLed, indGnouMeter, IndLed;
+  StdCtrls, Buttons, ComCtrls, acs_audio, acs_misc, acs_mixer, SdpoSerial,
+  lNetComponents, LedNumber, AdvLed, indGnouMeter, IndLed, AnalogWatch;
 
 type
 
@@ -17,28 +17,38 @@ type
     AcsAudioOut1: TAcsAudioOut;
     AcsMemoryIn1: TAcsMemoryIn;
     AdvAlarme: TAdvLed;
-    clock: TTimer;
-    hora: TLEDNumber;
-    data: TLEDNumber;
+    AnalogWatch1: TAnalogWatch;
     ativaalarme: TindLed;
-    lbHora3: TLabel;
-    lbHora4: TLabel;
-    lbAlarme: TLabel;
-    LTCPComponent1: TLTCPComponent;
-    SdpoSerial1: TSdpoSerial;
-    SpeedButton1: TSpeedButton;
-    SpeedButton2: TSpeedButton;
-    SpeedButton3: TSpeedButton;
-    temp: TLEDNumber;
+    clock: TTimer;
+    data: TLEDNumber;
+    hora: TLEDNumber;
     humi: TLEDNumber;
     indHum: TindGnouMeter;
     lbHora: TLabel;
     lbHora1: TLabel;
     lbHora2: TLabel;
+    lbHora3: TLabel;
+    lbHora4: TLabel;
+    lbAlarme: TLabel;
     lbTemp: TLabel;
     lbTemp1: TLabel;
     lbTemp2: TLabel;
     lbTemp3: TLabel;
+    LTCPComponent1: TLTCPComponent;
+    PageControl1: TPageControl;
+    Panel1: TPanel;
+    Panel2: TPanel;
+    Panel3: TPanel;
+    Panel4: TPanel;
+    SdpoSerial1: TSdpoSerial;
+    SpeedButton1: TSpeedButton;
+    SpeedButton2: TSpeedButton;
+    SpeedButton3: TSpeedButton;
+    TabSheet1: TTabSheet;
+    TabSheet2: TTabSheet;
+    TabSheet3: TTabSheet;
+    TabSheet4: TTabSheet;
+    temp: TLEDNumber;
     TrayIcon1: TTrayIcon;
     procedure AcsMemoryIn1BufferDone(Sender: TComponent);
     procedure clockTimer(Sender: TObject);
@@ -46,6 +56,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure ativaalarmeClick(Sender: TObject);
     procedure lbHoraClick(Sender: TObject);
+    procedure Panel1Click(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
     procedure SpeedButton2Click(Sender: TObject);
     procedure Ativalarme();
@@ -193,6 +204,11 @@ begin
 end;
 
 procedure Tfrmmain.lbHoraClick(Sender: TObject);
+begin
+
+end;
+
+procedure Tfrmmain.Panel1Click(Sender: TObject);
 begin
 
 end;

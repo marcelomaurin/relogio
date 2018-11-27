@@ -1,13 +1,14 @@
 object frmConfig: TfrmConfig
-  Left = -1045
+  Left = 539
   Height = 311
-  Top = -198
+  Top = 250
   Width = 448
   BorderStyle = bsSingle
   Caption = 'Configurações'
   ClientHeight = 311
   ClientWidth = 448
   OnCreate = FormCreate
+  Position = poDesktopCenter
   LCLVersion = '1.8.4.0'
   object Label1: TLabel
     Left = 8
