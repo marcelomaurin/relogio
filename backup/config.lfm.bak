@@ -1,0 +1,45 @@
+object frmConfig: TfrmConfig
+  Left = -1045
+  Height = 311
+  Top = -198
+  Width = 448
+  BorderStyle = bsSingle
+  Caption = 'Configurações'
+  ClientHeight = 311
+  ClientWidth = 448
+  OnCreate = FormCreate
+  LCLVersion = '1.8.4.0'
+  object Label1: TLabel
+    Left = 8
+    Height = 15
+    Top = 288
+    Width = 186
+    Caption = 'Criado por Marcelo Maurin Martins'
+    ParentColor = False
+  end
+  object lbversao: TLabel
+    Left = 400
+    Height = 15
+    Top = 288
+    Width = 44
+    Caption = 'lbversao'
+    ParentColor = False
+  end
+  object Label2: TLabel
+    Left = 8
+    Height = 15
+    Top = 8
+    Width = 53
+    Caption = 'URL REST:'
+    ParentColor = False
+    OnClick = Label2Click
+  end
+  object Button1: TButton
+    Left = 344
+    Height = 33
+    Top = 240
+    Width = 91
+    Caption = 'Salvar'
+    TabOrder = 0
+  end
+end

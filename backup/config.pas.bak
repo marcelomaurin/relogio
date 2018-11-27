@@ -1,0 +1,48 @@
+unit config;
+
+{$mode objfpc}{$H+}
+
+interface
+
+uses
+  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
+  main;
+
+type
+
+  { TfrmConfig }
+
+  TfrmConfig = class(TForm)
+    Button1: TButton;
+    Label1: TLabel;
+    Label2: TLabel;
+    lbversao: TLabel;
+    procedure FormCreate(Sender: TObject);
+    procedure Label2Click(Sender: TObject);
+  private
+
+  public
+
+  end;
+
+var
+  frmConfig: TfrmConfig;
+
+implementation
+
+{$R *.lfm}
+
+{ TfrmConfig }
+
+procedure TfrmConfig.FormCreate(Sender: TObject);
+begin
+  lbversao.Caption:= frmmain.versao;
+end;
+
+procedure TfrmConfig.Label2Click(Sender: TObject);
+begin
+
+end;
+
+end.
+
