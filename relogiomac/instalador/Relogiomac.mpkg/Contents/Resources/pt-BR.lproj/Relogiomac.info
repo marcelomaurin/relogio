@@ -1,0 +1,17 @@
+Title Relogiomac
+Version
+Description Instalador do Rel—gio MAC criado por Marcelo Maurin Martins
+DefaultLocation
+DeleteWarning
+
+### Package Flags
+
+NeedsAuthorization NO
+Required NO
+Relocatable NO
+RequiresReboot NO
+UseUserMask NO
+OverwritePermissions NO
+InstallFat NO
+RootVolumeOnly NO
+OnlyUpdateInstalledLanguages NO

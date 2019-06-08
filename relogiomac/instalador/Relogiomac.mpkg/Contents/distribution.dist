@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<installer-script minSpecVersion="1.000000" authoringTool="com.apple.PackageMaker" authoringToolVersion="3.0.6" authoringToolBuild="201">
+    <title>Relogiomac</title>
+    <options customize="allow" allow-external-scripts="no" rootVolumeOnly="false"/>
+    <readme file="ReadMe"/>
+    <choices-outline>
+        <line choice="choice6"/>
+        <line choice="choice7"/>
+        <line choice="choice8"/>
+    </choices-outline>
+    <choice id="choice6" title="relogio">
+        <pkg-ref id="maurinsoft.com.br.relogiomac.relogio.pkg"/>
+    </choice>
+    <choice id="choice7" title="relogio">
+        <pkg-ref id="maurinsoft.com.br.relogiomac.relogio-1.pkg"/>
+    </choice>
+    <choice id="choice8" title="relogiomac">
+        <pkg-ref id="maurinsoft.com.br.relogiomac.relogiomac.pkg"/>
+    </choice>
+    <pkg-ref id="maurinsoft.com.br.relogiomac.relogio.pkg" installKBytes="8" version="1.0" auth="Root">file:./Contents/Packages/relogio.pkg</pkg-ref>
+    <pkg-ref id="maurinsoft.com.br.relogiomac.relogio.pkg">
+        <relocate search-id="pkmktoken14">
+            <bundle id="com.company.relogio"/>
+        </relocate>
+    </pkg-ref>
+    <pkg-ref id="maurinsoft.com.br.relogiomac.relogio-1.pkg" installKBytes="136" version="1.0" auth="Root">file:./Contents/Packages/relogio-1.pkg</pkg-ref>
+    <pkg-ref id="maurinsoft.com.br.relogiomac.relogiomac.pkg" installKBytes="7180" version="1.0" auth="Root">file:./Contents/Packages/relogiomac.pkg</pkg-ref>
+    <locator>
+        <search id="pkmktoken14-1" type="component">
+            <bundle CFBundleIdentifier="com.company.relogio" path="/Applications/relogio.app"/>
+        </search>
+        <search id="pkmktoken14-0" type="script" script="pkmktoken14_combined()">
+            <script>
+function pkmktoken14_combined() {
+	function pkmk_add_results_to_array(results, array) {
+		for(i = 0; i &lt; results.length; i++)
+			array.push(results[i]);
+	}
+	var result = new Array();
+	var search;
+	search = my.search.results['pkmktoken14-1'];
+	if(search) pkmk_add_results_to_array(search, result);
+	return result;
+}
+</script>
+        </search>
+        <search type="script" id="pkmktoken14" script="pkmktoken14_final()">
+            <script>
+function pkmktoken14_final() {
+	var combined = my.search.results['pkmktoken14-0'];
+	return combined;
+}
+</script>
+        </search>
+    </locator>
+</installer-script>
