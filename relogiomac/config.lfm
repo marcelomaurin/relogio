@@ -1,0 +1,111 @@
+object frmConfig: TfrmConfig
+  Left = 539
+  Height = 311
+  Top = 250
+  Width = 448
+  BorderStyle = bsSingle
+  Caption = 'Configurações'
+  ClientHeight = 311
+  ClientWidth = 448
+  OnCreate = FormCreate
+  Position = poDesktopCenter
+  LCLVersion = '1.8.4.0'
+  object Label1: TLabel
+    Left = 8
+    Height = 15
+    Top = 288
+    Width = 186
+    Caption = 'Criado por Marcelo Maurin Martins'
+    ParentColor = False
+  end
+  object lbversao: TLabel
+    Left = 400
+    Height = 15
+    Top = 288
+    Width = 44
+    Caption = 'lbversao'
+    ParentColor = False
+  end
+  object Label2: TLabel
+    Left = 8
+    Height = 15
+    Top = 8
+    Width = 53
+    Caption = 'URL REST:'
+    ParentColor = False
+    OnClick = Label2Click
+  end
+  object Button1: TButton
+    Left = 344
+    Height = 33
+    Top = 240
+    Width = 91
+    Caption = 'Salvar'
+    TabOrder = 0
+  end
+  object edURL: TEdit
+    Left = 8
+    Height = 23
+    Top = 23
+    Width = 308
+    TabOrder = 1
+    Text = 'edURL'
+  end
+  object lbPort: TLabel
+    Left = 8
+    Height = 15
+    Top = 48
+    Width = 31
+    Caption = 'Serial:'
+    ParentColor = False
+    OnClick = lbPortClick
+  end
+  object edPort: TEdit
+    Left = 8
+    Height = 23
+    Top = 64
+    Width = 112
+    TabOrder = 2
+    Text = 'COM1:'
+  end
+  object lbPort1: TLabel
+    Left = 136
+    Height = 15
+    Top = 48
+    Width = 50
+    Caption = 'Baudrate:'
+    ParentColor = False
+  end
+  object cbBaudrate: TComboBox
+    Left = 137
+    Height = 23
+    Top = 65
+    Width = 179
+    ItemHeight = 15
+    TabOrder = 3
+    Text = 'cbBaudrate'
+  end
+  object lbPort2: TLabel
+    Left = 8
+    Height = 15
+    Top = 96
+    Width = 56
+    Caption = 'File Alarm:'
+    ParentColor = False
+    OnClick = lbPortClick
+  end
+  object fileAlarme: TFileNameEdit
+    Left = 8
+    Height = 23
+    Top = 112
+    Width = 308
+    FileName = 'fileAlarme'
+    FilterIndex = 0
+    HideDirectories = False
+    ButtonWidth = 23
+    NumGlyphs = 1
+    MaxLength = 0
+    TabOrder = 4
+    Text = 'fileAlarme'
+  end
+end
