@@ -9,6 +9,7 @@
 #include <DTime.h>
 #include <SDHT.h>
 #include <SD.h>
+#include <Keypad.h>
 #include "SerialMP3Player.h"
 
 //****************** Defines ******************
@@ -18,7 +19,7 @@
 //*************** Descricao do Produto *********************
 char Versao = '0';  //Controle de Versao do Firmware
 char Release = '1'; //Controle Revisao do Firmware
-char Produto[20] = { "Relogio - Betha"};
+char Produto[20] = { "Relogio"};
 char Empresa[20] = {"Maurinsoft"};
 
 /*Controle de contagem de ciclos*/
@@ -91,22 +92,62 @@ IPAddress myDns(192, 168, 1, 1);
 IPAddress gateway(192, 168, 1, 1);
 IPAddress subnet(255, 255, 0, 0);
 
+//Ethernet flags
+bool flgRServer = false; //Controle de retorno Server
+bool flgRClient = false; //Controle de retorno do cliente
+bool flgEthernetErro = true; //Verifica se houve erro de start
+boolean gotAMessage = false; // whether or not you got a message from the client yet
 
 // Initialize the Ethernet server library
 // with the IP address and port you want to use
 // (port 80 is default for HTTP):
 EthernetServer server(80);
+EthernetServer serverport(23);
 
-IPAddress timeServer(132, 163, 4, 101); // time-a.timefreq.bldrdoc.gov
-const int timeZone = 1;     // Central European Time
+EthernetClient client;
+EthernetClient Serverclient;
+
+
+
+IPAddress timeServer(200, 189, 40, 8); // b.ntp.br
+//IPAddress timeServer(132, 163, 4, 101); // time-a.timefreq.bldrdoc.gov
+const int timeZone = -3;     // Sao Paulo
 unsigned int localPort = 8888;  // local port to listen for UDP packets
 EthernetUDP EthernetUdp;
 time_t prevDisplay = 0; // when the digital clock was displayed
 
+
 /*Variaveis associadas ao LCD*/
 LiquidCrystal_I2C lcd(0x27,20,4);  // set the LCD address to 0x27 for a 16 chars and 2 line display
 
+//mapa de caracteres
+uint8_t bell[8]  = {0x4, 0xe, 0xe, 0xe, 0x1f, 0x0, 0x4};
+uint8_t note[8]  = {0x2, 0x3, 0x2, 0xe, 0x1e, 0xc, 0x0};
+uint8_t clock[8] = {0x0, 0xe, 0x15, 0x17, 0x11, 0xe, 0x0};
+uint8_t heart[8] = {0x0, 0xa, 0x1f, 0x1f, 0xe, 0x4, 0x0};
+uint8_t duck[8]  = {0x0, 0xc, 0x1d, 0xf, 0xf, 0x6, 0x0};
+uint8_t check[8] = {0x0, 0x1, 0x3, 0x16, 0x1c, 0x8, 0x0};
+uint8_t cross[8] = {0x0, 0x1b, 0xe, 0x4, 0xe, 0x1b, 0x0};
+uint8_t retarrow[8] = {  0x1, 0x1, 0x5, 0x9, 0x1f, 0x8, 0x4};
+uint8_t setaD = 0x7F;
+uint8_t setaE = 0x80;
 
+//********************* Key Board *************************
+char keyleft = 37;
+char keyup = 38;
+char keyright = 39;
+char keydown = 40;
+char keyenter = 10;
+char keyesc = 27;
+char keyF1 = 17;
+char keyF2 = 18;
+
+const byte ROWS = 5; //four rows
+const byte COLS = 4; //four columns
+
+/*HORA ATUAL*/
+String HORAATUAL;
+String DATAATUAL;
 
 /*Faz download do aplicativo*/
 void DownloadTFT(){
@@ -150,8 +191,8 @@ void Wellcome()
   Serial.println("Loading...");
   CLS();
 
-  Imprime(0, "  "+String(Produto));
-  Imprime(1, "     Versao:" + String(Versao) + "." + String(Release));
+  Imprime(0,"    "+String(Produto)+" "+String(Versao) + "." + String(Release));
+  //Imprime(1,);
   Imprime(3, "      By Maurin");
 }
 
@@ -271,8 +312,10 @@ void setup()
   Start_MP3();
   char info[20];
   sprintf(info,"IP:%s     ",myIP);
-  Imprime(2, info);
+  Imprime(1, info);
   Serial.println("Start Complete!");
+  delay(2000);
+  Imprime(2,"                     ");
 
 }
 
@@ -381,15 +424,18 @@ void Le_UDP()
     if (timeStatus() != timeNotSet) {
     if (now() != prevDisplay) { //update the display only if time has changed
       prevDisplay = now();
-      digitalClockDisplay();  
-    }
+      MontaTempo();  
+    }    
+  } else {
+    Serial.println("No time");
   }
 }
 
 
 
-void digitalClockDisplay(){
+void MontaTempo(){
   // digital clock display of the time
+  /*
   Serial.print(hour());
   printDigits(minute());
   printDigits(second());
@@ -400,14 +446,19 @@ void digitalClockDisplay(){
   Serial.print(" ");
   Serial.print(year()); 
   Serial.println(); 
+  */
+  HORAATUAL = String(hour())+printDigits(minute())+printDigits(second());
+  DATAATUAL = String(day())+"/"+String(month())+"/"+String(year());
 }
 
-void printDigits(int digits){
+String printDigits(int digits){
   // utility for digital clock display: prints preceding colon and leading 0
-  Serial.print(":");
+  String ACUM;
+  ACUM = ":";
   if(digits < 10)
-    Serial.print('0');
-  Serial.print(digits);
+    ACUM += '0';
+  ACUM += digits;
+  return ACUM;
 }
 
 /*-------- NTP code ----------*/
@@ -432,7 +483,10 @@ time_t getNtpTime()
       secsSince1900 |= (unsigned long)packetBuffer[41] << 16;
       secsSince1900 |= (unsigned long)packetBuffer[42] << 8;
       secsSince1900 |= (unsigned long)packetBuffer[43];
-      return secsSince1900 - 2208988800UL + timeZone * SECS_PER_HOUR;
+      char buff[20];
+      time_t now = secsSince1900 - 2208988800UL + timeZone * SECS_PER_HOUR;
+      //HORAATUAL = String(strftime(buff, 20, "%Y-%m-%d %H:%M:%S", localtime(&now));
+      return now;
     }
   }
   Serial.println("No NTP Response :-(");
@@ -664,6 +718,104 @@ void LOADKeyCMD()
   }
 }
 
+/**************************Bloco de servidor*************************************/
+
+void HelloClient()
+{
+  Serverclient.println(Produto);
+  Serverclient.print("Versao");
+  Serverclient.print(Versao);
+  Serverclient.print(".");
+  Serverclient.println(Release);
+
+}
+
+//Mostra o nro digitado no buffer
+void Digitado()
+{
+  //sprintf(BufferKeypad, "%s%c  ", BufferKeypad, customKey)
+  Imprime(1, "Teclado:                ");
+  Imprime(2, String(BufferKeypad));
+  Serial.print("Digitado:");
+  Serial.println(BufferKeypad);
+}
+
+
+void Le_Servidor()
+{
+  //Ativa somente se Ethernet Ok
+  if (!flgEthernetErro)
+  {
+    // wait for a new client:
+    EthernetClient Serverclient = serverport.available();
+
+    // when the client sends the first byte, say hello:
+    if (client)
+    {
+      if (!gotAMessage) //Caso não tenha boas vindas
+      {
+        Serial.println("Nova conexao disponível");
+        HelloClient();
+        //AguardaCMD();
+        gotAMessage = true;
+      }
+
+      // read the bytes incoming from the client:
+      char customKey = client.read();
+      flgRServer = true; //Levanta recebimento de informacao do servidor
+      // echo the bytes back to the client:
+      serverport.write(customKey);
+      // echo the bytes to the server as well:
+      Serial.print(customKey);
+
+      if (customKey != NO_KEY)
+      {
+        //contciclo = maxciclo;//na proxima verificao atualiza a tela
+        if (customKey >= '0' && customKey <= '9')
+        {
+          sprintf(BufferEthernet, "%s%c", BufferEthernet, customKey);
+          Digitado();
+        }
+        if (customKey == '#') //Limpa Buffer
+        {
+          sprintf(BufferEthernet, "%s\n", BufferEthernet);
+        }
+        if (customKey == '*') //Limpa Buffer
+        {
+          sprintf(BufferEthernet, "");
+        }
+
+        //keyF1
+        if (customKey == keyF1 ) //Menu funcoes
+        {
+          sprintf(BufferEthernet, "MCONFIG\n");
+        }
+
+        //keyF2
+        if (customKey == keyF2 ) //Menu funcoes
+        {
+          sprintf(BufferEthernet, "MOPERACAO\n");
+        }
+
+        //keyenter
+        if (customKey == keyenter ) //Menu funcoes
+        {
+          //sprintf(BufferEthernet, "MOPERACAO\n");
+          Imprime(3, "Sem funcionamento    ");
+        }
+
+        //keyEsc
+        if (customKey == keyesc ) //Escape no menu principal
+        {
+          //Reset();
+        }
+
+      }
+
+    }
+  }
+
+}
 
 /************************ Fim de bloco de funcoes de LOAD ************************/
 
@@ -807,15 +959,24 @@ void Le_Serial()
   }
 }
 
+
+
+
 void Leituras()
 {
   Le_Serial(); 
   SRV_Web();
   nexLoop(nex_listen_list);
+  Le_UDP();
+  Le_Servidor();
+  
 }
 
 void Escritas(){
-  tData.setText("29/12/1973");
+  //tData.setText("29/12/1973");
+  String label;
+  label = HORAATUAL + " "+ DATAATUAL;
+  Imprime(3,label.c_str());
 }
 
 void loop()
@@ -823,7 +984,7 @@ void loop()
   //Serial.println(".");
   Leituras();
   Analisa();
-  //Escritas();
+  Escritas();
   //Modulo de contagem de ciclos
   if (contciclo >= maxciclo)
   {
