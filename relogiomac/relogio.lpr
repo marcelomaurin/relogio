@@ -7,7 +7,7 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, ringwatch, main, alarme, config
+  Forms, ringwatch, main, config
   { you can add units after this };
 
 {$R *.res}
@@ -17,7 +17,6 @@ begin
   Application.Scaled:=True;
   Application.Initialize;
   Application.CreateForm(Tfrmmain, frmmain);
-  Application.CreateForm(TfrmAlarme, frmAlarme);
   Application.CreateForm(TfrmConfig, frmConfig);
   Application.Run;
 end.

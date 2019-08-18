@@ -1,0 +1,380 @@
+object frmmain: Tfrmmain
+  Left = 506
+  Height = 299
+  Top = 218
+  Width = 322
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsDialog
+  Caption = 'Relógio'
+  ClientHeight = 299
+  ClientWidth = 322
+  Color = clBackground
+  OnCreate = FormCreate
+  Position = poDesktopCenter
+  LCLVersion = '2.0.2.0'
+  object SpeedButton1: TSpeedButton
+    Left = 194
+    Height = 46
+    Top = 248
+    Width = 87
+    Caption = 'Configuração'
+    OnClick = SpeedButton1Click
+  end
+  object lbHora4: TLabel
+    Left = 8
+    Height = 15
+    Top = 224
+    Width = 41
+    Caption = 'Alarme:'
+    Color = clBlack
+    Font.Color = clAppWorkspace
+    ParentColor = False
+    ParentFont = False
+    Transparent = False
+    OnClick = lbHoraClick
+  end
+  object lbAlarme: TLabel
+    Left = 64
+    Height = 15
+    Top = 224
+    Width = 27
+    Caption = '00:00'
+    Color = clBlack
+    Font.Color = clAppWorkspace
+    ParentColor = False
+    ParentFont = False
+    Transparent = False
+    OnClick = lbHoraClick
+  end
+  object Panel1: TPanel
+    Left = 0
+    Height = 299
+    Top = 0
+    Width = 322
+    Align = alClient
+    Caption = 'Panel1'
+    ClientHeight = 299
+    ClientWidth = 322
+    TabOrder = 0
+    OnClick = Panel1Click
+    object PageControl1: TPageControl
+      Left = 1
+      Height = 297
+      Top = 1
+      Width = 320
+      ActivePage = TabSheet4
+      Align = alClient
+      TabIndex = 3
+      TabOrder = 0
+      object TabSheet1: TTabSheet
+        Caption = 'Digital'
+        ClientHeight = 269
+        ClientWidth = 312
+        Font.Color = clWindow
+        ParentFont = False
+        object Panel3: TPanel
+          Left = 0
+          Height = 269
+          Top = 0
+          Width = 312
+          Align = alClient
+          ClientHeight = 269
+          ClientWidth = 312
+          TabOrder = 0
+          object data: TLEDNumber
+            Left = 8
+            Height = 30
+            Top = 66
+            Width = 200
+            Caption = 'data'
+            OnClick = dataClick
+          end
+          object lbHora1: TLabel
+            Left = 8
+            Height = 15
+            Top = 48
+            Width = 24
+            Caption = 'Data'
+            Font.Color = clActiveBorder
+            ParentColor = False
+            ParentFont = False
+          end
+          object hora: TLEDNumber
+            Left = 8
+            Height = 30
+            Top = 18
+            Width = 136
+            Caption = 'hora'
+          end
+          object lbHora: TLabel
+            Left = 8
+            Height = 15
+            Top = 0
+            Width = 26
+            Caption = 'Hora'
+            Color = clBlack
+            Font.Color = clAppWorkspace
+            ParentColor = False
+            ParentFont = False
+            Transparent = False
+            OnClick = lbHoraClick
+          end
+        end
+      end
+      object TabSheet2: TTabSheet
+        Caption = 'Analógico'
+        ClientHeight = 269
+        ClientWidth = 312
+        object Panel2: TPanel
+          Left = 0
+          Height = 269
+          Top = 0
+          Width = 312
+          Align = alClient
+          Caption = 'Panel2'
+          ClientHeight = 269
+          ClientWidth = 312
+          TabOrder = 0
+          object AnalogWatch1: TAnalogWatch
+            Left = 24
+            Height = 232
+            Top = 24
+            Width = 273
+            Interval = 1000
+            DefinedTime = '22:10:58:00'
+            MeetTime = '12:00:00'
+          end
+        end
+      end
+      object TabSheet3: TTabSheet
+        Caption = 'Despertador'
+        ClientHeight = 269
+        ClientWidth = 312
+        object SpeedButton3: TSpeedButton
+          Left = 72
+          Height = 46
+          Top = 112
+          Width = 184
+          Caption = 'Soneca'
+          OnClick = SpeedButton3Click
+        end
+        object ativaalarme: TindLed
+          Left = 129
+          Height = 25
+          Top = 208
+          Width = 25
+          OnClick = ativaalarmeClick
+          LedValue = False
+          Bevels = <          
+            item
+              HighlightColor = clBlack
+              ShadowColor = clBlack
+            end          
+            item
+              Width = 3
+            end          
+            item
+              Style = bcLowered
+            end          
+            item
+              HighlightColor = clBlack
+              ShadowColor = clBlack
+            end>
+          LedColorOn = clLime
+          LedColorOff = clGreen
+          LedColorDisabled = 22963
+          ShapeLedColorOn = clGreen
+          ShapeLedColorOff = 16384
+          ShapeLedColorDisabled = 13416
+        end
+        object lbHora3: TLabel
+          Left = 120
+          Height = 15
+          Top = 240
+          Width = 41
+          Caption = 'Alarme:'
+          Color = clBlack
+          Font.Color = clAppWorkspace
+          ParentColor = False
+          ParentFont = False
+          Transparent = False
+        end
+        object SpeedButton2: TSpeedButton
+          Left = 8
+          Height = 46
+          Top = 209
+          Width = 87
+          Caption = 'Alarme'
+          OnClick = SpeedButton2Click
+        end
+        object AdvAlarme: TAdvLed
+          Left = 56
+          Height = 24
+          Top = 8
+          Width = 24
+          State = lsOff
+          Blink = True
+        end
+        object lbHora2: TLabel
+          Left = 8
+          Height = 15
+          Top = 8
+          Width = 41
+          Caption = 'Alarme:'
+          Color = clBlack
+          Font.Color = clAppWorkspace
+          ParentColor = False
+          ParentFont = False
+          Transparent = False
+        end
+      end
+      object TabSheet4: TTabSheet
+        Caption = 'Tempo'
+        ClientHeight = 269
+        ClientWidth = 312
+        object Panel4: TPanel
+          Left = 0
+          Height = 269
+          Top = 0
+          Width = 312
+          Align = alClient
+          Caption = 'Panel4'
+          ClientHeight = 269
+          ClientWidth = 312
+          TabOrder = 0
+          object lbTemp3: TLabel
+            Left = 248
+            Height = 30
+            Top = 112
+            Width = 17
+            Caption = '%'
+            Font.Color = clActiveBorder
+            Font.Height = -21
+            ParentColor = False
+            ParentFont = False
+          end
+          object humi: TLEDNumber
+            Left = 192
+            Height = 30
+            Top = 112
+            Width = 51
+            Caption = '0'
+            Columns = 3
+          end
+          object lbTemp2: TLabel
+            Left = 194
+            Height = 15
+            Top = 96
+            Width = 56
+            Caption = 'Humidade'
+            Font.Color = clActiveBorder
+            ParentColor = False
+            ParentFont = False
+          end
+          object lbTemp1: TLabel
+            Left = 152
+            Height = 30
+            Top = 112
+            Width = 13
+            Caption = 'C'
+            Font.Color = clActiveBorder
+            Font.Height = -21
+            ParentColor = False
+            ParentFont = False
+          end
+          object lbTemp: TLabel
+            Left = 98
+            Height = 15
+            Top = 96
+            Width = 68
+            Caption = 'Temperatura'
+            Font.Color = clActiveBorder
+            ParentColor = False
+            ParentFont = False
+          end
+          object temp: TLEDNumber
+            Left = 96
+            Height = 30
+            Top = 112
+            Width = 51
+            Caption = '0'
+            Columns = 3
+          end
+          object indHum: TindGnouMeter
+            Left = 0
+            Height = 104
+            Top = 40
+            Width = 88
+            Caption = 'Temperatura'
+            Value = 0
+            Color = clInactiveCaptionText
+            Font.Color = clRed
+            ParentColor = False
+            ColorFore = clRed
+            ColorBack = clInactiveCaptionText
+            SignalUnit = 'C'
+            ValueMin = 0
+            ValueMax = 50
+            Digits = 0
+            Increment = 10
+            ShowIncrements = True
+            Transparent = True
+            GapTop = 20
+            GapBottom = 10
+            BarThickness = 5
+            MarkerColor = clBlue
+            ShowMarker = True
+          end
+        end
+      end
+    end
+  end
+  object clock: TTimer
+    OnTimer = clockTimer
+    left = 232
+    top = 16
+  end
+  object LTCPComponent1: TLTCPComponent
+    Port = 0
+    Timeout = 0
+    ReuseAddress = False
+    left = 248
+    top = 189
+  end
+  object SdpoSerial1: TSdpoSerial
+    Active = False
+    BaudRate = br___300
+    AltBaudRate = 0
+    DataBits = db8bits
+    Parity = pNone
+    FlowControl = fcNone
+    StopBits = sbOne
+    Device = 'COM1'
+    left = 120
+    top = 232
+  end
+  object TrayIcon1: TTrayIcon
+    OnClick = TrayIcon1Click
+    left = 8
+    top = 160
+  end
+  object AcsAudioOut1: TAcsAudioOut
+    Input = AcsMemoryIn1
+    BufferSize = 16384
+    PrefetchMode = pmAuto
+    DriverName = 'Wavemapper'
+    Device = 0
+    Volume = 100
+    Delay = 10
+    left = 248
+    top = 224
+  end
+  object AcsMemoryIn1: TAcsMemoryIn
+    InBitsPerSample = 16
+    InChannels = 1
+    InSampleRate = 8000
+    OnBufferDone = AcsMemoryIn1BufferDone
+    left = 208
+    top = 224
+  end
+end

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Compiler Value="C:\lazarus\fpc\3.0.4\bin\x86_64-win64\fpc.exe" Date="1317892579"/>
+  <Params Value=" -MObjFPC -Scghi -O1 -g -gl -WG -l -vewnhibq -FiI:\projetos\relogio\relogiomac\lib\x86_64-win64 -FuC:\Users\Z600\AppData\Local\lazarus\onlinepackagemanager\packages\ringwatch\lib\x86_64-win64 -FuC:\Users\Z600\AppData\Local\lazarus\onlinepackagemanager\packages\industrialstuff\lib\x86_64-win64 -FuC:\lazarus\components\ideintf\units\x86_64-win64\win32 -FuC:\lazarus\components\lazcontrols\lib\x86_64-win64\win32 -FuC:\lazarus\lcl\units\x86_64-win64\win32 -FuC:\lazarus\lcl\units\x86_64-win64 -FuC:\lazarus\components\lazutils\lib\x86_64-win64 -FuC:\lazarus\packager\units\x86_64-win64 -FuI:\projetos\relogio\relogiomac\ -FUI:\projetos\relogio\relogiomac\lib\x86_64-win64\ -FEI:\projetos\relogio\relogiomac\ -oI:\projetos\relogio\relogiomac\relogio.exe -dLCL -dLCLwin32 relogio.lpr"/>
+  <Complete Value="False"/>
+</CONFIG>

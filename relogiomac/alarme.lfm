@@ -1,15 +1,15 @@
 object frmAlarme: TfrmAlarme
-  Left = -1126
-  Height = 209
-  Top = -139
-  Width = 395
+  Left = 416
+  Height = 228
+  Top = 242
+  Width = 406
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Alarme'
-  ClientHeight = 209
-  ClientWidth = 395
+  ClientHeight = 228
+  ClientWidth = 406
   Color = clCaptionText
-  LCLVersion = '1.8.4.0'
+  LCLVersion = '2.0.2.0'
   object Shape1: TShape
     Left = 160
     Height = 136
@@ -25,7 +25,6 @@ object frmAlarme: TfrmAlarme
     OnClick = UpDown1Click
     Position = 0
     TabOrder = 0
-    Wrap = False
   end
   object hora: TLEDNumber
     Left = 8
@@ -67,7 +66,6 @@ object frmAlarme: TfrmAlarme
     OnClick = UpDown2Click
     Position = 0
     TabOrder = 1
-    Wrap = False
   end
   object minutos: TLEDNumber
     Left = 80

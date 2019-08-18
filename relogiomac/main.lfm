@@ -7,25 +7,25 @@ object frmRelogio: TfrmRelogio
   Caption = 'Relogio'
   ClientHeight = 255
   ClientWidth = 497
-  LCLVersion = '2.0.0.4'
+  LCLVersion = '2.0.2.0'
   object PageControl1: TPageControl
     Left = 0
     Height = 255
     Top = 0
     Width = 497
-    ActivePage = TabSheet3
+    ActivePage = TabSheet1
     Align = alClient
-    TabIndex = 2
+    TabIndex = 0
     TabOrder = 0
     object TabSheet1: TTabSheet
       Caption = 'Relógio'
-      ClientHeight = 216
-      ClientWidth = 491
+      ClientHeight = 227
+      ClientWidth = 489
       object lbHora: TLabel
         Left = 64
-        Height = 89
+        Height = 91
         Top = 16
-        Width = 378
+        Width = 322
         Caption = '00:00:00'
         Font.CharSet = GREEK_CHARSET
         Font.Height = -82
@@ -36,9 +36,9 @@ object frmRelogio: TfrmRelogio
       end
       object lbData: TLabel
         Left = 136
-        Height = 89
+        Height = 91
         Top = 127
-        Width = 232
+        Width = 192
         Alignment = taCenter
         Caption = '0-0-0'
         Font.CharSet = GREEK_CHARSET
@@ -51,13 +51,13 @@ object frmRelogio: TfrmRelogio
     end
     object TabSheet2: TTabSheet
       Caption = 'Trabalho'
-      ClientHeight = 216
-      ClientWidth = 491
+      ClientHeight = 227
+      ClientWidth = 489
       object lbHora1: TLabel
         Left = 64
-        Height = 89
+        Height = 91
         Top = 16
-        Width = 378
+        Width = 322
         Caption = '00:00:00'
         Font.CharSet = GREEK_CHARSET
         Font.Height = -82
@@ -69,8 +69,8 @@ object frmRelogio: TfrmRelogio
     end
     object TabSheet3: TTabSheet
       Caption = 'Sensores'
-      ClientHeight = 216
-      ClientWidth = 491
+      ClientHeight = 227
+      ClientWidth = 489
       object LEDNumber1: TLEDNumber
         Left = 0
         Height = 30

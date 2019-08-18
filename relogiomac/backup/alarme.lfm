@@ -1,0 +1,120 @@
+object frmAlarme: TfrmAlarme
+  Left = 416
+  Height = 228
+  Top = 242
+  Width = 406
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsSingle
+  Caption = 'Alarme'
+  ClientHeight = 228
+  ClientWidth = 406
+  Color = clCaptionText
+  LCLVersion = '2.0.2.0'
+  object Shape1: TShape
+    Left = 160
+    Height = 136
+    Top = 8
+    Width = 229
+  end
+  object UpDown1: TUpDown
+    Left = 48
+    Height = 48
+    Top = 24
+    Width = 33
+    Min = 0
+    OnClick = UpDown1Click
+    Position = 0
+    TabOrder = 0
+  end
+  object hora: TLEDNumber
+    Left = 8
+    Height = 30
+    Top = 32
+    Width = 32
+    Caption = '00'
+  end
+  object lbHora: TLabel
+    Left = 8
+    Height = 15
+    Top = 8
+    Width = 26
+    Caption = 'Hora'
+    Color = clBlack
+    Font.Color = clAppWorkspace
+    ParentColor = False
+    ParentFont = False
+    Transparent = False
+  end
+  object lbHora1: TLabel
+    Left = 80
+    Height = 15
+    Top = 8
+    Width = 44
+    Caption = 'Minutos'
+    Color = clBlack
+    Font.Color = clAppWorkspace
+    ParentColor = False
+    ParentFont = False
+    Transparent = False
+  end
+  object UpDown2: TUpDown
+    Left = 120
+    Height = 48
+    Top = 24
+    Width = 33
+    Min = 0
+    OnClick = UpDown2Click
+    Position = 0
+    TabOrder = 1
+  end
+  object minutos: TLEDNumber
+    Left = 80
+    Height = 30
+    Top = 32
+    Width = 32
+    Caption = '00'
+  end
+  object btSalvar: TSpeedButton
+    Left = 64
+    Height = 48
+    Top = 152
+    Width = 264
+    Caption = 'Salvar'
+    OnClick = btSalvarClick
+  end
+  object diassemana: TCheckGroup
+    Left = 165
+    Height = 133
+    Top = 8
+    Width = 224
+    AutoFill = True
+    Caption = 'Dias da Semana'
+    ChildSizing.LeftRightSpacing = 6
+    ChildSizing.TopBottomSpacing = 6
+    ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+    ChildSizing.EnlargeVertical = crsHomogenousChildResize
+    ChildSizing.ShrinkHorizontal = crsScaleChilds
+    ChildSizing.ShrinkVertical = crsScaleChilds
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 2
+    ClientHeight = 113
+    ClientWidth = 220
+    Color = clInactiveBorder
+    Columns = 2
+    Items.Strings = (
+      'Domingo'
+      'Segunda'
+      'Terça'
+      'Quarta'
+      'Quinta '
+      'Sexta'
+      'Sabado'
+    )
+    OnClick = diassemanaClick
+    ParentColor = False
+    TabOrder = 2
+    Data = {
+      0700000002020202020202
+    }
+  end
+end
