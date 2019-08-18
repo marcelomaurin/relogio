@@ -35,7 +35,7 @@ begin
      posicao := pos(':',value);
      if(posicao >-1) then
      begin
-          resultado := copy(value,posicao+,length(value));
+          resultado := copy(value,posicao+1,length(value));
      end;
      result := resultado;
 end;

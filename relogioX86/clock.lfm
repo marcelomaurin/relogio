@@ -1,12 +1,14 @@
 object frmclock: Tfrmclock
-  Left = 1106
+  Left = 1077
   Height = 87
-  Top = 114
+  Top = 145
   Width = 235
   BorderStyle = bsNone
   Caption = 'Clock'
   ClientHeight = 87
   ClientWidth = 235
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
   OnHide = FormHide
   OnShow = FormShow
   PopupMenu = PopupMenu1
@@ -54,7 +56,7 @@ object frmclock: Tfrmclock
   object Timer1: TTimer
     Enabled = False
     OnTimer = Timer1Timer
-    left = 159
+    left = 176
     top = 28
   end
   object PopupMenu1: TPopupMenu

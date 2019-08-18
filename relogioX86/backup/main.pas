@@ -92,11 +92,16 @@ begin
   TrayIcon1.Visible := true;
   frmclock.show;
   application.ProcessMessages;
+  CarregaContexto();
 end;
 
 procedure TfrmMenu.FormDestroy(Sender: TObject);
 begin
+  setmain.posx := Left;
+  setmain.posy := top;
+  setmain.SalvaContexto();
   setmain.destroy();
+  frmclock.Destroy();
 end;
 
 procedure TfrmMenu.ComboBox5Change(Sender: TObject);
@@ -124,6 +129,8 @@ procedure TfrmMenu.CarregaContexto();
 begin
   setmain.CarregaContexto();
   ckDevice.Checked := setmain.device;
+  Left:= setmain.posx;
+  top:= set.posy;
 
 end;
 

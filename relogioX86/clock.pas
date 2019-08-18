@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-  Menus;
+  Menus, setclock;
 
 type
 
@@ -19,6 +19,8 @@ type
     Panel1: TPanel;
     PopupMenu1: TPopupMenu;
     Timer1: TTimer;
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
     procedure FormHide(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure mnFixarClockClick(Sender: TObject);
@@ -26,7 +28,7 @@ type
       );
     procedure Timer1Timer(Sender: TObject);
   private
-
+    setclock :  TSetclock;
   public
 
   end;
@@ -76,6 +78,23 @@ end;
 procedure Tfrmclock.FormHide(Sender: TObject);
 begin
     frmmenu.MnRelogio.Caption:='Mostrar Relógio';
+end;
+
+procedure Tfrmclock.FormCreate(Sender: TObject);
+begin
+  setclock := TSetclock.create;
+
+  setclock.CarregaContexto(); (*Carrega o contexto do ambiente*)
+  Left:= setclock.posx;
+  top:= setclock.posy;
+
+end;
+
+procedure Tfrmclock.FormDestroy(Sender: TObject);
+begin
+  setclock.posx := Left;
+  setclock.posy := top;
+  setclock.SalvaContexto();
 end;
 
 procedure Tfrmclock.Panel1MouseMove(Sender: TObject; Shift: TShiftState; X,
