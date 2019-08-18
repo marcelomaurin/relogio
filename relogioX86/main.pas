@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, PopupNotifier,
-  ComCtrls, Menus, ExtCtrls, StdCtrls, splash, clock;
+  ComCtrls, Menus, ExtCtrls, StdCtrls, splash, clock, setmain;
 
 
 const Versao = '0.1B';
@@ -16,7 +16,7 @@ type
   { TfrmMenu }
 
   TfrmMenu = class(TForm)
-    CheckBox1: TCheckBox;
+    ckDevice: TCheckBox;
     CheckBox2: TCheckBox;
     CheckBox3: TCheckBox;
     CheckBox4: TCheckBox;
@@ -36,6 +36,7 @@ type
     Image3: TImage;
     Image4: TImage;
     Image5: TImage;
+    Image6: TImage;
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
@@ -54,13 +55,18 @@ type
     TrayIcon1: TTrayIcon;
     procedure ComboBox5Change(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
     procedure FormHide(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure Image6Click(Sender: TObject);
+    procedure Image6DblClick(Sender: TObject);
     procedure MenuItem3Click(Sender: TObject);
     procedure mnMenuClick(Sender: TObject);
     procedure MnRelogioClick(Sender: TObject);
   private
-
+    setmain :TSetMain;
+    procedure SalvaContexto();
+    procedure CarregaContexto();
   public
 
   end;
@@ -76,6 +82,7 @@ implementation
 
 procedure TfrmMenu.FormCreate(Sender: TObject);
 begin
+  setmain := TSetMain.create();
   frmSplash := TfrmSplash.create(self);
   frmclock := Tfrmclock.create(self);
   frmSplash.show;
@@ -85,6 +92,12 @@ begin
   TrayIcon1.Visible := true;
   frmclock.show;
   application.ProcessMessages;
+  CarregaContexto();
+end;
+
+procedure TfrmMenu.FormDestroy(Sender: TObject);
+begin
+  setmain.destroy();
 end;
 
 procedure TfrmMenu.ComboBox5Change(Sender: TObject);
@@ -100,6 +113,31 @@ end;
 procedure TfrmMenu.FormShow(Sender: TObject);
 begin
      mnMenu.Caption := 'Esconder Menu';
+end;
+
+procedure TfrmMenu.Image6Click(Sender: TObject);
+begin
+
+
+end;
+
+procedure TfrmMenu.CarregaContexto();
+begin
+  setmain.CarregaContexto();
+  ckDevice.Checked := setmain.device;
+
+end;
+
+procedure TfrmMenu.SalvaContexto();
+begin
+  setmain.device:= ckDevice.Checked;
+  setmain.SalvaContexto();
+end;
+
+procedure TfrmMenu.Image6DblClick(Sender: TObject);
+begin
+  SalvaContexto();
+  ShowMessage('Information save!')
 end;
 
 procedure TfrmMenu.MenuItem3Click(Sender: TObject);
