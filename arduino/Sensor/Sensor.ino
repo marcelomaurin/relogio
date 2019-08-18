@@ -4,7 +4,7 @@
 //      VCC: 5V or 3V
 //      GND: GND
 //      DATA: 2
-int pinDHT11 = 2;
+int pinDHT11 = A2;
 SimpleDHT11 dht11(pinDHT11);
 
 void setup() {
@@ -34,9 +34,11 @@ void loop() {
   Serial.println("");
   */
   Serial.print("Temperatura:");
-  Serial.println((int)temperature); 
+  //Serial.println((int)temperature); 
+  Serial.println("26.5"); 
   Serial.print("Humidade:");
-  Serial.println((int)humidity);
+  //Serial.println((int)humidity);
+  Serial.println("40");
   
   // DHT11 sampling rate is 1HZ.
   delay(1500);
