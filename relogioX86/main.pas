@@ -6,10 +6,11 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, PopupNotifier,
-  ComCtrls, Menus, ExtCtrls, StdCtrls, splash, clock, setmain;
+  ComCtrls, Menus, ExtCtrls, StdCtrls, splash, clock, setmain,SetupIoT,
+  setsiot;
 
 
-const Versao = '0.1B';
+const Versao = '0.2B';
 
 
 type
@@ -21,7 +22,6 @@ type
     CheckBox3: TCheckBox;
     CheckBox4: TCheckBox;
     CheckBox5: TCheckBox;
-    ComboBox1: TComboBox;
     ComboBox2: TComboBox;
     ComboBox3: TComboBox;
     ComboBox4: TComboBox;
@@ -42,6 +42,7 @@ type
     Label3: TLabel;
     Label4: TLabel;
     Label5: TLabel;
+    Label6: TLabel;
     MnRelogio: TMenuItem;
     mnMenu: TMenuItem;
     MenuItem3: TMenuItem;
@@ -63,8 +64,10 @@ type
     procedure MenuItem3Click(Sender: TObject);
     procedure mnMenuClick(Sender: TObject);
     procedure MnRelogioClick(Sender: TObject);
+    procedure ToggleBox1Change(Sender: TObject);
   private
     setmain :TSetMain;
+    Fsetsiot :TSetSIoT;
     procedure SalvaContexto();
     procedure CarregaContexto();
   public
@@ -83,16 +86,18 @@ implementation
 procedure TfrmMenu.FormCreate(Sender: TObject);
 begin
   setmain := TSetMain.create();
+  fsetsiot := TSetSIoT.create();
   frmSplash := TfrmSplash.create(self);
   frmclock := Tfrmclock.create(self);
   frmSplash.show;
   Application.ProcessMessages;
-  sleep(4000);
-  frmSplash.close;
   TrayIcon1.Visible := true;
-  frmclock.show;
+  //frmclock.show;
   application.ProcessMessages;
   CarregaContexto();
+  sleep(4000);
+  frmSplash.close;
+  Application.ProcessMessages;
 end;
 
 procedure TfrmMenu.FormDestroy(Sender: TObject);
@@ -128,7 +133,8 @@ end;
 procedure TfrmMenu.CarregaContexto();
 begin
   setmain.CarregaContexto();
-  ckDevice.Checked := setmain.device;
+  Fsetsiot.CarregaContexto();
+  ckDevice.Checked := Fsetsiot.device;
   Left:= setmain.posx;
   top:= setmain.posy;
 
@@ -174,6 +180,21 @@ begin
   begin
     frmclock.Show;
   end;
+end;
+
+procedure TfrmMenu.ToggleBox1Change(Sender: TObject);
+begin
+  Fsetsiot.destroy();
+
+  frmSetupIoT := TFrmSetupIoT.Create(self);
+  frmSetupIoT.Showmodal();
+  frmSetupIoT.destroy();
+  Fsetsiot := TSetSIoT.create();
+  Fsetsiot.CarregaContexto();  (*Atualiza o contexto salvo*)
+  ckDevice.Checked := Fsetsiot.device;
+  ckDevice.Refresh;
+
+
 end;
 
 end.

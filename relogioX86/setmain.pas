@@ -25,7 +25,7 @@ type
         ckdevice : boolean;
         FPosX : integer;
         FPosY : integer;
-        procedure SetDevice(const Value : Boolean);
+        procedure SetDevice(const Value: Boolean);
         procedure SetPOSX(value : integer);
         procedure SetPOSY(value : integer);
         procedure Default();

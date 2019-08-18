@@ -66,5 +66,9 @@ object frmclock: Tfrmclock
       Caption = 'Fixar Tela'
       OnClick = mnFixarClockClick
     end
+    object MnStay: TMenuItem
+      Caption = 'Stay on Top'
+      OnClick = MnStayClick
+    end
   end
 end

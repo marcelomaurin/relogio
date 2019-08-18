@@ -15,6 +15,7 @@ type
   Tfrmclock = class(TForm)
     Label1: TLabel;
     Label2: TLabel;
+    MnStay: TMenuItem;
     mnFixarClock: TMenuItem;
     Panel1: TPanel;
     PopupMenu1: TPopupMenu;
@@ -24,6 +25,7 @@ type
     procedure FormHide(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure mnFixarClockClick(Sender: TObject);
+    procedure MnStayClick(Sender: TObject);
     procedure Panel1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer
       );
     procedure Timer1Timer(Sender: TObject);
@@ -75,6 +77,15 @@ begin
   end;
 end;
 
+procedure Tfrmclock.MnStayClick(Sender: TObject);
+begin
+  if FormStyle = fsNormal then
+    FormStyle:= fsStayOnTop
+  else
+    FormStyle:=;
+
+end;
+
 procedure Tfrmclock.FormHide(Sender: TObject);
 begin
     frmmenu.MnRelogio.Caption:='Mostrar Relógio';
@@ -93,7 +104,7 @@ end;
 procedure Tfrmclock.FormDestroy(Sender: TObject);
 begin
   setclock.posx := Left;
-  setclock.posy := Height;
+  setclock.posy := top;
   setclock.SalvaContexto();
 end;
 
