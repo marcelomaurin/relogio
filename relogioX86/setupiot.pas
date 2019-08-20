@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
-  Buttons, setsiot;
+  Buttons, dmDados, setsiot;
 
 type
 
@@ -22,15 +22,17 @@ type
     Label2: TLabel;
     Label3: TLabel;
 
+
     procedure ckDeviceChange(Sender: TObject);
     procedure edPortChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
   private
-    Fsetsiot :TSetSIoT;
+
     procedure CarregaContexto();
 
   public
+    Fsetsiot :TSetSIoT;
 
   end;
 
@@ -66,8 +68,7 @@ end;
 
 procedure TfrmSetupIoT.FormCreate(Sender: TObject);
 begin
-   Fsetsiot := TSetSIoT.create();
-
+   fsetsiot := TSetSIoT.create();
    CarregaContexto();
 end;
 
@@ -79,7 +80,9 @@ begin
   Fsetsiot.comport := edPort.text;
   Fsetsiot.TypeC := cbTypeC.ItemIndex;
   Fsetsiot.SalvaContexto();
-  Fsetsiot.destroy();
+  if Fsetsiot <> nil then
+    Fsetsiot.Free();
+
 end;
 
 end.

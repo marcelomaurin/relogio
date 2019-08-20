@@ -43,6 +43,7 @@ type
         property COMPORT : String read FCOMPORT write SetCOMPORT;
   end;
 
+
 implementation
 
 procedure TSetSIoT.SetDevice(const Value : Boolean);

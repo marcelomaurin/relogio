@@ -54,7 +54,7 @@ begin
      begin
        item := lista.Strings[contador];
        indo := pos(Ref,item);
-       if (indo > 0) then
+       if (indo >= 0) then
        begin
             posicao := contador;
             resultado := true;

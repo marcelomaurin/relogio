@@ -6,8 +6,8 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, PopupNotifier,
-  ComCtrls, Menus, ExtCtrls, StdCtrls, splash, clock, setmain,SetupIoT,
-  setsiot;
+  ComCtrls, Menus, ExtCtrls, StdCtrls, splash, clock, dmDados, SetupIoT,
+  setmain;
 
 
 const Versao = '0.2B';
@@ -66,8 +66,7 @@ type
     procedure MnRelogioClick(Sender: TObject);
     procedure ToggleBox1Change(Sender: TObject);
   private
-    setmain :TSetMain;
-    Fsetsiot :TSetSIoT;
+    Fsetmain :TSetMain;
     procedure SalvaContexto();
     procedure CarregaContexto();
   public
@@ -85,16 +84,19 @@ implementation
 
 procedure TfrmMenu.FormCreate(Sender: TObject);
 begin
-  setmain := TSetMain.create();
-  fsetsiot := TSetSIoT.create();
+  Fsetmain := TSetMain.create();
   frmSplash := TfrmSplash.create(self);
-  frmclock := Tfrmclock.create(self);
   frmSplash.show;
   Application.ProcessMessages;
-  TrayIcon1.Visible := true;
-  //frmclock.show;
-  application.ProcessMessages;
+  dmDados1 := TdmDados1.create(self);
+  frmclock := Tfrmclock.create(self);
+  frmSetupIoT := TFrmSetupIoT.Create(self);
   CarregaContexto();
+
+  TrayIcon1.Visible := true;
+  frmclock.show;
+  application.ProcessMessages;
+
   sleep(4000);
   frmSplash.close;
   Application.ProcessMessages;
@@ -102,11 +104,14 @@ end;
 
 procedure TfrmMenu.FormDestroy(Sender: TObject);
 begin
-  setmain.posx := Left;
-  setmain.posy := top;
-  setmain.SalvaContexto();
-  setmain.destroy();
+  Fsetmain.posx := Left;
+  Fsetmain.posy := top;
+  Fsetmain.SalvaContexto();
+
   frmclock.Destroy();
+
+  if Fsetmain <> nil then
+    Fsetmain.free();
 end;
 
 procedure TfrmMenu.ComboBox5Change(Sender: TObject);
@@ -132,18 +137,18 @@ end;
 
 procedure TfrmMenu.CarregaContexto();
 begin
-  setmain.CarregaContexto();
-  Fsetsiot.CarregaContexto();
-  ckDevice.Checked := Fsetsiot.device;
-  Left:= setmain.posx;
-  top:= setmain.posy;
+  Fsetmain.CarregaContexto();
+  //Fsetsiot.CarregaContexto();
+  ckDevice.Checked := frmSetupIoT.Fsetsiot.device;
+  Left:= Fsetmain.posx;
+  top:= Fsetmain.posy;
 
 end;
 
 procedure TfrmMenu.SalvaContexto();
 begin
-  setmain.device:= ckDevice.Checked;
-  setmain.SalvaContexto();
+  Fsetmain.device:= ckDevice.Checked;
+  Fsetmain.SalvaContexto();
 end;
 
 procedure TfrmMenu.Image6DblClick(Sender: TObject);
@@ -184,14 +189,13 @@ end;
 
 procedure TfrmMenu.ToggleBox1Change(Sender: TObject);
 begin
-  Fsetsiot.destroy();
 
-  frmSetupIoT := TFrmSetupIoT.Create(self);
+
+
   frmSetupIoT.Showmodal();
   frmSetupIoT.destroy();
-  Fsetsiot := TSetSIoT .create();
-  Fsetsiot.CarregaContexto();  (*Atualiza o contexto salvo*)
-  ckDevice.Checked := Fsetsiot.device;
+  frmSetupIoT.Fsetsiot.CarregaContexto();  (*Atualiza o contexto salvo*)
+  ckDevice.Checked := frmSetupIoT.Fsetsiot.device;
   ckDevice.Refresh;
 
 

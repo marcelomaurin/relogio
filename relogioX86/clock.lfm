@@ -30,8 +30,8 @@ object frmclock: Tfrmclock
       Left = 24
       Height = 37
       Top = 8
-      Width = 79
-      Caption = 'Label1'
+      Width = 152
+      Caption = 'dd/mm/yyyy'
       Color = clBackground
       Font.Color = clYellow
       Font.Height = -27
@@ -43,8 +43,8 @@ object frmclock: Tfrmclock
       Left = 24
       Height = 37
       Top = 48
-      Width = 79
-      Caption = 'Label2'
+      Width = 78
+      Caption = '--:--:--'
       Color = clBackground
       Font.Color = clYellow
       Font.Height = -27

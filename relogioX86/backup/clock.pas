@@ -82,7 +82,7 @@ begin
   if FormStyle = fsNormal then
     FormStyle:= fsStayOnTop
   else
-    FormStyle:=;
+    FormStyle:=fsNormal;
 
 end;
 

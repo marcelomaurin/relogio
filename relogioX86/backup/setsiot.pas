@@ -43,6 +43,7 @@ type
         property COMPORT : String read FCOMPORT write SetCOMPORT;
   end;
 
+
 implementation
 
 procedure TSetSIoT.SetDevice(const Value : Boolean);
@@ -83,7 +84,7 @@ var
 begin
     if  BuscaChave(arquivo,'DEVICE:',posicao) then
     begin
-      device := (RetiraInfo(arquivo.Strings[posicao])='1');
+      ckdevice := (RetiraInfo(arquivo.Strings[posicao])='1');
     end;
     if  BuscaChave(arquivo,'POSX:',posicao) then
     begin
@@ -134,6 +135,8 @@ end;
 destructor TSetSIoT.destroy();
 begin
   SalvaContexto();
+  if Fsetsiot <> nil then
+    Fsetsiot.Free();
   arquivo.free;
 end;
 

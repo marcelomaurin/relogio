@@ -8,7 +8,7 @@ uses
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
   Forms, splash, clock, main, working, setmain, funcoes, setclock, SetupIoT,
-  SetSIot;
+  SetSIot, dmDados;
 
 {$R *.res}
 
@@ -17,8 +17,7 @@ begin
   Application.Scaled:=True;
   Application.Initialize;
   Application.CreateForm(TfrmMenu, frmMenu);
-  Application.CreateForm(TForm1, Form1);
-  Application.CreateForm(TfrmSetupIoT, frmSetupIoT);
+  Application.CreateForm(TdmDados1, dmDados1);
   Application.Run;
 end.
 

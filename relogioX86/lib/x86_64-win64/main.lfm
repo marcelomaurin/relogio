@@ -773,7 +773,7 @@ object frmMenu: TfrmMenu
   object Image6: TImage
     Left = 304
     Height = 90
-    Top = 296
+    Top = 304
     Width = 90
     OnClick = Image6Click
     OnDblClick = Image6DblClick
