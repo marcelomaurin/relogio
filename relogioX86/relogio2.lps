@@ -32,7 +32,6 @@
         <ComponentName Value="frmclock"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="5"/>
         <TopLine Value="79"/>
         <CursorPos X="13" Y="87"/>
@@ -146,6 +145,7 @@
       <Unit13>
         <Filename Value="C:\lazarus\lcl\lclclasses.pp"/>
         <UnitName Value="LCLClasses"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="8"/>
         <TopLine Value="130"/>
         <CursorPos X="12" Y="136"/>

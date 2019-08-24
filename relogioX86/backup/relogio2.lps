@@ -32,10 +32,9 @@
         <ComponentName Value="frmclock"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="5"/>
         <TopLine Value="79"/>
-        <CursorPos X="24" Y="85"/>
+        <CursorPos X="13" Y="87"/>
         <UsageCount Value="34"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -137,6 +136,7 @@
       </Unit11>
       <Unit12>
         <Filename Value="C:\lazarus\lcl\include\customform.inc"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="7"/>
         <TopLine Value="191"/>
         <CursorPos X="20" Y="196"/>
