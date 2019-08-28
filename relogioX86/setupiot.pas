@@ -23,6 +23,7 @@ type
     Label3: TLabel;
 
 
+    procedure cbTypeCChange(Sender: TObject);
     procedure ckDeviceChange(Sender: TObject);
     procedure edPortChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -47,12 +48,17 @@ implementation
 
 procedure TfrmSetupIoT.edPortChange(Sender: TObject);
 begin
-
+  Fsetsiot.COMPORT:= edPort.text;
 end;
 
 procedure TfrmSetupIoT.ckDeviceChange(Sender: TObject);
 begin
+  Fsetsiot.device:= ckDevice.Checked;
+end;
 
+procedure TfrmSetupIoT.cbTypeCChange(Sender: TObject);
+begin
+  Fsetsiot.TypeC:= cbTypeC.ItemIndex;
 end;
 
 procedure TfrmSetupIoT.CarregaContexto();

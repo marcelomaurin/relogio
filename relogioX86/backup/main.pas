@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, PopupNotifier,
   ComCtrls, Menus, ExtCtrls, StdCtrls, splash, clock, dmDados, SetupIoT,
-  setmain;
+  setmain, temp;
 
 
 const Versao = '0.2B';
@@ -48,6 +48,7 @@ type
     MenuItem3: TMenuItem;
     popTray: TPopupMenu;
     PopupNotifier1: TPopupNotifier;
+    Timer1: TTimer;
     ToggleBox1: TToggleBox;
     ToggleBox2: TToggleBox;
     ToggleBox3: TToggleBox;
@@ -64,6 +65,7 @@ type
     procedure MenuItem3Click(Sender: TObject);
     procedure mnMenuClick(Sender: TObject);
     procedure MnRelogioClick(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
     procedure ToggleBox1Change(Sender: TObject);
   private
     Fsetmain :TSetMain;
@@ -137,8 +139,8 @@ end;
 
 procedure TfrmMenu.CarregaContexto();
 begin
-  Fsetmain.CarregaContexto();
-  //Fsetsiot.CarregaContexto();
+  //Fsetmain.CarregaContexto();
+  frmSetupIoT.Fsetsiot.CarregaContexto();
   ckDevice.Checked := frmSetupIoT.Fsetsiot.device;
   Left:= Fsetmain.posx;
   top:= Fsetmain.posy;
@@ -187,14 +189,42 @@ begin
   end;
 end;
 
+procedure TfrmMenu.Timer1Timer(Sender: TObject);
+begin
+  //Device leitor de temperatura
+  if ckDevice.Checked then
+  begin
+    if (frmSetupIoT.Fsetsiot.TypeC = ) then (*Device Sensor de temperatura*)
+    begin
+        if frmtemp= nil then
+        begin
+          frmtemp := Tfrmtemp.create(self);
+          frmtemp.Show;
+        end;
+    end;
+    if (frmSetupIoT.Fsetsiot.TypeC = 1) then (*Device Relogio*)
+    begin
+
+    end;
+  end
+  else
+  begin
+    if frmtemp <> nil then
+    begin
+      frmtemp.Free;
+      frmtemp := nil;
+    end;
+  end;
+end;
+
 procedure TfrmMenu.ToggleBox1Change(Sender: TObject);
 begin
-
-
-
+  if frmSetupIoT = Nil then
+    frmSetupIoT := TfrmSetupIoT.create(self);
+  //frmSetupIoT.Fsetsiot := Fsetsiot;
   frmSetupIoT.Showmodal();
-  frmSetupIoT.destroy();
-  frmSetupIoT.Fsetsiot.CarregaContexto();  (*Atualiza o contexto salvo*)
+  //frmSetupIoT.Fsetsiot.CarregaContexto();  (*Atualiza o contexto salvo*)
+  frmSetupIoT.Fsetsiot.SalvaContexto();
   ckDevice.Checked := frmSetupIoT.Fsetsiot.device;
   ckDevice.Refresh;
 

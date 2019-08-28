@@ -43,8 +43,8 @@ object frmclock: Tfrmclock
       Left = 24
       Height = 37
       Top = 48
-      Width = 50
-      Caption = '--:--'
+      Width = 78
+      Caption = '--:--:--'
       Color = clBackground
       Font.Color = clYellow
       Font.Height = -27

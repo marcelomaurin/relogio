@@ -7399,4 +7399,9 @@ object frmMenu: TfrmMenu
     left = 416
     top = 360
   end
+  object Timer1: TTimer
+    OnTimer = Timer1Timer
+    left = 441
+    top = 290
+  end
 end

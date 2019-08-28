@@ -10,9 +10,9 @@ uses
 
 type
 
-  { TForm1 }
+  { TfrmWorking }
 
-  TForm1 = class(TForm)
+  TfrmWorking = class(TForm)
     BitBtn1: TBitBtn;
     BitBtn2: TBitBtn;
     Share: TCheckBox;
@@ -36,7 +36,7 @@ type
   end;
 
 var
-  Form1: TForm1;
+  frmWorking: TfrmWorking;
 
 implementation
 

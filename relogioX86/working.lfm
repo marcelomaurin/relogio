@@ -1,5 +1,5 @@
 object frmWorking: TfrmWorking
-  Left = 756
+  Left = 729
   Height = 106
   Top = 120
   Width = 279

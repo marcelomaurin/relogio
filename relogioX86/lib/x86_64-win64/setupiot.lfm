@@ -84,6 +84,7 @@ object frmSetupIoT: TfrmSetupIoT
       'Temper reader USB'
       'Relógio Clock'
     )
+    OnChange = cbTypeCChange
     TabOrder = 1
     Text = 'Nenhum device'
   end

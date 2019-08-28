@@ -1,5 +1,5 @@
 object frmclock: Tfrmclock
-  Left = 1077
+  Left = 773
   Height = 87
   Top = 145
   Width = 235
