@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, PopupNotifier,
   ComCtrls, Menus, ExtCtrls, StdCtrls, splash, clock, dmDados, SetupIoT,
-  setmain, temp;
+  setmain, temp, lazserial;
 
 
 const Versao = '0.2B';
@@ -144,12 +144,16 @@ begin
   ckDevice.Checked := frmSetupIoT.Fsetsiot.device;
   Left:= Fsetmain.posx;
   top:= Fsetmain.posy;
+  if not Fsetmain.ckdevice then
+  begin
+     hide;
+  end;
 
 end;
 
 procedure TfrmMenu.SalvaContexto();
 begin
-  Fsetmain.device:= ckDevice.Checked;
+  Fsetmain.device:= Showing;
   Fsetmain.SalvaContexto();
 end;
 
@@ -169,10 +173,14 @@ begin
   if self.Visible then
   begin
     hide;
+    Fsetmain.ckdevice := false;
+    SalvaContexto();
   end
   else
   begin
     Show;
+    Fsetmain.ckdevice := true;
+    SalvaContexto();
   end;
 
 end;
@@ -199,7 +207,10 @@ begin
         if frmtemp= nil then
         begin
           frmtemp := Tfrmtemp.create(self);
+          frmtemp.LazSerial1.Device := frmSetupIoT.Fsetsiot.COMPORT;
+          frmTemp.LazSerial1.BaudRate:= br115200;
           frmtemp.Show;
+          frmTemp.LazSerial1.Open;
         end;
     end;
     if (frmSetupIoT.Fsetsiot.TypeC = 2) then (*Device Relogio*)

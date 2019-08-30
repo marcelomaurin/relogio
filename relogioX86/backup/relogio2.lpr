@@ -8,7 +8,7 @@ uses
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
   Forms, splash, clock, main, working, setmain, funcoes, setclock, SetupIoT,
-  SetSIot, dmDados, temp, unit1;
+  SetSIot, dmDados, temp, settemp;
 
 {$R *.res}
 
