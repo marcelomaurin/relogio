@@ -821,6 +821,15 @@ object frmMenu: TfrmMenu
   object popTray: TPopupMenu
     left = 360
     top = 360
+    object MenuItem2: TMenuItem
+      Caption = 'Registrar Atividade'
+    end
+    object MenuItem1: TMenuItem
+      Caption = 'Registrar Marcação'
+    end
+    object N1: TMenuItem
+      Caption = '-'
+    end
     object MnRelogio: TMenuItem
       Caption = 'Esconder Relogio'
       OnClick = MnRelogioClick

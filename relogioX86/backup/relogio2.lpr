@@ -7,8 +7,8 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, splash, clock, main, working, setmain, funcoes, setclock, SetupIoT,
-  SetSIot, dmDados, temp, settemp;
+  Forms, LazSerialPort, splash, clock, main, working, setmain, funcoes,
+  setclock, SetupIoT, SetSIot, dmDados, temp, settemp, SetupWork, setwork;
 
 {$R *.res}
 
@@ -17,6 +17,7 @@ begin
   Application.Scaled:=True;
   Application.Initialize;
   Application.CreateForm(TfrmMenu, frmMenu);
+  Application.CreateForm(TfrmSetupWork, frmSetupWork);
   Application.Run;
 end.
 

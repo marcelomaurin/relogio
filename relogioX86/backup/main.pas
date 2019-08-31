@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, PopupNotifier,
   ComCtrls, Menus, ExtCtrls, StdCtrls, splash, clock, dmDados, SetupIoT,
-  setmain, temp,lazserial;
+  setmain, temp, lazserial;
 
 
 const Versao = '0.2B';
@@ -43,6 +43,9 @@ type
     Label4: TLabel;
     Label5: TLabel;
     Label6: TLabel;
+    MenuItem1: TMenuItem;
+    MenuItem2: TMenuItem;
+    N1: TMenuItem;
     MnRelogio: TMenuItem;
     mnMenu: TMenuItem;
     MenuItem3: TMenuItem;

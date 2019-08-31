@@ -43,6 +43,9 @@ type
     Label4: TLabel;
     Label5: TLabel;
     Label6: TLabel;
+    MenuItem1: TMenuItem;
+    MenuItem2: TMenuItem;
+    N1: TMenuItem;
     MnRelogio: TMenuItem;
     mnMenu: TMenuItem;
     MenuItem3: TMenuItem;

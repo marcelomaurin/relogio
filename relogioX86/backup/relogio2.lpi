@@ -40,7 +40,7 @@
         <PackageName Value="LCL"/>
       </Item4>
     </RequiredPackages>
-    <Units Count="13">
+    <Units Count="15">
       <Unit0>
         <Filename Value="relogio2.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -116,6 +116,17 @@
         <Filename Value="settemp.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit12>
+      <Unit13>
+        <Filename Value="setupwork.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmSetupWork"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="SetupWork"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="setwork.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit14>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
