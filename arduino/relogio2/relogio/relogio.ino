@@ -16,9 +16,13 @@
 #define TX 14
 #define RX 15
 
+#define voiceTX 19
+#define voiceRX 20
+
+
 //*************** Descricao do Produto *********************
 char Versao = '0';  //Controle de Versao do Firmware
-char Release = '1'; //Controle Revisao do Firmware
+char Release = '2'; //Controle Revisao do Firmware
 char Produto[20] = { "Relogio"};
 char Empresa[20] = {"Maurinsoft"};
 
@@ -49,14 +53,34 @@ char BufferKeypad[40]; //Buffer de Teclado
 char BufferBluetooth[40]; //Buffer do bluetooth
 char BufferEthernet[40]; //Buffer do 
 
+/*
+ * Button component pop callback function. 
+ * In this example,the button's text value will plus one every time when it is released. 
+ */
+void btEntrarCallback(void *ptr);
+void btMainSetupCallback(void *ptr);
+void pageSplashCallback(void *ptr);
+void btMainSplashCallback(void *ptr);
+void btMainComputerCallback(void *ptr);
+
 
 /*Variaveis do Nextion*/
+
+/* Forms */
 NexPage pageSplash    = NexPage(0, 0, "splash");
-NexPage pageMain    = NexPage(0, 1, "main");
+NexPage pageMain    = NexPage(1, 0, "main");
+
+/*Form  Splash */
 NexButton btEntrar = NexButton(0, 1, "btentrar");
+
+/* Form main */
 NexButton btMainSetup = NexButton(1, 4, "b0");
-NexText tData = NexText(1, 2, "t3");
+NexText btMainComputer = NexText(1, 2, "b3");
+NexButton btMainSplash = NexButton(1, 11, "b7");
+
 char buffer[100] = {0};
+
+int PageIndex = 0;
 
 /*
  * Register a button object to the touch event list.  
@@ -66,12 +90,18 @@ NexTouch *nex_listen_list[] =
     &pageSplash,
     &btEntrar,
     &btMainSetup,
+    &btMainComputer,
+    &btMainSplash,
     NULL
 };
 
 /*Variavies associadas ao MP3*/
 SerialMP3Player mp3(RX,TX);
 
+
+void CLS();
+void Imprime(int y, String Info);
+time_t getNtpTime();
 
 
 bool event = 0;
@@ -156,25 +186,6 @@ void DownloadTFT(){
   nex_download.upload();
 }
 
-/*
- * Button component pop callback function. 
- * In this example,the button's text value will plus one every time when it is released. 
- */
-void btEntrarCallback(void *ptr)
-{
-  Serial.println("btEntrar Click");
-    
-}
-void btMainSetupCallback(void *ptr)
-{
-  Serial.println("btMainSetup Click");
-    
-}
-
-void pageSplashCallback(void *ptr)
-{
-  Serial.println("page Splash Click");
-}
 
 
 
@@ -202,7 +213,7 @@ void Start_SD()
 
   if (!SD.begin(4)) {
     Serial.println("initialization failed!");
-    while (1);
+    //while (1);
   }
   Serial.println("initialization done.");
 }
@@ -227,9 +238,12 @@ void Start_Nextion(){
     nexInit();
 
     /* Register the pop event callback function of the current button component. */
-    pageSplash.attachPop(pageSplashCallback);
+    pageSplash.attachPop(pageSplashCallback,&pageSplash);
     btEntrar.attachPop(btEntrarCallback, &btEntrar);
     btMainSetup.attachPop(btMainSetupCallback, &btMainSetup);
+    btMainSplash.attachPop(btMainSplashCallback, &btMainSplash);
+    btMainComputer.attachPop(btMainComputerCallback, &btMainComputer);
+    Serial.println("Nextion Started!");
 }
 
 void Start_NTP()
@@ -250,6 +264,7 @@ void Start_Ethernet()
   if (Ethernet.begin(mac) == 0) {
     Serial.println("Failed to configure Ethernet using DHCP");
     // Check for Ethernet hardware present
+    /*
     if (Ethernet.hardwareStatus() == EthernetNoHardware) {
       Serial.println("Ethernet shield was not found.  Sorry, can't run without hardware. :(");
       while (true) {
@@ -259,9 +274,10 @@ void Start_Ethernet()
     if (Ethernet.linkStatus() == LinkOFF) {
       Serial.println("Ethernet cable is not connected.");
     }
+    */
     // initialize the Ethernet device not using DHCP:
     Ethernet.begin(mac, ip, myDns, gateway, subnet);
-
+/*
   // Check for Ethernet hardware present
   if (Ethernet.hardwareStatus() == EthernetNoHardware) {
     Serial.println("Ethernet shield was not found.  Sorry, can't run without hardware. :(");
@@ -269,12 +285,13 @@ void Start_Ethernet()
       delay(1); // do nothing, no point running without Ethernet hardware
       }
     }
+    */
   }
-  
+  /*
   if (Ethernet.linkStatus() == LinkOFF) {
     Serial.println("Ethernet cable is not connected.");
   }
-
+*/
   // start the server
   server.begin();
   Serial.print("server is at ");  
@@ -305,10 +322,11 @@ void setup()
   Start_Serial();
   Start_LCD();
   Wellcome();
-  Start_Nextion();  
+  Start_Nextion(); 
+  Start_SD(); 
   Start_Ethernet();
   Start_NTP();
-  Start_SD();
+
   Start_MP3();
   char info[20];
   sprintf(info,"IP:%s     ",myIP);
@@ -316,11 +334,12 @@ void setup()
   Serial.println("Start Complete!");
   delay(2000);
   Imprime(2,"                     ");
+  //PlayMusic();
 
 }
 
 /*Mostra a pagina principal do site*/
-void PageIndex(EthernetClient client )
+void PageWebIndex(EthernetClient client )
 {
        client.println("HTTP/1.1 200 OK");
        client.println("Content-Type: text/html");
@@ -377,7 +396,7 @@ void SRV_Web()
           // send a standard http response header
           filename = PegaNome(Request);
           if (filename == NULL) {
-            PageIndex(client);
+            PageWebIndex(client);
           } else {
             PageSite(client,filename);
           }
@@ -960,15 +979,59 @@ void Le_Serial()
 }
 
 
+/*
+ * Button component pop callback function. 
+ * In this example,the button's text value will plus one every time when it is released. 
+ */
+void btEntrarCallback(void *ptr)
+{
+  Serial.println("btEntrar Click");
+  PageIndex = 1;
+    
+}
+void btMainSetupCallback(void *ptr)
+{
+  Serial.println("btMainSetup Click");
+    
+}
+
+void pageSplashCallback(void *ptr)
+{
+  Serial.println("page Splash Click");
+}
+
+void btMainSplashCallback(void *ptr){
+  Serial.println("bt Splash Click");
+  PageIndex = 0;
+}
+
+
+void btMainComputerCallback(void *ptr){
+  Serial.println("bt Computer Click");
+}
+
+
+void Le_Nextion(){
+    nexLoop(nex_listen_list);
+    if(PageIndex==0){
+      
+    }
+    if(PageIndex==1){
+    }
+}
+
+
 
 
 void Leituras()
 {
+  Le_Nextion();
   Le_Serial(); 
   SRV_Web();
-  nexLoop(nex_listen_list);
+
   Le_UDP();
   Le_Servidor();
+
   
 }
 

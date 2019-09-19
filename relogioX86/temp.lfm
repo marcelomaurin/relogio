@@ -1,0 +1,83 @@
+object frmTemp: TfrmTemp
+  Left = 916
+  Height = 114
+  Top = 289
+  Width = 241
+  Caption = 'Temperatura'
+  ClientHeight = 114
+  ClientWidth = 241
+  Color = clBlack
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  PopupMenu = PopupMenu1
+  LCLVersion = '2.0.2.0'
+  object Label1: TLabel
+    Left = 32
+    Height = 40
+    Top = 5
+    Width = 78
+    Caption = 'Temp:'
+    Font.Color = clWhite
+    Font.Height = -29
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label2: TLabel
+    Left = 120
+    Height = 40
+    Top = 8
+    Width = 84
+    Caption = 'Label2'
+    Font.Color = clYellow
+    Font.Height = -29
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label3: TLabel
+    Left = 24
+    Height = 40
+    Top = 56
+    Width = 92
+    Caption = 'Humid:'
+    Font.Color = clWhite
+    Font.Height = -29
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label4: TLabel
+    Left = 120
+    Height = 40
+    Top = 56
+    Width = 84
+    Caption = 'Label4'
+    Font.Color = clYellow
+    Font.Height = -29
+    ParentColor = False
+    ParentFont = False
+  end
+  object LazSerial1: TLazSerial
+    Active = False
+    BaudRate = br___110
+    DataBits = db8bits
+    Parity = pNone
+    FlowControl = fcNone
+    StopBits = sbOne
+    Device = 'COM1'
+    RcvLineCRLF = False
+    OnRxData = LazSerial1RxData
+    left = 144
+    top = 32
+  end
+  object PopupMenu1: TPopupMenu
+    left = 96
+    top = 54
+    object mnFixarClock: TMenuItem
+      Caption = 'Fixar Tela'
+      OnClick = mnFixarClockClick
+    end
+    object MnStay: TMenuItem
+      Caption = 'Stay on Top'
+      OnClick = MnStayClick
+    end
+  end
+end
