@@ -1,5 +1,8 @@
-#include "Nextion.h"
-#include "NexUpload.h"
+
+//#include <NexUpload.h>
+#include "SDHT.h"
+#include <Nextion.h>
+
 #include <SPI.h>
 #include <TimeLib.h>
 #include <Ethernet.h>
@@ -7,24 +10,118 @@
 #include <Wire.h> 
 #include <LiquidCrystal_I2C.h>
 #include <DTime.h>
-#include <SDHT.h>
 #include <SD.h>
 #include <Keypad.h>
-#include "SerialMP3Player.h"
+#include <SerialMP3Player.h>
+#include <SoftwareSerial.h>
+
 
 //****************** Defines ******************
 #define TX 14
 #define RX 15
 
+/*Variavies associadas ao MP3*/
+SerialMP3Player mp3(RX,TX);
+
 #define voiceTX 19
 #define voiceRX 20
 
+
+#define pinRed A14
+#define pinBlue A15
+#define pinGreen A13
+
+#define pinbutton A12
+
+
+#define pinspeak A11 /*placa de som*/
+
+#define DHTPIN A1 // pino que estamos conectado
+#define DHTTYPE DHT11 // DHT 11
+
+
+// note names and their corresponding half-periods
+//'c', 'd', 'e', 'f', 'g', 'a', 'b', 'C'};
+byte names[] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
+int tones[] = { 1915, 1700, 1519, 1432, 1275, 1136, 1014, 956};
+
+
+//mapa de caracteres
+uint8_t bell[8]  = {0x4, 0xe, 0xe, 0xe, 0x1f, 0x0, 0x4};
+uint8_t note[8]  = {0x2, 0x3, 0x2, 0xe, 0x1e, 0xc, 0x0};
+uint8_t clock[8] = {0x0, 0xe, 0x15, 0x17, 0x11, 0xe, 0x0};
+uint8_t heart[8] = {0x0, 0xa, 0x1f, 0x1f, 0xe, 0x4, 0x0};
+uint8_t duck[8]  = {0x0, 0xc, 0x1d, 0xf, 0xf, 0x6, 0x0};
+uint8_t check[8] = {0x0, 0x1, 0x3, 0x16, 0x1c, 0x8, 0x0};
+uint8_t cross[8] = {0x0, 0x1b, 0xe, 0x4, 0xe, 0x1b, 0x0};
+uint8_t retarrow[8] = {  0x1, 0x1, 0x5, 0x9, 0x1f, 0x8, 0x4};
+uint8_t setaD = 0x7F;
+uint8_t setaE = 0x80;
+
+//********************* Key Board *************************
+char keyleft = 37;
+char keyup = 38;
+char keyright = 39;
+char keydown = 40;
+char keyenter = 10;
+char keyesc = 27;
+char keyF1 = 17;
+char keyF2 = 18;
+
+const byte ROWS = 5; //four rows
+const byte COLS = 4; //four columns
+
+//define the cymbols on the buttons of the keypads
+char hexaKeys[ROWS][COLS] = {
+  {
+    keyF1, keyF2, '#', '*'
+  }
+  ,
+  {
+    '1', '2', '3', keyup
+  }
+  ,
+  {
+    '4', '5', '6', keydown
+  }
+  ,
+  {
+    '7', '8', '9', keyesc
+  }
+  ,
+  {
+    keyleft, '0', keyright, keyenter
+  }
+};
+
+
+byte rowPins[ROWS] = {
+  22, 24, 26, 28, 30
+};
+byte colPins[COLS] = {
+  38, 36, 34, 32
+}; //connect to the row pinouts of the keypad
+
+
+//initialize an instance of class NewKeypad
+Keypad customKeypad = Keypad( makeKeymap(hexaKeys), rowPins, colPins, ROWS, COLS);
+
+SDHT dht;
 
 //*************** Descricao do Produto *********************
 char Versao = '0';  //Controle de Versao do Firmware
 char Release = '2'; //Controle Revisao do Firmware
 char Produto[20] = { "Relogio"};
 char Empresa[20] = {"Maurinsoft"};
+
+bool flgErro = false; //Controle de Erros de Execução
+
+//Lista de firmwares
+char LstArq[20][100];
+
+
+String Mensagem = "";
+String Musica = "";
 
 /*Controle de contagem de ciclos*/
 const float maxciclo  = 9000;
@@ -35,6 +132,28 @@ bool OperflgLeitura = false;
 byte flgEscape = 0; //Controla Escape
 byte flgEnter = 0; //Controla Escape
 byte flgTempo = 0; //Controle de Tempo e 
+bool flgWait = false; //Espera programada
+bool flgLeituraBasica = false; //Mostra linha 3 a temperatura, controlando a leitura basica
+bool flgTemperatura = true; //Mostra temperatura e humidade no display
+
+
+//Tempo Atual
+long TempminAtual = 0;
+long TempminTotal = 0;
+float MaxTemp = 0;
+float MinTemp = 0;
+float PrgTemp = 0;
+
+float Temperatura = 0;
+float Humidade = 0;
+
+byte Button = 1; /* Valor do Botao */
+
+
+
+int FOPEPag = 0; //Controle de Pagina da Funcao
+int FOPEMAXPag = 2; //Paginas para Funcoes
+int FOPEItem = 0; //Item selecionado
 
 //****************** Variaveis Globais ******************
 //Variaveis associadas ao SD CARD
@@ -43,6 +162,10 @@ SdVolume volume;
 File root; //Pasta root
 File farquivo; //Arquivo de gravacao
 char ArquivoTrabalho[40]; //Arquivo de trabalho a ser carregado
+String Arquivo1; //Arquivo de Gravacao
+//Temporario
+String strInfo;
+
 File myFile;
 
 
@@ -53,34 +176,29 @@ char BufferKeypad[40]; //Buffer de Teclado
 char BufferBluetooth[40]; //Buffer do bluetooth
 char BufferEthernet[40]; //Buffer do 
 
-/*
- * Button component pop callback function. 
- * In this example,the button's text value will plus one every time when it is released. 
- */
-void btEntrarCallback(void *ptr);
-void btMainSetupCallback(void *ptr);
-void pageSplashCallback(void *ptr);
-void btMainSplashCallback(void *ptr);
-void btMainComputerCallback(void *ptr);
+
+
+void KeyCMD();
 
 
 /*Variaveis do Nextion*/
-
-/* Forms */
-NexPage pageSplash    = NexPage(0, 0, "splash");
-NexPage pageMain    = NexPage(1, 0, "main");
+//SoftwareSerial nextionSerial(9, 8); // RX, TX
+//Nextion nex(nextionSerial);
+/* Forms  */
+NexPage pageSplash = NexPage(0, 0, "splash");
+NexPage pageMain = NexPage(1, 0, "main");
+void btEntrarCallback(void *ptr);
 
 /*Form  Splash */
-NexButton btEntrar = NexButton(0, 1, "btentrar");
+NexButton btEntrar = NexButton(0, 1, "bsp1");
 
 /* Form main */
-NexButton btMainSetup = NexButton(1, 4, "b0");
-NexText btMainComputer = NexText(1, 2, "b3");
-NexButton btMainSplash = NexButton(1, 11, "b7");
-
-char buffer[100] = {0};
-
-int PageIndex = 0;
+//NextionButton btMainSetup(nex,1, 4, "b0");
+//NextionButton btMainComputer(nex,1, 2, "b3");
+//NextionButton btMainSplash(nex,1, 11, "b7");
+NexText   txtData = NexText(1, 2, "dt1");
+NexText   txtms1 = NexText(4, 2, "ms1");
+NexText   txtmu1 = NexText(5, 8, "mu1");
 
 /*
  * Register a button object to the touch event list.  
@@ -88,15 +206,24 @@ int PageIndex = 0;
 NexTouch *nex_listen_list[] = 
 {
     &pageSplash,
+    &pageMain,
+    &txtData,
     &btEntrar,
-    &btMainSetup,
-    &btMainComputer,
-    &btMainSplash,
+    &txtms1,
+    &txtmu1,
     NULL
 };
 
-/*Variavies associadas ao MP3*/
-SerialMP3Player mp3(RX,TX);
+
+void LedRedGreenBlue(int ValueRed, int ValueGreen, int ValueBlue);
+
+
+
+char buffer[100] = {0};
+
+int PageIndex = 0;
+
+
 
 
 void CLS();
@@ -150,40 +277,30 @@ time_t prevDisplay = 0; // when the digital clock was displayed
 /*Variaveis associadas ao LCD*/
 LiquidCrystal_I2C lcd(0x27,20,4);  // set the LCD address to 0x27 for a 16 chars and 2 line display
 
-//mapa de caracteres
-uint8_t bell[8]  = {0x4, 0xe, 0xe, 0xe, 0x1f, 0x0, 0x4};
-uint8_t note[8]  = {0x2, 0x3, 0x2, 0xe, 0x1e, 0xc, 0x0};
-uint8_t clock[8] = {0x0, 0xe, 0x15, 0x17, 0x11, 0xe, 0x0};
-uint8_t heart[8] = {0x0, 0xa, 0x1f, 0x1f, 0xe, 0x4, 0x0};
-uint8_t duck[8]  = {0x0, 0xc, 0x1d, 0xf, 0xf, 0x6, 0x0};
-uint8_t check[8] = {0x0, 0x1, 0x3, 0x16, 0x1c, 0x8, 0x0};
-uint8_t cross[8] = {0x0, 0x1b, 0xe, 0x4, 0xe, 0x1b, 0x0};
-uint8_t retarrow[8] = {  0x1, 0x1, 0x5, 0x9, 0x1f, 0x8, 0x4};
-uint8_t setaD = 0x7F;
-uint8_t setaE = 0x80;
-
-//********************* Key Board *************************
-char keyleft = 37;
-char keyup = 38;
-char keyright = 39;
-char keydown = 40;
-char keyenter = 10;
-char keyesc = 27;
-char keyF1 = 17;
-char keyF2 = 18;
-
-const byte ROWS = 5; //four rows
-const byte COLS = 4; //four columns
 
 /*HORA ATUAL*/
 String HORAATUAL;
 String DATAATUAL;
 
-/*Faz download do aplicativo*/
-void DownloadTFT(){
-  NexUpload nex_download("nex.tft",10,115200);
-  // put your setup code here, to run once:
-  nex_download.upload();
+
+
+//Toca um som
+void Sound(char serByte)
+{
+  if (Button!=0){ /*Verifica se o botao de silencio esta ativo */
+    int count = 0;
+
+    for (count = 0; count <= 8; count++) { // look for the note
+      if (names[count] == serByte) {  // ahh, found it
+        for ( int i = 0; i < 20; i++ ) { // play it for 50 cycles
+          digitalWrite(pinspeak, HIGH);
+          delayMicroseconds(tones[count]);
+          digitalWrite(pinspeak, LOW);
+          delayMicroseconds(tones[count]);
+        }
+      }
+    }
+  }
 }
 
 
@@ -207,8 +324,28 @@ void Wellcome()
   Imprime(3, "      By Maurin");
 }
 
+
+//Inicializa Speaker
+void Start_Speak()
+{
+  LedRedGreenBlue(1, 0, 1);
+  Serial.println("Speaker Starting...");
+  pinMode(pinspeak, OUTPUT);
+  Serial.println("Speaker OK");
+}
+
+//Inicializa Speaker
+void Start_Button()
+{
+  LedRedGreenBlue(1, 1, 0);
+  Serial.println("Starting button...");
+  pinMode(pinbutton, INPUT);
+  Serial.println("Button ON");
+}
+
 void Start_SD()
 {
+   LedRedGreenBlue(1, 1, 1);
   Serial.print("Start SD card...");
 
   if (!SD.begin(4)) {
@@ -220,34 +357,102 @@ void Start_SD()
 
 void Start_Serial()
 {
+   LedRedGreenBlue(0, 0, 0);
    Serial.begin(9600);                // start serial
 }
 
 void Start_LCD()
 {
+  LedRedGreenBlue(1, 0, 0);
   lcd.init();                      // initialize the lcd 
   lcd.init();
   // Print a message to the LCD.
   lcd.backlight();
+  lcd.createChar(0, bell);
+  lcd.createChar(1, note);
+  lcd.createChar(2, clock);
+  lcd.createChar(3, heart);
+  lcd.createChar(4, duck);
+  lcd.createChar(5, check);
+  lcd.createChar(6, cross);
+  lcd.createChar(7, retarrow);
+}
+
+void StartRGB(){
+    pinMode(pinRed, OUTPUT);
+    pinMode(pinBlue, OUTPUT);
+    pinMode(pinGreen, OUTPUT);
+    digitalWrite(pinRed, LOW);
+    digitalWrite(pinBlue, LOW);
+    digitalWrite(pinGreen, LOW);
+}
+
+void StartDHT(){
+  //  #define DHTPIN A0 // pino que estamos conectado
+  //  #define DHTTYPE DHT11 // DHT 11
+  if (dht.read(DHTTYPE, DHTPIN)) {
+    delay(2000);
+    }
+}
+
+
+/*
+ * Button component pop callback function. 
+ * In this example,the button's text value will plus one every time when it is released. 
+ */
+void btEntrarCallback(void *ptr)
+{
+  Serial.println("btEntrar Click");
+  PageIndex = 1;
+    
+}
+
+void txtDataPopCallback(void *ptr)
+{
+    //dbSerialPrintln("txtDataPopCallback");
+    //txtData.setText("50");
+    Serial.println("txtDataPop");
+}
+
+void MainPopCallback(void *ptr){
+  Serial.print("Main menu");
+}
+
+void SplashPopCallback(void *ptr){
+  Serial.print("Splash menu");
+}
+
+void Start_Voice(){
+  Imprime(2, " Start VOICE    ");
+  LedRedGreenBlue(0, 0, 1);
+  Serial1.begin(9600);
 }
 
 void Start_Nextion(){
+    LedRedGreenBlue(0, 0, 1);
     Imprime(2, " Start NEXTION    ");
     Serial.println("Start Nextion...");
+
     /* Set the baudrate which is for debug and communicate with Nextion screen. */
     nexInit();
 
     /* Register the pop event callback function of the current button component. */
-    pageSplash.attachPop(pageSplashCallback,&pageSplash);
-    btEntrar.attachPop(btEntrarCallback, &btEntrar);
-    btMainSetup.attachPop(btMainSetupCallback, &btMainSetup);
-    btMainSplash.attachPop(btMainSplashCallback, &btMainSplash);
-    btMainComputer.attachPop(btMainComputerCallback, &btMainComputer);
+    //pageSplash.attachPop(pageSplashCallback,&pageSplash);
+    //btEntrar.attachCallback(callback);
+    pageMain.attachPop(MainPopCallback);
+    pageSplash.attachPop(SplashPopCallback);
+    //btMainComputer.attachCallback(callback);
+
+    /* Register the pop event callback function of the current button component. */
+    btEntrar.attachPop(btEntrarCallback);
+    txtData.attachPop(txtDataPopCallback);
     Serial.println("Nextion Started!");
+    
 }
 
 void Start_NTP()
 {
+  LedRedGreenBlue(0, 1, 1);
   Imprime(2, "  Start NTP         ");
   Serial.println("Start NTP...");
   EthernetUdp.begin(localPort);
@@ -258,6 +463,7 @@ void Start_NTP()
 
 void Start_Ethernet()
 {
+  LedRedGreenBlue(1, 0, 0);
   Imprime(2, " Start ETHERNET      ");
   Serial.println("Start Ethernet...");
   // start the Ethernet connection and the server:
@@ -293,6 +499,7 @@ void Start_Ethernet()
   }
 */
   // start the server
+  LedRedGreenBlue(1, 1, 0);
   server.begin();
   Serial.print("server is at ");  
   sprintf(myIP,"%d.%d.%d.%d",Ethernet.localIP()[0],Ethernet.localIP()[1],Ethernet.localIP()[2],Ethernet.localIP()[3]);
@@ -301,11 +508,12 @@ void Start_Ethernet()
 
 
 void Start_MP3(){
+  LedRedGreenBlue(1, 0, 1);
   Imprime(2, " Start MP3           ");
   Serial.println("Start MP3...");
   mp3.showDebug(1);       // print what we are sending to the mp3 board.
 
-  //Serial.begin(9600);     // start serial interface
+  
   mp3.begin(9600);        // start mp3-communication
   delay(500);             // wait for init
 
@@ -319,13 +527,17 @@ void Start_MP3(){
 
 void setup()
 {
+  StartRGB();
   Start_Serial();
+  StartDHT();
+  Start_Speak();
   Start_LCD();
   Wellcome();
   Start_Nextion(); 
   Start_SD(); 
   Start_Ethernet();
   Start_NTP();
+  Start_Voice();
 
   Start_MP3();
   char info[20];
@@ -335,8 +547,39 @@ void setup()
   delay(2000);
   Imprime(2,"                     ");
   //PlayMusic();
+  LedRedGreenBlue(0, 0, 0);
+  Sound('a');
+  Sound('c');
+  delay(2000);
+  Mensagem = "Nao há mensagens armazenadas!";
+  Musica = "Nao esta tocando";
 
 }
+
+/* ****************** GERENCIAMENTO DE LEDS ***********************/
+
+void LedRedGreenBlue(int ValueRed, int ValueGreen, int ValueBlue){
+    if(ValueBlue==0){
+      digitalWrite(pinBlue, HIGH);
+    } else {
+      digitalWrite(pinBlue, LOW);
+    }
+
+    if(ValueGreen==0){
+      digitalWrite(pinGreen, HIGH);
+    } else {
+      digitalWrite(pinGreen, LOW);
+    }
+
+    if(ValueRed==0){
+      digitalWrite(pinRed, HIGH);
+   } else { 
+      digitalWrite(pinRed, LOW);
+   }
+    //digitalWrite(pinBlue, LOW);
+    //digitalWrite(pinGreen, LOW);
+}
+
 
 /*Mostra a pagina principal do site*/
 void PageWebIndex(EthernetClient client )
@@ -672,6 +915,9 @@ void LOADCOPYTEMP()
   }
 }
 
+
+
+
 //Finaliza o arquivo temporario copiando para arquivo final
 void LOADFIMARQUIVO()
 {
@@ -838,6 +1084,23 @@ void Le_Servidor()
 
 /************************ Fim de bloco de funcoes de LOAD ************************/
 
+int ShowHours()
+{
+  TempminAtual = (millis() - TempminTotal)/1000 ;
+  return TempminAtual / 3600;
+}
+
+int ShowMinutes()
+{
+  TempminAtual = (millis() - TempminTotal)/1000 ;
+  return (TempminAtual / 60) % 60;
+}
+
+int ShowSeconds()
+{
+  TempminAtual = (millis() - TempminTotal) / 1000;
+  return TempminAtual % 60;
+}
 
 //Carrega a aplicação para o SD
 void LOAD(File root, char sMSG1[20])
@@ -852,6 +1115,14 @@ void LOAD(File root, char sMSG1[20])
   LOADLoop(root, ArquivoTrabalho);
 }
 
+/*
+/*Faz download do aplicativo*
+void DownloadTFT(String filename){
+  NexUpload nex_download(filename,10,115200);
+  // put your setup code here, to run once:
+  nex_download.upload();
+}
+*/
 
 
 
@@ -865,7 +1136,8 @@ void MAN()
   Serial.println(Release);
   Serial.println("MAN - AUXILIO MANUAL");
   Serial.println("LSTDIR - LISTA DIRETORIO");
-  Serial.println("LOAD - CARREGA ARQUIVO");
+  Serial.println("LOAD - CARREGA ARQUIVO NO SD");
+  Serial.println("LOADTFT - CARREGA NO TFT");
   Serial.println(" ");
 }
 
@@ -873,73 +1145,206 @@ void MAN()
 void KeyCMD()
 {
   bool resp = false;
-
+  int vret = 0;
   //incluir busca /n
-  if (strchr (BufferKeypad, '\n') != 0)
+  if (strchr(BufferKeypad, '\n') > 0)
   {
-    Serial.print("Comando:");
-    Serial.println(BufferKeypad);
-
-    
-
-    //LstDir - Lista o Diretorio
-    if (strcmp( BufferKeypad, "LSTDIR;\n") == 0)
+    if ((strcmp(BufferKeypad, "\n\r") == 0) | (strcmp(BufferKeypad, "\r\n") == 0) | (strcmp(BufferKeypad, "\r") == 0) | (strcmp(BufferKeypad, "\n") == 0))
     {
-      char sMSG1[16];
-      strncpy(sMSG1, BufferKeypad, 7);
-      Imprime(1, "LSTDIR           ");
-      Imprime(2, "                 ");
-      //root = card.open(sMSG1);
-      root = SD.open("/");
-      LstDir(root, 0);
-
+      Serial.println("Comando Vazio!");
       resp = true;
     }
+   
+  
 
-
-
-    //MAN
-    if (strcmp( BufferKeypad, "MAN;\n") == 0)
+    //Controle de FlagStop para comandos adicionais
+    if (!flgLeituraBasica) //Caso ativo inibe leitura de campos adicionais
     {
-      //Serial.println(Temperatura);
-      MAN();
-      resp = true;
+      Serial.println("flgLeituraBasica não Ativo!");
+      //Inicio
+      if (vret = strncmp("INICIAR;\n", BufferKeypad, 8) == 0)
+      {
+        Serial.println("CMD Inicio");
+        //Marcação de Inicio de tempo do programa
+        PrgTemp = millis();
+        //Reset();
+        //CLS;
+        resp = true;
+      }
+      Serial.print("vret:");
+      Serial.println(vret);
+
+      //FIM
+      if (vret = strncmp("FIM;\n", BufferKeypad, 4) == 0)
+      {
+        Serial.println("CMD Fim");
+        //Reset();
+        //CLS;
+        //WellCome();
+        resp = true;
+      }
+
+
+      //LstDir - Lista o Diretorio
+      if (vret = strncmp("LSTDIR;\n", BufferKeypad, 8) == 0)
+      {
+        char sMSG1[16];
+        strncpy(sMSG1, BufferKeypad, 7);
+        Imprime(1, "LSTDIR           ");
+        Imprime(2, "                 ");
+        //root = card.open(sMSG1);
+        root = SD.open("/");
+        LstDir(root, 0);
+
+        resp = true;
+      }
+
+
+      if (vret = strncmp("MSG=", BufferKeypad, 4) == 0)
+      {
+        //Serial.println("CMD MSG");
+
+        //char sMSG1[20];
+        String cmd = BufferKeypad;
+        String params, param1;
+        int posvir = cmd.indexOf("=");
+        int posfim = cmd.indexOf(";");
+        params = cmd.substring(posvir + 1, posfim);
+        //Serial.print("Params: ");
+        //Serial.println(params);
+
+        //Serial.println("Posfim: ");
+        //Serial.println(posfim);
+        if (posvir > 0)
+        {
+          param1 = cmd.substring(posvir + 1, posfim );
+          //Serial.print("Param1: ");
+          //Serial.println(param1);
+
+          Imprime(1, param1);
+
+          resp = true;
+        }
+      }
+
+      if (vret = strncmp("MSGSTOP=", BufferKeypad, 8) == 0)
+      {
+        Serial.println("CMD MSGSTOP");
+
+        //char sMSG1[20];
+        String cmd = BufferKeypad;
+        String params, param1;
+        int posvir = cmd.indexOf("=");
+        int posfim = cmd.indexOf(";");
+        params = cmd.substring(posvir + 1, posfim);
+
+        if (posvir > 0)
+        {
+          param1 = cmd.substring(posvir + 1, posfim );
+
+          Imprime(1, param1);
+          Wait();
+          resp = true;
+        }
+
+      }
+
+      //Run(String Arquivo)c
+      //Roda o script
+      if (vret = strncmp("LOADTFT(", BufferKeypad, 8) == 0)
+      {
+        //Serial.println("RUN achou!");
+        String cmd = BufferKeypad;
+        String params, param1;
+        params = cmd.substring(vret + 7);
+        int posvir1 = cmd.indexOf("(");
+        int posvir2 = cmd.indexOf(");");
+        int posfim = strncmp(BufferKeypad, "); ", 2);
+        //Serial.println("Posfim: ");
+        //Serial.println(posfim);
+        if (posfim > 0)
+        {
+          //strncpy(sMSG1, &BufferKeypad[poscmd+4], posfim - (poscmd+4));
+          param1 = cmd.substring(vret + 7, posvir2 - (posvir1 + 1));
+          Serial.print("Carrega:");
+          Serial.println(param1);
+          
+          //DownloadTFT(param1);
+          //Imprime(1, sMSG1);
+          //Imprime(2, sMSG1);
+          resp = true;
+        }
+      }
+
+      //Load - Carrega arquivo no SD
+      if (vret = strncmp( "LOAD=", BufferKeypad, 5) == 0)
+      {
+        Serial.println("Load achou!");
+        String cmd = BufferKeypad;
+        String params;
+        char param1[30];
+        params = cmd.substring(vret + 4);
+        int posvir1 = cmd.indexOf("=");
+        int posvir2 = cmd.indexOf(";");
+        //int posfim = strncmp(BufferKeypad, ";", 2);
+        Serial.println("posvir2: ");
+        Serial.println(posvir2);
+        if (posvir2 > 0)
+        {
+
+          Arquivo1 = "/" + cmd.substring(posvir1 + 1, posvir2 - 1);
+          Serial.print("LOAD:");
+          Serial.println(Arquivo1);
+          //Arquivo = param1;
+
+          Arquivo1.toCharArray(param1, Arquivo1.indexOf(";"));
+          LOAD(param1); //Parametro passado em Arquivo
+          resp = true;
+        }
+      }
+
+
+      //MOPERACAO
+      if (vret = strncmp("MOPERACAO\n", BufferKeypad, 10) == 0)
+      {
+        //MOPERACAO();
+        resp = true;
+      }
+
+      //MCONFIG Menu de Setup
+      if (vret = strncmp("MCONFIG\n", BufferKeypad, 8) == 0)
+      {
+        //MCONFIG();
+        resp = true;
+      }
+      //MDEFAULT
+      if (vret = strncmp("MDEFAULT\n", BufferKeypad, 9) == 0)
+      {
+        //MCONFIG();
+        Serial.println("Ja em Default");
+
+        Imprime(3, "Ja em Default");
+        resp = true;
+      }
     }
-
-
-
-    //Load - Carrega arquivo no SD
-    if (strncmp( "LOAD=",BufferKeypad, 5) == 0)
+    else
     {
-      char sMSG1[16];
-      //strncpy(sMSG1, BufferKeypad, 7);
-      strncpy(sMSG1, &BufferKeypad[6], strlen(BufferKeypad) - 6);
-      //Imprime(0, sMSG1);
-      //root = card.open(sMSG1);
-      root = SD.open("/");
-      LOAD(root, sMSG1);
-
-      resp = true;
-    }
-
-    //MDEFAULT
-    if (strcmp( BufferKeypad, "MDEFAULT\n") == 0)
-    {
-      //MCONFIG();
-      Serial.println("Ja em Default");
-      Imprime(3, "Ja em Default");
-      resp = true;
+      Serial.println("Flagstop ativo!");
+      //resp = true;
     }
 
     //Verifica se houve comando valido
     if (resp == false)
     {
-      Serial.print("Comando:");
-      Serial.println(BufferKeypad);
-      Serial.println("Cmd nao reconhecido");
+      Serial.print("Cmd nao reconhecido:");
+      Serial.print(BufferKeypad);
+      Serial.println("!");
+
+
       Imprime(3, "Cmd n reconhecido");
       //strcpy(BufferKeypad,'\0');
       memset(BufferKeypad, 0, sizeof(BufferKeypad));
+      flgErro = true; //Ativa comando de erro
     }
     else
     {
@@ -947,9 +1352,23 @@ void KeyCMD()
       memset(BufferKeypad, 0, sizeof(BufferKeypad));
     }
   }
-
 }
 
+
+//Emula Espera do ESC
+void Wait()
+{
+  flgWait = true;
+  Serial.println("Wait();");
+  //delay(500);
+  Imprime(2, "ESC p/ Continuar ");
+  do
+  {
+    Le_Teclado();
+    delay(100);
+  } while (flgWait == true);
+
+}
 
 
 //Analisa Entrada de Informacoes de Entrada
@@ -979,58 +1398,180 @@ void Le_Serial()
 }
 
 
-/*
- * Button component pop callback function. 
- * In this example,the button's text value will plus one every time when it is released. 
- */
-void btEntrarCallback(void *ptr)
+
+
+//Carrega a aplicação para o SD
+void LOAD(char *ArquivoTrabalho)
 {
-  Serial.println("btEntrar Click");
-  PageIndex = 1;
+  //Reset();//Comando de Carga Reset valores
+  Imprime(1, "Carregando APP...");
+
+  Imprime(2, ArquivoTrabalho);
+  Serial.println("Carregando APP:");
+  Serial.println(ArquivoTrabalho);
+  //File dir = root;
+
+  File dataFile = SD.open(ArquivoTrabalho, FILE_WRITE);
+  char inByte;
+  flgWait  = true;
+
+  Serial.println("Recebendo Firmware:");
+  Serial.println(' ');
+
+  do
+  {
+    if (Serial.available() > 0)
+    {
+      inByte = Serial.read();
+      //Sai quando caracter é mais
+      if (inByte == '+')
+      {
+        flgWait = false;
+        break;
+      }
+      else
+      {
+        if (dataFile)
+        {
+          dataFile.write(inByte);
+          Serial.print(inByte);
+        }
+        else
+        {
+          Imprime(1, "Erro SD");
+          Serial.println("Erro SD!");
+          flgWait = false;
+          flgErro = true;
+          break;
+        }
+      }
+    }
+    //Le informações do teclado
+    //Le_Teclado();
+    //Processa o comando
+    //KeyCMD();
+  } while (flgWait == true);
+  dataFile.close();
+  Serial.println("Finalizou gravacao");
+  if (flgErro == false)
+  {
+    Imprime(1, "Arquivo Salvo");
+    Serial.println("Arquivo Salvo!");
+  }
+  flgWait = false;
+
+}
+
+//Funcao Menu Teclado, porque o teclado se comporta diferente
+//Em operacoes diferentes
+void Le_Teclado()
+{
+  //Le Teclado
+  customKey = customKeypad.getKey();
+  if (customKey != NO_KEY)
+  {
+    if (customKey >= '0' && customKey <= '9')
+    {
+      sprintf(BufferKeypad, "%s%c", BufferKeypad, customKey);
+      //CLS();
+      //Imprime(0, "KEYBOARD: ");
+      Imprime(3, "Nro: " + String(BufferKeypad));
+    }
+    if (customKey == '#') //Limpa Buffer
+    {
+      sprintf(BufferKeypad, "%s\n", BufferKeypad);
+
+    }
+    if (customKey == '*') //Limpa Buffer
+    {
+      sprintf(BufferKeypad, "");
+    }
+
+    //keyF1
+    if (customKey == keyF1 ) //Menu funcoes
+    {
+      sprintf(BufferKeypad, "MCONFIG\n");
+    }
+
+    //Pagina Para Baixo
+    if (customKey == keydown ) //Menu funcoes
+    {
+      sprintf(BufferKeypad, "PAGEDOWN\n");
+    }
+    //Pagina Para Cima
+    if (customKey == keyup ) //Pagina para cima
+    {
+      sprintf(BufferKeypad, "PAGEUP\n");
+    }
+
+    //ESCAPE para funcoes avancadas
+    if (customKey == keyesc ) //Menu funcoes
+    {
+      sprintf(BufferKeypad, "MDEFAULT\n");
+    }
+
+    //keyenter
+    if (customKey == keyenter ) //Inclui o Enter ao fim
+    {
+      //sprintf(BufferKeypad, "MOPERACAO\n");
+      sprintf(BufferKeypad, "%s\n", BufferKeypad);
+    }
+
+  } //Bloco que verifica se existe alguma tecla digitada
+}
+
+
+void Le_Button(){
+  Button = analogRead(pinbutton);
+  Button = (Button<20)?0:Button;
+  
+  //Serial.println(Button);
+}
+
+void Le_DHT() {
+  //Serial.print("   Celsius => ");
+  //Serial.println(String(double(dht.celsius) / 10, 1));
+  Temperatura = dht.celsius;
+  //Serial.print("   Humdity => ");
+  //Serial.println(String(double(dht.humidity) / 10, 1));
+  Humidade = dht.humidity;
+  FTemperatura();
+}
+
+//Mostra a temperatura na tela e na serial se o flg estiver habilitado
+void FTemperatura()
+{
+  if (flgTemperatura == true)
+  {
+    //Temperatura atual
+    char bufferTemp[20];
+    char bufferHum[20];
+    dtostrf(Humidade/10, 2, 1, bufferHum);
     
+    dtostrf(Temperatura/10, 2, 1, bufferTemp);
+    //TempminAtual = (millis() - TempminStart) / 60000;
+    strInfo = String("Temp:") + String(bufferTemp) + String("C Hum:")+ String(bufferHum)+String("%");
+    Imprime(2, strInfo);
+    //Serial.println(strInfo);
+    //Serial3.println(strInfo);
+  }
 }
-void btMainSetupCallback(void *ptr)
-{
-  Serial.println("btMainSetup Click");
-    
-}
-
-void pageSplashCallback(void *ptr)
-{
-  Serial.println("page Splash Click");
-}
-
-void btMainSplashCallback(void *ptr){
-  Serial.println("bt Splash Click");
-  PageIndex = 0;
-}
-
-
-void btMainComputerCallback(void *ptr){
-  Serial.println("bt Computer Click");
-}
-
 
 void Le_Nextion(){
-    nexLoop(nex_listen_list);
-    if(PageIndex==0){
-      
-    }
-    if(PageIndex==1){
-    }
+  nexLoop(nex_listen_list);
 }
-
-
-
 
 void Leituras()
 {
-  Le_Nextion();
   Le_Serial(); 
+  Le_DHT();
   SRV_Web();
+  Le_Button();
 
   Le_UDP();
   Le_Servidor();
+  Le_Teclado();
+  Le_Nextion();
 
   
 }
@@ -1040,6 +1581,12 @@ void Escritas(){
   String label;
   label = HORAATUAL + " "+ DATAATUAL;
   Imprime(3,label.c_str());
+  //txtData.setText(label.c_str());
+  txtData.setText(DATAATUAL.c_str());
+  txtms1.setText(Mensagem.c_str());
+  txtmu1.setText(Musica.c_str());
+  Imprime(0,String((Button!=0)?String('\1'):" ")+ " "+ String((flgTemperatura!=0)?String('\3'):" ")); /* Parametros do relogio */
+
 }
 
 void loop()
@@ -1057,5 +1604,6 @@ void loop()
 
   }
   contciclo++;
+  //txtData.setText("Press me!");
   
 }

@@ -120,6 +120,7 @@
         <Filename Value="setupwork.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmSetupWork"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="SetupWork"/>
       </Unit13>

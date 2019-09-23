@@ -6,21 +6,26 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
-  Buttons, dmDados, setsiot;
+  Buttons, EditBtn, dmDados, setsiot;
 
 type
 
   { TfrmSetupIoT }
 
   TfrmSetupIoT = class(TForm)
+    Button1: TButton;
     ckDevice: TCheckBox;
     cbTypeC: TComboBox;
     edPort: TEdit;
+    edFileNextion: TFileNameEdit;
     Image1: TImage;
     Image2: TImage;
+    Image3: TImage;
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
 
 
     procedure cbTypeCChange(Sender: TObject);
@@ -58,7 +63,7 @@ end;
 
 procedure TfrmSetupIoT.cbTypeCChange(Sender: TObject);
 begin
-  Fsetsiot.TypeC:= cbTypeC.i;
+  Fsetsiot.TypeC:= cbTypeC.ItemIndex;
 end;
 
 procedure TfrmSetupIoT.CarregaContexto();
@@ -68,6 +73,7 @@ begin
   top:= Fsetsiot.posy;
   ckDevice.Checked := Fsetsiot.device;
   edPort.text := Fsetsiot.COMPORT;
+  edFileNextion.text := Fsetsiot.FileNextion;
   cbTypeC.ItemIndex:= Fsetsiot.TypeC;
 
 end;
@@ -84,6 +90,7 @@ begin
   Fsetsiot.posx := Left;
   Fsetsiot.posy := top;
   Fsetsiot.comport := edPort.text;
+  Fsetsiot.FileNextion := edFi;
   Fsetsiot.TypeC := cbTypeC.ItemIndex;
   Fsetsiot.SalvaContexto();
   if Fsetsiot <> nil then

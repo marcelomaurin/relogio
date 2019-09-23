@@ -27,11 +27,13 @@ type
         FPosY : integer;
         FTypeC : integer;
         FCOMPORT : String;
+        FFileNextion : String;
         procedure SetDevice(const Value : Boolean);
         procedure SetPOSX(value : integer);
         procedure SetPOSY(value : integer);
         procedure SetTypeC(value : integer);
         procedure SetCOMPORT(value : String);
+        procedure SetFileNextion(value : String);
         procedure Default();
   public
         procedure SalvaContexto();
@@ -41,6 +43,7 @@ type
         property posy : integer read FPosY write SetPOSY;
         property TypeC : integer read FTypeC write SetTypeC;
         property COMPORT : String read FCOMPORT write SetCOMPORT;
+        property FileNextion : String read FFileNextion write SetFileNextion;
   end;
 
 
@@ -78,6 +81,11 @@ begin
     FCOMPORT := value;
 end;
 
+procedure TSetSIoT.SetFileNextion(value : string);
+begin
+    FFileNextion := value;
+end;
+
 Procedure TSetSIoT.CarregaContexto();
 var
   posicao: integer;
@@ -97,6 +105,10 @@ begin
     if  BuscaChave(arquivo,'COMPORT:',posicao) then
     begin
       FCOMPORT := RetiraInfo(arquivo.Strings[posicao]);
+    end;
+    if  BuscaChave(arquivo,'FILENEXTION:',posicao) then
+    begin
+      FFILENEXTION := RetiraInfo(arquivo.Strings[posicao]);
     end;
     if  BuscaChave(arquivo,'TYPE:',posicao) then
     begin
@@ -127,6 +139,7 @@ begin
   arquivo.Append('POSX:'+inttostr(FPOSX));
   arquivo.Append('POSY:'+inttostr(FPOSY));
   arquivo.Append('COMPORT:'+FCOMPORT);
+  arquivo.Append('FILENEXTION:'+FCOMPORT);
   arquivo.Append('TYPE:'+inttostr(FTYPEC));
 
   arquivo.SaveToFile(filename);
@@ -135,8 +148,6 @@ end;
 destructor TSetSIoT.destroy();
 begin
   SalvaContexto();
-  if Fsetsiot <> nil then
-    Fsetsiot.Free();
   arquivo.free;
 end;
 
