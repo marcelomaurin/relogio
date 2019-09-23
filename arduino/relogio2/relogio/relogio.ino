@@ -1,8 +1,8 @@
 
-//#include <NexUpload.h>
+#include <SoftwareSerial.h>
 #include "SDHT.h"
 #include <Nextion.h>
-
+#include <NexUpload.h>
 #include <SPI.h>
 #include <TimeLib.h>
 #include <Ethernet.h>
@@ -31,6 +31,9 @@ SerialMP3Player mp3(RX,TX);
 #define pinBlue A15
 #define pinGreen A13
 
+#define pinBlueTX A2
+#define pinBlueRX A3
+
 #define pinbutton A12
 
 
@@ -39,6 +42,10 @@ SerialMP3Player mp3(RX,TX);
 #define DHTPIN A1 // pino que estamos conectado
 #define DHTTYPE DHT11 // DHT 11
 
+
+#define VOICEHEAD 0xAA
+
+SoftwareSerial Bluetooth(2, pinBlueTX); // RX, TX
 
 // note names and their corresponding half-periods
 //'c', 'd', 'e', 'f', 'g', 'a', 'b', 'C'};
@@ -108,6 +115,8 @@ Keypad customKeypad = Keypad( makeKeymap(hexaKeys), rowPins, colPins, ROWS, COLS
 
 SDHT dht;
 
+
+
 //*************** Descricao do Produto *********************
 char Versao = '0';  //Controle de Versao do Firmware
 char Release = '2'; //Controle Revisao do Firmware
@@ -135,7 +144,7 @@ byte flgTempo = 0; //Controle de Tempo e
 bool flgWait = false; //Espera programada
 bool flgLeituraBasica = false; //Mostra linha 3 a temperatura, controlando a leitura basica
 bool flgTemperatura = true; //Mostra temperatura e humidade no display
-
+bool flgRedSerial1 = false; //Redirect Serial1 (VOICE) 
 
 //Tempo Atual
 long TempminAtual = 0;
@@ -177,10 +186,6 @@ char BufferBluetooth[40]; //Buffer do bluetooth
 char BufferEthernet[40]; //Buffer do 
 
 
-
-void KeyCMD();
-
-
 /*Variaveis do Nextion*/
 //SoftwareSerial nextionSerial(9, 8); // RX, TX
 //Nextion nex(nextionSerial);
@@ -215,21 +220,10 @@ NexTouch *nex_listen_list[] =
 };
 
 
-void LedRedGreenBlue(int ValueRed, int ValueGreen, int ValueBlue);
-
-
 
 char buffer[100] = {0};
 
 int PageIndex = 0;
-
-
-
-
-void CLS();
-void Imprime(int y, String Info);
-time_t getNtpTime();
-
 
 bool event = 0;
 extern volatile unsigned long timer0_millis;
@@ -282,6 +276,16 @@ LiquidCrystal_I2C lcd(0x27,20,4);  // set the LCD address to 0x27 for a 16 chars
 String HORAATUAL;
 String DATAATUAL;
 
+
+/* ******************** Funcoes ****************************/
+void VOICE_Version();
+void CLS();
+void Imprime(int y, String Info);
+time_t getNtpTime();
+void LedRedGreenBlue(int ValueRed, int ValueGreen, int ValueBlue);
+void Le_Voice();
+void KeyCMD();
+void VOICE_ImpGrp1();
 
 
 //Toca um som
@@ -343,6 +347,13 @@ void Start_Button()
   Serial.println("Button ON");
 }
 
+void Start_Bluetooth(){
+  LedRedGreenBlue(1, 1, 0);
+  Imprime(2, " Start Bluetooth           ");
+  Serial.println("Start Bluetooth...");
+  Bluetooth.begin(9600);
+}
+
 void Start_SD()
 {
    LedRedGreenBlue(1, 1, 1);
@@ -359,10 +370,12 @@ void Start_Serial()
 {
    LedRedGreenBlue(0, 0, 0);
    Serial.begin(9600);                // start serial
+      
 }
 
 void Start_LCD()
 {
+  Serial.println("Start LCD...");
   LedRedGreenBlue(1, 0, 0);
   lcd.init();                      // initialize the lcd 
   lcd.init();
@@ -379,6 +392,7 @@ void Start_LCD()
 }
 
 void StartRGB(){
+    Serial.println("Start RGB LED...");
     pinMode(pinRed, OUTPUT);
     pinMode(pinBlue, OUTPUT);
     pinMode(pinGreen, OUTPUT);
@@ -390,6 +404,7 @@ void StartRGB(){
 void StartDHT(){
   //  #define DHTPIN A0 // pino que estamos conectado
   //  #define DHTTYPE DHT11 // DHT 11
+  Serial.println("Start DHT...");
   if (dht.read(DHTTYPE, DHTPIN)) {
     delay(2000);
     }
@@ -415,17 +430,26 @@ void txtDataPopCallback(void *ptr)
 }
 
 void MainPopCallback(void *ptr){
-  Serial.print("Main menu");
+  Serial.println("Main menu");
+  PageIndex = 1;
 }
 
 void SplashPopCallback(void *ptr){
-  Serial.print("Splash menu");
+  Serial.println("Splash menu");
+  PageIndex = 0;
 }
 
 void Start_Voice(){
   Imprime(2, " Start VOICE    ");
+  Serial.println("Start Voice...");
   LedRedGreenBlue(0, 0, 1);
   Serial1.begin(9600);
+  VOICE_Version();
+  delay(100);
+  Le_Voice();
+  VOICE_ImpGrp1();
+  delay(100);
+  Le_Voice();
 }
 
 void Start_Nextion(){
@@ -521,18 +545,15 @@ void Start_MP3(){
   delay(500);             // wait for init
 }
 
-
-
-
-
 void setup()
 {
   StartRGB();
   Start_Serial();
-  StartDHT();
-  Start_Speak();
   Start_LCD();
   Wellcome();
+  Start_Speak();  
+  StartDHT();
+  Start_Bluetooth();
   Start_Nextion(); 
   Start_SD(); 
   Start_Ethernet();
@@ -556,6 +577,67 @@ void setup()
 
 }
 
+/******************** Gerenciamento de Voice **********************/
+void VOICE_WaitState(){
+  Serial1.print(VOICEHEAD);
+  Serial1.print(0x00);
+}
+
+void VOICE_DelGrp1(){
+  Serial1.print(VOICEHEAD);
+  Serial1.print(0x01);
+}
+
+void VOICE_DelGrp2(){
+  Serial1.print(VOICEHEAD);
+  Serial1.print(0x02);
+}
+
+void VOICE_DelGrp3(){
+  Serial1.print(VOICEHEAD);
+  Serial1.print(0x03);
+}
+
+void VOICE_DelAllGrp(){
+  Serial1.print(VOICEHEAD);
+  Serial1.print(0x04);
+}
+
+void VOICE_RecGrp1(){
+  Serial1.print(VOICEHEAD);
+  Serial1.print(0x11);
+}
+
+void VOICE_RecGrp2(){
+  Serial1.print(VOICEHEAD);
+  Serial1.print(0x12);
+}
+
+void VOICE_RecGrp3(){
+  Serial1.print(VOICEHEAD);
+  Serial1.print(0x13);
+}
+
+
+void VOICE_ImpGrp1(){
+  Serial1.print(VOICEHEAD);
+  Serial1.print(0x21);
+}
+
+void VOICE_ImpGrp2(){
+  Serial1.print(VOICEHEAD);
+  Serial1.print(0x22);
+}
+
+void VOICE_ImpGrp3(){
+  Serial1.print(VOICEHEAD);
+  Serial1.print(0x23);
+}
+
+void VOICE_Version(){
+  Serial1.print(VOICEHEAD);
+  Serial1.print(0xbb);
+}
 /* ****************** GERENCIAMENTO DE LEDS ***********************/
 
 void LedRedGreenBlue(int ValueRed, int ValueGreen, int ValueBlue){
@@ -1138,6 +1220,8 @@ void MAN()
   Serial.println("LSTDIR - LISTA DIRETORIO");
   Serial.println("LOAD - CARREGA ARQUIVO NO SD");
   Serial.println("LOADTFT - CARREGA NO TFT");
+  Serial.println("VOICEREDON - VOICE REDIRECT ");
+  Serial.println("VOICEREDOFF- VOICE NORMAL ");
   Serial.println(" ");
 }
 
@@ -1155,6 +1239,14 @@ void KeyCMD()
       resp = true;
     }
    
+    //MAN
+    if (vret = strncmp("MAN\n", BufferKeypad, 4) == 0)
+    {
+        //Serial.println(Temperatura);
+        MAN();
+        resp = true;
+    }
+
   
 
     //Controle de FlagStop para comandos adicionais
@@ -1317,6 +1409,23 @@ void KeyCMD()
         //MCONFIG();
         resp = true;
       }
+
+      //Redireciona Serial para voice
+      if (vret = strncmp("VOICEREDON\n", BufferKeypad, 11) == 0)
+      {
+        //MCONFIG();
+        flgRedSerial1 = true;
+        Imprime(2,"VOICE COMANDO REDIRECIONADO ");
+        resp = true;
+      }
+      //Desativa Redirecionamento de Serial para voice
+      if (vret = strncmp("VOICEREDOFF\n", BufferKeypad, 12) == 0)
+      {
+        //MCONFIG();
+        flgRedSerial1 = false;
+        Imprime(2,"MODO SERIAL NORMAL          ");
+        resp = true;
+      }
       //MDEFAULT
       if (vret = strncmp("MDEFAULT\n", BufferKeypad, 9) == 0)
       {
@@ -1325,6 +1434,17 @@ void KeyCMD()
 
         Imprime(3, "Ja em Default");
         resp = true;
+      }
+      /*Bloco de tratamento do Voice*/
+      if (flgRedSerial1){
+        if (vret = strncmp("MDEFAULT\n", BufferKeypad, 9) == 0)
+        {
+          //MCONFIG();
+          Serial.println("Ja em Default");
+
+          Imprime(3, "Ja em Default");
+          resp = true;
+        }
       }
     }
     else
@@ -1379,6 +1499,23 @@ void Analisa()
   //KeyCMDEthernet(); //Analisa o que esta na entrada do buffer do bluetooth
 }
 
+void Le_Bluetooth(){
+  char key;
+  while (Bluetooth.available() > 0)
+  {
+    key = Bluetooth.read();
+
+    if (key != 0)
+    {
+      //Serial.print(key);
+      if(flgRedSerial1) { //Redirect Voice
+        Serial1.print(key);
+      }
+      //BufferKeypad += key;
+      sprintf(BufferKeypad, "%s%c", BufferKeypad, key);
+    }
+  }  
+}
 
 //Le registro do Serial
 void Le_Serial()
@@ -1390,7 +1527,10 @@ void Le_Serial()
 
     if (key != 0)
     {
-      Serial.print(key);
+      //Serial.print(key);
+      if(flgRedSerial1) { //Redirect Voice
+        Serial1.print(key);
+      }
       //BufferKeypad += key;
       sprintf(BufferKeypad, "%s%c", BufferKeypad, key);
     }
@@ -1561,13 +1701,22 @@ void Le_Nextion(){
   nexLoop(nex_listen_list);
 }
 
+void Le_Voice(){
+  if (Serial1.available()) {
+    int inByte = Serial1.read();
+    Serial.write(inByte);
+  }
+  
+}
+
 void Leituras()
 {
   Le_Serial(); 
   Le_DHT();
   SRV_Web();
   Le_Button();
-
+  Le_Voice();
+  Le_Bluetooth();
   Le_UDP();
   Le_Servidor();
   Le_Teclado();
