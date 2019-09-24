@@ -123,7 +123,6 @@ char Release = '2'; //Controle Revisao do Firmware
 char Produto[20] = { "Relogio"};
 char Empresa[20] = {"Maurinsoft"};
 
-bool flgErro = false; //Controle de Erros de Execução
 
 //Lista de firmwares
 char LstArq[20][100];
@@ -144,7 +143,8 @@ byte flgTempo = 0; //Controle de Tempo e
 bool flgWait = false; //Espera programada
 bool flgLeituraBasica = false; //Mostra linha 3 a temperatura, controlando a leitura basica
 bool flgTemperatura = true; //Mostra temperatura e humidade no display
-bool flgRedSerial1 = false; //Redirect Serial1 (VOICE) 
+bool flgRedSerial1 = true; //Redirect Serial1 (VOICE) 
+bool flgErro = false; //Controle de Erros de Execução
 
 //Tempo Atual
 long TempminAtual = 0;
@@ -196,6 +196,7 @@ void btEntrarCallback(void *ptr);
 
 /*Form  Splash */
 NexButton btEntrar = NexButton(0, 1, "bsp1");
+NexButton btPlay = NexButton(5, 5, "bmp3");
 
 /* Form main */
 //NextionButton btMainSetup(nex,1, 4, "b0");
@@ -216,6 +217,7 @@ NexTouch *nex_listen_list[] =
     &btEntrar,
     &txtms1,
     &txtmu1,
+    &btPlay,
     NULL
 };
 
@@ -286,6 +288,7 @@ void LedRedGreenBlue(int ValueRed, int ValueGreen, int ValueBlue);
 void Le_Voice();
 void KeyCMD();
 void VOICE_ImpGrp1();
+void PlayMusic();
 
 
 //Toca um som
@@ -439,6 +442,11 @@ void SplashPopCallback(void *ptr){
   PageIndex = 0;
 }
 
+void btPlayPopCallback(void *ptr){
+  Serial.println("Play");
+  PlayMusic();
+}
+
 void Start_Voice(){
   Imprime(2, " Start VOICE    ");
   Serial.println("Start Voice...");
@@ -465,6 +473,7 @@ void Start_Nextion(){
     //btEntrar.attachCallback(callback);
     pageMain.attachPop(MainPopCallback);
     pageSplash.attachPop(SplashPopCallback);
+    btPlay.attachPop(btPlayPopCallback);
     //btMainComputer.attachCallback(callback);
 
     /* Register the pop event callback function of the current button component. */
@@ -636,7 +645,7 @@ void VOICE_ImpGrp3(){
 
 void VOICE_Version(){
   Serial1.print(VOICEHEAD);
-  Serial1.print(0xbb);
+  Serial1.print(0xBB);
 }
 /* ****************** GERENCIAMENTO DE LEDS ***********************/
 
