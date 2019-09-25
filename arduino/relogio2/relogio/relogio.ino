@@ -1231,6 +1231,9 @@ void MAN()
   Serial.println("LOADTFT - CARREGA NO TFT");
   Serial.println("VOICEREDON - VOICE REDIRECT ");
   Serial.println("VOICEREDOFF- VOICE NORMAL ");
+  Serial.println("PLAY- PLAY MUSIC ");
+  Serial.println("NEXT- NEXT MUSIC ");
+  Serial.println("STOP- STOP MUSIC ");  
   Serial.println(" ");
 }
 
@@ -1248,11 +1251,32 @@ void KeyCMD()
       resp = true;
     }
    
-    //MAN
+    //PLay music
     if (vret = strncmp("MAN\n", BufferKeypad, 4) == 0)
     {
         //Serial.println(Temperatura);
         MAN();
+        resp = true;
+    }
+    
+    if (vret = strncmp("PLAY\n", BufferKeypad, 5) == 0)
+    {
+        //Serial.println(Temperatura);
+        PlayMusic();
+        resp = true;
+    }
+
+    if (vret = strncmp("NEXT\n", BufferKeypad, 5) == 0)
+    {
+        //Serial.println(Temperatura);
+        NextMusic();
+        resp = true;
+    }
+    
+    if (vret = strncmp("STOP\n", BufferKeypad, 5) == 0)
+    {
+        //Serial.println(Temperatura);
+        StopMusic();
         resp = true;
     }
 
