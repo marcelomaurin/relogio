@@ -45,6 +45,11 @@ SerialMP3Player mp3(RX,TX);
 
 #define VOICEHEAD 0xAA
 
+
+#define CONFIG "CONFIG.CFG"
+
+File myFile;
+
 SoftwareSerial Bluetooth(2, pinBlueTX); // RX, TX
 
 // note names and their corresponding half-periods
@@ -122,7 +127,11 @@ char Versao = '0';  //Controle de Versao do Firmware
 char Release = '2'; //Controle Revisao do Firmware
 char Produto[20] = { "Relogio"};
 char Empresa[20] = {"Maurinsoft"};
-
+char HostDB[80] = {"http://maurinsoft.com.br"};
+char PortDB[10] = {"3306"};
+char Database[40] = {"CASADB"};
+char User[40] = {"nouser"};
+char Passwrd[40] = {"nopass"};
 
 //Lista de firmwares
 char LstArq[20][100];
@@ -175,7 +184,6 @@ String Arquivo1; //Arquivo de Gravacao
 //Temporario
 String strInfo;
 
-File myFile;
 
 
 //Buffer do Teclado e Input
@@ -554,6 +562,54 @@ void Start_MP3(){
   delay(500);             // wait for init
 }
 
+//Grava Bloco de Cancelamento 01
+void GravaConfig(){
+  // Check to see if the file exists:
+  if (SD.exists(CONFIG)) {
+    SD.remove(CONFIG);
+  } 
+  
+    // open the file. note that only one file can be open at a time,
+  // so you have to close this one before opening another.
+  myFile = SD.open(CONFIG, FILE_WRITE);
+  Serial.println("Escrevendo arquivo CONFIG.CFG...");
+
+ 
+  myFile.print(String("VERSAO:")+Versao);
+  myFile.print(String("RELEASE:")+Release);
+  myFile.print(String("PRODUTO:")+Produto);
+  myFile.print(String("EMPRESA:")+Empresa);
+  myFile.print(String("HOST:")+HostDB);
+  myFile.print(String("PORT:")+PortDB);
+  myFile.print(String("DATABASE:")+Database);
+  myFile.print(String("USER:")+User);
+  myFile.print(String("PASSWRD:")+Passwrd);
+  
+    // close the file:
+  myFile.close();
+}
+
+void LE_CONFIG(){
+  
+  String info;
+
+  if (!SD.exists(CONFIG)) {
+    GravaConfig();
+    Serial.println("Arquivo SD Criado.");
+  }
+  info = "";
+  myFile = SD.open(CONFIG);
+    while (myFile.available()) {
+      info = info + char(myFile.read());
+    }
+  myFile.close();
+  Serial.print("String do Fechamento com Erro:");
+  Serial.println(info);
+  return info;
+}
+
+
+
 void setup()
 {
   StartRGB();
@@ -583,6 +639,7 @@ void setup()
   delay(2000);
   Mensagem = "Nao há mensagens armazenadas!";
   Musica = "Nao esta tocando";
+  LE_CONFIG();
 
 }
 
@@ -1234,6 +1291,10 @@ void MAN()
   Serial.println("PLAY- PLAY MUSIC ");
   Serial.println("NEXT- NEXT MUSIC ");
   Serial.println("STOP- STOP MUSIC ");  
+  Serial.println("PREV- PREVIUS MUSIC "); 
+  Serial.println("VOLUP- VOLUME UP ");   
+  Serial.println("VOLDOWN- VOLUME DOWN ");  
+  Serial.println("MSG=[texto]; - MENSAGEM NA TELA"); 
   Serial.println(" ");
 }
 
@@ -1280,8 +1341,27 @@ void KeyCMD()
         resp = true;
     }
 
-  
+    if (vret = strncmp("PREV\n", BufferKeypad, 5) == 0)
+    {
+        //Serial.println(Temperatura);
+        PreviusMusic();
+        resp = true;
+    }
 
+
+    if (vret = strncmp("VOLUP\n", BufferKeypad, 6) == 0)
+    {
+        //Serial.println(Temperatura);
+        VolUpMusic();
+        resp = true;
+    }
+
+    if (vret = strncmp("VOLDOWN\n", BufferKeypad, 8) == 0)
+    {
+        //Serial.println(Temperatura);
+        VolDownMusic();
+        resp = true;
+    }
     //Controle de FlagStop para comandos adicionais
     if (!flgLeituraBasica) //Caso ativo inibe leitura de campos adicionais
     {
@@ -1311,7 +1391,7 @@ void KeyCMD()
 
 
       //LstDir - Lista o Diretorio
-      if (vret = strncmp("LSTDIR;\n", BufferKeypad, 8) == 0)
+      if (vret = strncmp("LSTDIR\n", BufferKeypad, 7) == 0)
       {
         char sMSG1[16];
         strncpy(sMSG1, BufferKeypad, 7);
@@ -1342,37 +1422,16 @@ void KeyCMD()
         //Serial.println(posfim);
         if (posvir > 0)
         {
-          param1 = cmd.substring(posvir + 1, posfim );
+          Mensagem = cmd.substring(posvir + 1, posfim );
           //Serial.print("Param1: ");
           //Serial.println(param1);
 
-          Imprime(1, param1);
+          //Imprime(1, param1);
 
           resp = true;
         }
       }
-
-      if (vret = strncmp("MSGSTOP=", BufferKeypad, 8) == 0)
-      {
-        Serial.println("CMD MSGSTOP");
-
-        //char sMSG1[20];
-        String cmd = BufferKeypad;
-        String params, param1;
-        int posvir = cmd.indexOf("=");
-        int posfim = cmd.indexOf(";");
-        params = cmd.substring(posvir + 1, posfim);
-
-        if (posvir > 0)
-        {
-          param1 = cmd.substring(posvir + 1, posfim );
-
-          Imprime(1, param1);
-          Wait();
-          resp = true;
-        }
-
-      }
+      
 
       //Run(String Arquivo)c
       //Roda o script
