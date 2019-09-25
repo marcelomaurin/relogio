@@ -1293,7 +1293,19 @@ void MAN()
   Serial.println("STOP- STOP MUSIC ");  
   Serial.println("PREV- PREVIUS MUSIC "); 
   Serial.println("VOLUP- VOLUME UP ");   
-  Serial.println("VOLDOWN- VOLUME DOWN ");  
+  Serial.println("VOLDOWN- VOLUME DOWN ");    
+  Serial.println("VOICESTATE- Status do modulo de voz ");  
+  Serial.println("VOICEVER- Versao do modulo de voz ");    
+  Serial.println("VOICEDELGRP1- Exclui grupo de voz 1 ");    
+  Serial.println("VOICEDELGRP2- Exclui grupo de voz 2 ");      
+  Serial.println("VOICEDELGRP3- Exclui grupo de voz 3 ");    
+  Serial.println("VOICEDELGRPA- Exclui todos os grupos de voz ");      
+  Serial.println("VOICERECGRP1- Registra grupo de voz 1 ");      
+  Serial.println("VOICERECGRP2- Registra grupo de voz 2 ");        
+  Serial.println("VOICERECGRP3- Registra grupo de voz 3 ");        
+  Serial.println("VOICEIMPGRP1- Importa grupo de voz 1 ");        
+  Serial.println("VOICEIMPGRP2- Importa grupo de voz 2 ");          
+  Serial.println("VOICEIMPGRP3- Importa grupo de voz 3 ");  
   Serial.println("MSG=[texto]; - MENSAGEM NA TELA"); 
   Serial.println(" ");
 }
@@ -1362,6 +1374,94 @@ void KeyCMD()
         VolDownMusic();
         resp = true;
     }
+
+    if (vret = strncmp("VOICESTATE\n", BufferKeypad, 11) == 0)
+    {
+        //Serial.println(Temperatura);
+        VOICE_WaitState();
+        resp = true;
+    }
+
+    if (vret = strncmp("VOICEVER\n", BufferKeypad, 9) == 0)
+    {
+        //Serial.println(Temperatura);
+        VOICE_Version();
+        resp = true;
+    }
+
+    if (vret = strncmp("VOICEDELGRP1\n", BufferKeypad, 12) == 0)
+    {
+        //Serial.println(Temperatura);
+        VOICE_DelGrp1();
+        resp = true;
+    }    
+
+    
+    if (vret = strncmp("VOICEDELGRP2\n", BufferKeypad, 12) == 0)
+    {
+        //Serial.println(Temperatura);
+        VOICE_DelGrp2();
+        resp = true;
+    }    
+
+    if (vret = strncmp("VOICEDELGRP3\n", BufferKeypad, 12) == 0)
+    {
+        //Serial.println(Temperatura);
+        VOICE_DelGrp2();
+        resp = true;
+    }   
+
+    if (vret = strncmp("VOICEDELGRPA\n", BufferKeypad, 12) == 0)
+    {
+        //Serial.println(Temperatura);
+        VOICE_DelAllGrp();
+        resp = true;
+    }  
+
+    if (vret = strncmp("VOICERECGRP1\n", BufferKeypad, 12) == 0)
+    {
+        //Serial.println(Temperatura);
+        VOICE_RecGrp1();
+        resp = true;
+    }  
+
+    if (vret = strncmp("VOICERECGRP2\n", BufferKeypad, 12) == 0)
+    {
+        //Serial.println(Temperatura);
+        VOICE_RecGrp2();
+        resp = true;
+    }  
+
+    if (vret = strncmp("VOICERECGRP3\n", BufferKeypad, 12) == 0)
+    {
+        //Serial.println(Temperatura);
+        VOICE_RecGrp3();
+        resp = true;
+    }  
+
+    if (vret = strncmp("VOICEIMPGRP1\n", BufferKeypad, 12) == 0)
+    {
+        //Serial.println(Temperatura);
+        VOICE_ImpGrp1();
+        resp = true;
+    }
+
+    if (vret = strncmp("VOICEIMPGRP2\n", BufferKeypad, 12) == 0)
+    {
+        //Serial.println(Temperatura);
+        VOICE_ImpGrp2();
+        resp = true;
+    }   
+    
+    if (vret = strncmp("VOICEIMPGRP3\n", BufferKeypad, 12) == 0)
+    {
+        //Serial.println(Temperatura);
+        VOICE_ImpGrp3();
+        resp = true;
+    }          
+
+     
+    
     //Controle de FlagStop para comandos adicionais
     if (!flgLeituraBasica) //Caso ativo inibe leitura de campos adicionais
     {
