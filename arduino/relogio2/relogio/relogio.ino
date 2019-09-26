@@ -152,12 +152,16 @@ byte flgTempo = 0; //Controle de Tempo e
 bool flgWait = false; //Espera programada
 bool flgLeituraBasica = false; //Mostra linha 3 a temperatura, controlando a leitura basica
 bool flgTemperatura = true; //Mostra temperatura e humidade no display
-bool flgRedSerial1 = true; //Redirect Serial1 (VOICE) 
+bool flgRedSerial1 = false; //Redirect Serial1 (VOICE) 
 bool flgErro = false; //Controle de Erros de Execução
 
 //Tempo Atual
 long TempminAtual = 0;
 long TempminTotal = 0;
+
+long TempminStart = 0;
+//long TempminFim = 0;
+unsigned int TempminFim =  0;
 float MaxTemp = 0;
 float MinTemp = 0;
 float PrgTemp = 0;
@@ -192,6 +196,7 @@ char BufferKeypad[40]; //Buffer de Teclado
 //BufferBluetooth
 char BufferBluetooth[40]; //Buffer do bluetooth
 char BufferEthernet[40]; //Buffer do 
+char BufferVoice[40]; //Buffer de voz
 
 
 /*Variaveis do Nextion*/
@@ -461,11 +466,12 @@ void Start_Voice(){
   LedRedGreenBlue(0, 0, 1);
   Serial1.begin(9600);
   VOICE_Version();
-  delay(100);
+  delay(500);
   Le_Voice();
   VOICE_ImpGrp1();
-  delay(100);
+  delay(500);
   Le_Voice();
+  VOICE_ImpGrp1();
 }
 
 void Start_Nextion(){
@@ -645,64 +651,64 @@ void setup()
 
 /******************** Gerenciamento de Voice **********************/
 void VOICE_WaitState(){
-  Serial1.print(VOICEHEAD);
-  Serial1.print(0x00);
+  Serial1.print(char(VOICEHEAD));
+  Serial1.print(char(0x00));
 }
 
 void VOICE_DelGrp1(){
-  Serial1.print(VOICEHEAD);
-  Serial1.print(0x01);
+  Serial1.print(char(VOICEHEAD));
+  Serial1.print(char(0x01));
 }
 
 void VOICE_DelGrp2(){
-  Serial1.print(VOICEHEAD);
-  Serial1.print(0x02);
+  Serial1.print(char(VOICEHEAD));
+  Serial1.print(char(0x02));
 }
 
 void VOICE_DelGrp3(){
-  Serial1.print(VOICEHEAD);
-  Serial1.print(0x03);
+  Serial1.print(char(VOICEHEAD));
+  Serial1.print(char(0x03));
 }
 
 void VOICE_DelAllGrp(){
-  Serial1.print(VOICEHEAD);
-  Serial1.print(0x04);
+  Serial1.print(char(VOICEHEAD));
+  Serial1.print(char(0x04));
 }
 
 void VOICE_RecGrp1(){
-  Serial1.print(VOICEHEAD);
-  Serial1.print(0x11);
+  Serial1.print(char(VOICEHEAD));
+  Serial1.print(char(0x11));
 }
 
 void VOICE_RecGrp2(){
-  Serial1.print(VOICEHEAD);
-  Serial1.print(0x12);
+  Serial1.print(char(VOICEHEAD));
+  Serial1.print(char(0x12));
 }
 
 void VOICE_RecGrp3(){
-  Serial1.print(VOICEHEAD);
-  Serial1.print(0x13);
+  Serial1.print(char(VOICEHEAD));
+  Serial1.print(char(0x13));
 }
 
 
 void VOICE_ImpGrp1(){
-  Serial1.print(VOICEHEAD);
-  Serial1.print(0x21);
+  Serial1.print(char(VOICEHEAD));
+  Serial1.print(char(0x21));
 }
 
 void VOICE_ImpGrp2(){
-  Serial1.print(VOICEHEAD);
-  Serial1.print(0x22);
+  Serial1.print(char(VOICEHEAD));
+  Serial1.print(char(0x22));
 }
 
 void VOICE_ImpGrp3(){
-  Serial1.print(VOICEHEAD);
-  Serial1.print(0x23);
+  Serial1.print(char(VOICEHEAD));
+  Serial1.print(char(0x23));
 }
 
 void VOICE_Version(){
-  Serial1.print(VOICEHEAD);
-  Serial1.print(0xBB);
+  Serial1.print(char(VOICEHEAD));
+  Serial1.print(char(0xBB));
 }
 /* ****************** GERENCIAMENTO DE LEDS ***********************/
 
@@ -1666,6 +1672,178 @@ void KeyCMD()
   }
 }
 
+//Comando de entrada dos Comandos de Voz
+void KeyCMDVoice()
+{
+  bool resp = false;
+  int vret = 0;
+  //incluir busca /n
+  if (strchr(BufferVoice, '\n') > 0)
+  {
+    if ((strcmp(BufferVoice, "\n\r") == 0) | (strcmp(BufferVoice, "\r\n") == 0) | (strcmp(BufferVoice, "\r") == 0) | (strcmp(BufferVoice, "\n") == 0))
+    {
+      Serial.println("Comando Vazio!");
+      resp = true;
+    }
+
+    if (vret = strncmp("ERROR!\n", BufferVoice, 7) == 0)
+    {
+        //Serial.println(Temperatura);
+        //MAN();
+        Imprime(2,"                    ");
+        Imprime(2,"Erro ao gravar voz! ");
+        resp = true;
+    }
+
+    if (vret = strncmp("START\n", BufferVoice, 6) == 0)
+    {
+        //Serial.println(Temperatura);
+        //MAN();
+        Imprime(2,"                    ");
+        Imprime(2,"Fale!     ");
+        resp = true;
+    }
+    if (vret = strncmp("No voice\n", BufferVoice, 9) == 0)
+    {
+        //Serial.println(Temperatura);
+        //MAN();
+        Imprime(2,"                    ");
+        Imprime(2,"Nenhuma voz detectada! ");
+        resp = true;
+    }    
+
+    if (vret = strncmp("Again\n", BufferVoice, 6) == 0)
+    {
+        //Serial.println(Temperatura);
+        //MAN();
+        Imprime(2,"                    ");
+        Imprime(2,"Fale Novamente! ");
+        resp = true;
+    }  
+
+    if (vret = strncmp("Too loud\n", BufferVoice, 9) == 0)
+    {
+        //Serial.println(Temperatura);
+        //MAN();
+        Imprime(2,"                    ");
+        Imprime(2,"Muito baixo!   ");
+        resp = true;
+    }  
+    
+    if (vret = strncmp("Different\n", BufferVoice, 9) == 0)
+    {
+        //Serial.println(Temperatura);
+        //MAN();
+        Imprime(2,"                    ");
+        Imprime(2,"Falas diferentes! ");
+        resp = true;
+    }  
+    if (vret = strncmp("Finish one\n", BufferVoice, 9) == 0)
+    {
+        //Serial.println(Temperatura);
+        //MAN();
+        Imprime(2,"                    ");
+        Imprime(2,"Finalizou !!! ");
+        resp = true;
+    }      
+    
+    if (vret = strncmp("Group1 finished!\n", BufferVoice, 17) == 0)
+    {
+        //Serial.println(Temperatura);
+        //MAN();
+        Imprime(2,"                    ");
+        Imprime(2,"Grupo 1 fechou !!! ");
+        resp = true;
+    }   
+
+        if (vret = strncmp("Group2 finished!\n", BufferVoice, 17) == 0)
+    {
+        //Serial.println(Temperatura);
+        //MAN();
+        Imprime(2,"                    ");
+        Imprime(2,"Grupo 2 fechou !!! ");
+        resp = true;
+    }   
+
+    if (vret = strncmp("Group3 finished!\n", BufferVoice, 17) == 0)
+    {
+        //Serial.println(Temperatura);
+        //MAN();
+        Imprime(2,"                    ");
+        Imprime(2,"Grupo 3 fechou !!! ");
+        resp = true;
+    }   
+
+  
+    
+    if (vret = strncmp("Result:11\n", BufferVoice, 10) == 0)
+    {
+        //Serial.println(Temperatura);
+        //MAN();
+        Imprime(2,"                    ");
+        Imprime(2,"Voz 11 ");
+        resp = true;
+    }
+    
+    if (vret = strncmp("Result:12\n", BufferVoice, 10) == 0)
+    {
+        //Serial.println(Temperatura);
+        //MAN();
+        Imprime(2,"                    ");
+        Imprime(2,"Voz 12 ");
+        resp = true;
+    }    
+    
+    if (vret = strncmp("Result:13\n", BufferVoice, 10) == 0)
+    {
+        //Serial.println(Temperatura);
+        //MAN();
+        Imprime(2,"                    ");
+        Imprime(2,"Voz 13 ");
+        resp = true;
+    }        
+    
+    if (vret = strncmp("Result:14\n", BufferVoice, 10) == 0)
+    {
+        //Serial.println(Temperatura);
+        //MAN();
+        Imprime(2,"                    ");
+        Imprime(2,"Voz 14 ");
+        resp = true;
+    }        
+
+    if (vret = strncmp("Result:15\n", BufferVoice, 10) == 0)
+    {
+        //Serial.println(Temperatura);
+        //MAN();
+        Imprime(2,"                    ");
+        Imprime(2,"Voz 15 ");
+        resp = true;
+    }    
+    
+    //Verifica se houve comando valido
+    if (resp == false)
+    {
+      Serial.print("Cmd nao reconhecido:");
+      Serial.print(BufferVoice);
+      Serial.println("!");
+
+
+      Imprime(3, "Cmd n reconhecido");
+      //strcpy(BufferKeypad,'\0');
+      memset(BufferVoice, 0, sizeof(BufferVoice));
+      flgErro = true; //Ativa comando de erro
+    }
+    else
+    {
+      //strcpy(BufferKeypad,'\0');
+      memset(BufferVoice, 0, sizeof(BufferVoice));
+      TempminStart = millis();
+    }
+  }
+}
+    
+
 
 //Emula Espera do ESC
 void Wait()
@@ -1687,6 +1865,7 @@ void Wait()
 void Analisa()
 {
   KeyCMD(); //Analisa o que esta na entrada do buffer de teclado
+  KeyCMDVoice(); //Analisa o que esta na entrada do buffer de teclado
   //KeyCMDBluetooth(); //Analisa o que esta na entrada do buffer do bluetooth
   //KeyCMDEthernet(); //Analisa o que esta na entrada do buffer do bluetooth
 }
@@ -1881,9 +2060,11 @@ void FTemperatura()
     dtostrf(Humidade/10, 2, 1, bufferHum);
     
     dtostrf(Temperatura/10, 2, 1, bufferTemp);
-    //TempminAtual = (millis() - TempminStart) / 60000;
-    strInfo = String("Temp:") + String(bufferTemp) + String("C Hum:")+ String(bufferHum)+String("%");
-    Imprime(2, strInfo);
+    TempminAtual = (millis() - TempminStart) / 1000;
+    if (TempminAtual>10){    
+      strInfo = String("Temp:") + String(bufferTemp) + String("C Hum:")+ String(bufferHum)+String("%");
+      Imprime(2, strInfo);
+    }
     //Serial.println(strInfo);
     //Serial3.println(strInfo);
   }
@@ -1894,9 +2075,23 @@ void Le_Nextion(){
 }
 
 void Le_Voice(){
-  if (Serial1.available()) {
-    int inByte = Serial1.read();
-    Serial.write(inByte);
+  while (Serial1.available() > 0)
+  {
+    byte key = Serial1.read();
+    if (key == 0xFF)
+    {      
+      break;
+    }
+    if (key != 0x00){  
+      Serial.write(key);
+    
+      //Serial.print(key);
+      if(flgRedSerial1) { //Redirect Voice
+        Serial1.print(key);
+      }
+      //BufferKeypad += key;
+      sprintf(BufferVoice, "%s%c", BufferVoice, key);
+    }
   }
   
 }
