@@ -82,7 +82,7 @@ begin
   posicao  :=  pos('Humidade:',buffer);
   if (posicao > 0 ) then
   begin
-    aux := copy(buffer,posicao+9,pos(#13,buffer)-10);
+    aux := copy(buffer,posicao+9,pos(#13,buffer)-(posicao+9));
     label4.Caption := aux;
     buffer := copy(buffer,pos(#13,buffer)+2, Length(buffer));
   end;

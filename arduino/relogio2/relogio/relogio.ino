@@ -2071,6 +2071,21 @@ void FTemperatura()
 }
 
 void Le_Nextion(){
+  while (Serial2.available() > 0)
+  {
+    byte key = Serial2.read();
+    if (key == 0xFF)
+    {      
+      break;
+    }
+    if (key != 0x00){  
+      Serial.println(key,HEX);
+    
+    
+      //BufferKeypad += key;
+      //sprintf(BufferVoice, "%s%c", BufferVoice, key);
+    }
+  }
   nexLoop(nex_listen_list);
 }
 
