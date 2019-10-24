@@ -75,16 +75,16 @@ end;
 
 procedure TfrmSetupWork.FormDestroy(Sender: TObject);
 begin
-  //Fsettemp.device:= ckDevice.Checked;
+  Fsettemp.device:= ckDevice.Checked;
   FSetWork.posx := Left;
   FSetWork.posy := top;
 
-  //Fsettemp.comport := edPort.text;
+  FSetWork.WDay := edwday.text;
   //Fsettemp.TypeC := cbTypeC.ItemIndex;
   FSetWork.SalvaContexto();
   if FSetWork <> nil then
   begin
-    Fsettemp.Free();
+    FSetWork.Free();
   end;
 end;
 

@@ -28,12 +28,14 @@ type
         FWDay : String;
         FFixar : boolean;
         FStay : boolean;
+        FTime : String;
         procedure SetDevice(const Value : Boolean);
         procedure SetPOSX(value : integer);
         procedure SetPOSY(value : integer);
         procedure SetWDay(value : String);
         procedure SetFixar(value : boolean);
         procedure SetStay(value : boolean);
+        procedure SetTime(const value : String);
         procedure Default();
   public
         procedure SalvaContexto();
@@ -44,6 +46,7 @@ type
         property WDay : String read FWDay write SetWDay;
         property fixar : boolean read FFixar write SetFixar;
         property stay : boolean read FStay write SetStay;
+        property time : string read FTime write SetTime;
   end;
 
 
@@ -53,6 +56,12 @@ procedure TsetWork.SetDevice(const Value : Boolean);
 begin
   ckdevice := Value;
 end;
+
+procedure TsetWork.SetTime(const Value : String);
+begin
+  FTime := Value;
+end;
+
 
 procedure TsetWork.SetWDay(value : String);
 begin
@@ -70,7 +79,7 @@ begin
     FFixar := value;
 end;
 
-procedure TsetTemp.SetStay(value : boolean);
+procedure TsetWork.SetStay(value : boolean);
 begin
     FStay := value;
 end;
@@ -102,7 +111,22 @@ begin
     begin
       FPOSY := strtoint(RetiraInfo(arquivo.Strings[posicao]));
     end;
-
+    if  BuscaChave(arquivo,'FIXAR:',posicao) then
+    begin
+      FFixar := StrToBool(RetiraInfo(arquivo.Strings[posicao]));
+    end;
+    if  BuscaChave(arquivo,'STAY:',posicao) then
+    begin
+      FStay := strtoBool(RetiraInfo(arquivo.Strings[posicao]));
+    end;
+    if  BuscaChave(arquivo,'TIME:',posicao) then
+    begin
+      FTIME := RetiraInfo(arquivo.Strings[posicao]);
+    end;
+    if  BuscaChave(arquivo,'WDAY:',posicao) then
+    begin
+      FWDAY := RetiraInfo(arquivo.Strings[posicao]);
+    end;
 end;
 
 //Metodo construtor
@@ -127,6 +151,10 @@ begin
   arquivo.Append('DEVICE:'+iif(ckdevice,'1','0'));
   arquivo.Append('POSX:'+inttostr(FPOSX));
   arquivo.Append('POSY:'+inttostr(FPOSY));
+  arquivo.Append('FIXAR:'+booltostr(FFixar));
+  arquivo.Append('STAY:'+booltostr(FStay));
+  arquivo.Append('TIME:'+FTIME);
+  arquivo.Append('WDAY:'+FWDA);
 
   arquivo.SaveToFile(filename);
 end;

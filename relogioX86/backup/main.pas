@@ -10,7 +10,7 @@ uses
   setmain, temp, lazserial, SetupWork;
 
 
-const Versao = '2.3.1';
+const Versao = '2.3.2';
 
 
 type
@@ -20,7 +20,7 @@ type
     ckDevice: TCheckBox;
     CheckBox2: TCheckBox;
     CheckBox3: TCheckBox;
-    CheckBox4: TCheckBox;
+    ckWorking: TCheckBox;
     CheckBox5: TCheckBox;
     ComboBox2: TComboBox;
     ComboBox3: TComboBox;
@@ -97,6 +97,7 @@ begin
   Application.ProcessMessages;
   dmDados1 := TdmDados1.create(self);
   frmclock := Tfrmclock.create(self);
+  frmSetupwork := TfrmSetupwork.create(self);
   frmSetupIoT := TFrmSetupIoT.Create(self);
   CarregaContexto();
 
@@ -152,6 +153,7 @@ begin
   //Fsetmain.CarregaContexto();
   frmSetupIoT.Fsetsiot.CarregaContexto();
   ckDevice.Checked := frmSetupIoT.Fsetsiot.device;
+  ckWorking.Checked := frmSetupWork.FSetWork.device;
   Left:= Fsetmain.posx;
   top:= Fsetmain.posy;
   if not Fsetmain.ckdevice then
@@ -236,6 +238,10 @@ begin
       frmtemp := nil;
     end;
   end;
+  if ckWorking.Checked then
+  begin
+    (*Nao faz nada ainda*)
+  end;
 end;
 
 procedure TfrmMenu.ToggleBox1Change(Sender: TObject);
@@ -260,7 +266,7 @@ begin
   frmSetupWork.Showmodal();
   //frmSetupWork.Fsetsiot.CarregaContexto();  (*Atualiza o contexto salvo*)
   frmSetupWork.FSetWork.SalvaContexto();
-  ckDevice.Checked := frmSetupWork.FSetWork.device;
+  ckWorking.Checked := frmSetupWork.FSetWork.device;
   ckDevice.Refresh;
 end;
 
