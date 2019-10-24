@@ -29,6 +29,7 @@ type
     procedure Panel1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer
       );
     procedure Timer1Timer(Sender: TObject);
+    procedure CarregaContexto();
   private
     setclock :  TSetclock;
   public
@@ -65,24 +66,33 @@ begin
   begin
     BorderStyle:=bsSingle;
     mnFixarClock.Caption:='Fixar Clock';
+    setclock.fixar := true;
     self.refresh;
   end
   else
   begin
     BorderStyle:=bsNone;
     mnFixarClock.Caption:='Mover Clock';
+    setclock.fixar := false;
     //self.hide;
     //self.show;
     self.refresh;
   end;
+  setclock.SalvaContexto();
 end;
 
 procedure Tfrmclock.MnStayClick(Sender: TObject);
 begin
   if FormStyle = fsNormal then
-    FormStyle:= fsStayOnTop
+  begin
+    FormStyle:= fsStayOnTop;
+    setclock.stay:=true;
+  end
   else
+  begin
     FormStyle:=fsNormal;
+    setclock.stay:=false;
+  end;
 
 end;
 
@@ -91,13 +101,37 @@ begin
     frmmenu.MnRelogio.Caption:='Mostrar Relógio';
 end;
 
-procedure Tfrmclock.FormCreate(Sender: TObject);
+procedure Tfrmclock.CarregaContexto();
 begin
-  setclock := TSetclock.create;
-
   setclock.CarregaContexto(); (*Carrega o contexto do ambiente*)
   Left:= setclock.posx;
   top:= setclock.posy;
+  if setclock.stay then
+   begin
+     FormStyle:= fsStayOnTop;
+   end
+   else
+   begin
+     FormStyle:= fsNormal;
+   end;
+   if setclock.fixar then
+   begin
+     BorderStyle:=bsSingle;
+     mnFixarClock.Caption:='Fixar Clock';
+   end
+   else
+   begin
+     BorderStyle:=bsNone;
+     mnFixarClock.Caption:='Mover Clock';
+   end;
+
+end;
+
+procedure Tfrmclock.FormCreate(Sender: TObject);
+begin
+  setclock := TSetclock.create;
+  CarregaContexto();
+
 
 end;
 

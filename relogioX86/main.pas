@@ -10,7 +10,7 @@ uses
   setmain, temp, lazserial;
 
 
-const Versao = '0.2B';
+const Versao = '2.3.1';
 
 
 type
@@ -59,6 +59,7 @@ type
     ToggleBox5: TToggleBox;
     TrayIcon1: TTrayIcon;
     procedure ComboBox5Change(Sender: TObject);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormHide(Sender: TObject);
@@ -124,6 +125,11 @@ begin
 
 end;
 
+procedure TfrmMenu.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+  CloseAction:= caHide;
+end;
+
 procedure TfrmMenu.FormHide(Sender: TObject);
 begin
    mnMenu.Caption := 'Mostrar Menu';
@@ -168,7 +174,7 @@ end;
 
 procedure TfrmMenu.MenuItem3Click(Sender: TObject);
 begin
-  close;
+     Application.Terminate;
 end;
 
 procedure TfrmMenu.mnMenuClick(Sender: TObject);

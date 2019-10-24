@@ -48,6 +48,25 @@ begin
   Fsettemp.CarregaContexto();
   Left:= Fsettemp.posx;
   top:= Fsettemp.posy;
+  if Fsettemp.stay then
+  begin
+    FormStyle:= fsStayOnTop;
+  end
+  else
+  begin
+    FormStyle:= fsNormal;
+  end;
+  if Fsettemp.fixar then
+  begin
+    BorderStyle:=bsSingle;
+    mnFixarClock.Caption:='Fixar Clock';
+  end
+  else
+  begin
+    BorderStyle:=bsNone;
+    mnFixarClock.Caption:='Mover Clock';
+  end;
+
 end;
 
 procedure TfrmTemp.FormCreate(Sender: TObject);
@@ -63,6 +82,7 @@ begin
   //Fsettemp.device:= ckDevice.Checked;
   Fsettemp.posx := Left;
   Fsettemp.posy := top;
+
   //Fsettemp.comport := edPort.text;
   //Fsettemp.TypeC := cbTypeC.ItemIndex;
   Fsettemp.SalvaContexto();
@@ -82,7 +102,7 @@ begin
   posicao  :=  pos('Humidade:',buffer);
   if (posicao > 0 ) then
   begin
-    aux := copy(buffer,posicao+9,pos(#13,buffer)-posicao+9));
+    aux := copy(buffer,posicao+9,pos(#13,buffer)-(posicao+9));
     label4.Caption := aux;
     buffer := copy(buffer,pos(#13,buffer)+2, Length(buffer));
   end;
@@ -101,25 +121,35 @@ begin
   if (BorderStyle = bsNone) then
   begin
     BorderStyle:=bsSingle;
+    Fsettemp.fixar := false;
     mnFixarClock.Caption:='Fixar Clock';
     self.refresh;
   end
   else
   begin
     BorderStyle:=bsNone;
+    Fsettemp.fixar := true;
     mnFixarClock.Caption:='Mover Clock';
     //self.hide;
     //self.show;
     self.refresh;
   end;
+  Fsettemp.SalvaContexto();
 end;
 
 procedure TfrmTemp.MnStayClick(Sender: TObject);
 begin
   if FormStyle = fsNormal then
-    FormStyle:= fsStayOnTop
+  begin
+    FormStyle:= fsStayOnTop;
+    Fsettemp.stay := true;
+  end
   else
+  begin
     FormStyle:=fsNormal;
+    Fsettemp.stay := false;
+  end;
+  Fsettemp.SalvaContexto();
 end;
 
 end.

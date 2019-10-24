@@ -25,9 +25,13 @@ type
         ckdevice : boolean;
         FPosX : integer;
         FPosY : integer;
+        FFixar : boolean;
+        FStay : boolean;
         procedure SetDevice(const Value : Boolean);
         procedure SetPOSX(value : integer);
         procedure SetPOSY(value : integer);
+        procedure SetFixar(value : boolean);
+        procedure SetStay(value : boolean);
         procedure Default();
   public
         procedure SalvaContexto();
@@ -35,6 +39,8 @@ type
         property device : boolean read ckdevice write SetDevice;
         property posx : integer read FPosX write SetPOSX;
         property posy : integer read FPosY write SetPOSY;
+        property fixar : boolean read FFixar write SetFixar;
+        property stay : boolean read FStay write SetStay;
   end;
 
 
@@ -62,6 +68,15 @@ begin
     FposY := value;
 end;
 
+procedure TsetTemp.SetFixar(value : boolean);
+begin
+    FFixar := value;
+end;
+
+procedure TsetTemp.SetStay(value : boolean);
+begin
+    FStay := value;
+end;
 
 Procedure TsetTemp.CarregaContexto();
 var
@@ -79,7 +94,14 @@ begin
     begin
       FPOSY := strtoint(RetiraInfo(arquivo.Strings[posicao]));
     end;
-
+    if  BuscaChave(arquivo,'FIXAR:',posicao) then
+    begin
+      FFixar := StrToBool(RetiraInfo(arquivo.Strings[posicao]));
+    end;
+    if  BuscaChave(arquivo,'STAY:',posicao) then
+    begin
+      FStay := strtoBool(RetiraInfo(arquivo.Strings[posicao]));
+    end;
 end;
 
 //Metodo construtor
@@ -104,8 +126,8 @@ begin
   arquivo.Append('DEVICE:'+iif(ckdevice,'1','0'));
   arquivo.Append('POSX:'+inttostr(FPOSX));
   arquivo.Append('POSY:'+inttostr(FPOSY));
-  arquivo.Append('COMPORT:'+FCOMPORT);
-  arquivo.Append('TYPE:'+inttostr(FTYPEC));
+  arquivo.Append('FIXAR:'+intostr(FFixar));
+  arquivo.Append('STAY:'+booltostr(FStay));
 
   arquivo.SaveToFile(filename);
 end;

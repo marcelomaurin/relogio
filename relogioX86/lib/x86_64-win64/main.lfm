@@ -6,6 +6,7 @@ object frmMenu: TfrmMenu
   Caption = 'Menu'
   ClientHeight = 404
   ClientWidth = 479
+  OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnHide = FormHide

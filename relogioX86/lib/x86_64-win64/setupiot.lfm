@@ -176,6 +176,7 @@ object frmSetupIoT: TfrmSetupIoT
     Top = 144
     Width = 75
     Caption = 'Upload'
+    OnClick = Button1Click
     TabOrder = 3
   end
   object Image3: TImage

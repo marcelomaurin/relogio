@@ -28,6 +28,7 @@ type
     Label5: TLabel;
 
 
+    procedure Button1Click(Sender: TObject);
     procedure cbTypeCChange(Sender: TObject);
     procedure ckDeviceChange(Sender: TObject);
     procedure edPortChange(Sender: TObject);
@@ -66,6 +67,18 @@ begin
   Fsetsiot.TypeC:= cbTypeC.ItemIndex;
 end;
 
+procedure TfrmSetupIoT.Button1Click(Sender: TObject);
+begin
+  if (cbTypeC.ItemIndex = 1) then
+  begin
+
+  end
+  else
+  begin
+    ShowMessage('Type not permitted');
+  end;
+end;
+
 procedure TfrmSetupIoT.CarregaContexto();
 begin
   Fsetsiot.CarregaContexto();
@@ -90,7 +103,7 @@ begin
   Fsetsiot.posx := Left;
   Fsetsiot.posy := top;
   Fsetsiot.comport := edPort.text;
-  Fsetsiot.FileNextion := edFi;
+  Fsetsiot.FileNextion := edFileNextion.Text;
   Fsetsiot.TypeC := cbTypeC.ItemIndex;
   Fsetsiot.SalvaContexto();
   if Fsetsiot <> nil then

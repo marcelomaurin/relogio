@@ -4,13 +4,13 @@
     <PathDelim Value="\"/>
     <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="19">
+    <Units Count="20">
       <Unit0>
         <Filename Value="relogio2.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="8"/>
         <CursorPos X="19" Y="14"/>
-        <UsageCount Value="41"/>
+        <UsageCount Value="43"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
@@ -21,7 +21,7 @@
         <ResourceBaseClass Value="Form"/>
         <TopLine Value="16"/>
         <CursorPos X="37" Y="17"/>
-        <UsageCount Value="41"/>
+        <UsageCount Value="43"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit1>
@@ -31,10 +31,10 @@
         <ComponentName Value="frmclock"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="8"/>
-        <TopLine Value="80"/>
-        <CursorPos X="65" Y="85"/>
-        <UsageCount Value="41"/>
+        <EditorIndex Value="10"/>
+        <TopLine Value="23"/>
+        <CursorPos X="37" Y="28"/>
+        <UsageCount Value="43"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit2>
@@ -45,10 +45,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <EditorIndex Value="9"/>
-        <TopLine Value="205"/>
-        <CursorPos Y="208"/>
-        <UsageCount Value="41"/>
+        <EditorIndex Value="11"/>
+        <TopLine Value="4"/>
+        <CursorPos X="22" Y="13"/>
+        <UsageCount Value="43"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit3>
@@ -58,10 +58,10 @@
         <ComponentName Value="frmWorking"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="17"/>
+        <EditorIndex Value="16"/>
         <TopLine Value="12"/>
         <CursorPos X="98" Y="4"/>
-        <UsageCount Value="41"/>
+        <UsageCount Value="43"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit4>
@@ -70,23 +70,25 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="22"/>
-        <UsageCount Value="41"/>
+        <UsageCount Value="43"/>
         <Loaded Value="True"/>
       </Unit5>
       <Unit6>
         <Filename Value="funcoes.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="16"/>
+        <EditorIndex Value="15"/>
         <TopLine Value="43"/>
         <CursorPos Y="51"/>
-        <UsageCount Value="39"/>
+        <UsageCount Value="41"/>
         <Loaded Value="True"/>
       </Unit6>
       <Unit7>
         <Filename Value="setclock.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="15"/>
-        <UsageCount Value="35"/>
+        <EditorIndex Value="9"/>
+        <TopLine Value="118"/>
+        <CursorPos X="46" Y="133"/>
+        <UsageCount Value="37"/>
         <Loaded Value="True"/>
       </Unit7>
       <Unit8>
@@ -96,10 +98,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="SetupIoT"/>
-        <EditorIndex Value="4"/>
-        <TopLine Value="80"/>
-        <CursorPos X="45" Y="93"/>
-        <UsageCount Value="34"/>
+        <EditorIndex Value="5"/>
+        <TopLine Value="70"/>
+        <CursorPos X="52" Y="73"/>
+        <UsageCount Value="36"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit8>
@@ -109,7 +111,7 @@
         <EditorIndex Value="2"/>
         <TopLine Value="113"/>
         <CursorPos X="28" Y="119"/>
-        <UsageCount Value="33"/>
+        <UsageCount Value="35"/>
         <Loaded Value="True"/>
       </Unit9>
       <Unit10>
@@ -120,8 +122,7 @@
         <ResourceBaseClass Value="DataModule"/>
         <UnitName Value="dmDados"/>
         <EditorIndex Value="14"/>
-        <TopLine Value="10"/>
-        <UsageCount Value="29"/>
+        <UsageCount Value="31"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit10>
@@ -131,10 +132,10 @@
         <ComponentName Value="frmTemp"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="11"/>
-        <TopLine Value="84"/>
-        <CursorPos X="7" Y="95"/>
-        <UsageCount Value="26"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="68"/>
+        <CursorPos Y="46"/>
+        <UsageCount Value="28"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit11>
@@ -142,9 +143,9 @@
         <Filename Value="settemp.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="62"/>
-        <CursorPos X="20" Y="114"/>
-        <UsageCount Value="26"/>
+        <TopLine Value="118"/>
+        <CursorPos Y="129"/>
+        <UsageCount Value="28"/>
         <Loaded Value="True"/>
       </Unit12>
       <Unit13>
@@ -154,20 +155,20 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="SetupWork"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="6"/>
         <TopLine Value="38"/>
         <CursorPos X="24" Y="49"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="25"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit13>
       <Unit14>
         <Filename Value="setwork.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="7"/>
         <TopLine Value="18"/>
         <CursorPos X="24" Y="29"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="25"/>
         <Loaded Value="True"/>
       </Unit14>
       <Unit15>
@@ -182,7 +183,7 @@
         <EditorIndex Value="12"/>
         <TopLine Value="2309"/>
         <CursorPos X="47" Y="2320"/>
-        <UsageCount Value="16"/>
+        <UsageCount Value="17"/>
         <Loaded Value="True"/>
       </Unit16>
       <Unit17>
@@ -191,139 +192,146 @@
         <EditorIndex Value="13"/>
         <TopLine Value="130"/>
         <CursorPos X="85" Y="145"/>
-        <UsageCount Value="13"/>
+        <UsageCount Value="14"/>
         <Loaded Value="True"/>
       </Unit17>
       <Unit18>
         <Filename Value="C:\Users\Z600\AppData\Local\lazarus\onlinepackagemanager\packages\LazSerial\lazserial.pas"/>
         <UnitName Value="LazSerial"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="471"/>
         <CursorPos Y="479"/>
         <UsageCount Value="11"/>
-        <Loaded Value="True"/>
       </Unit18>
+      <Unit19>
+        <Filename Value="C:\lazarus\lcl\forms.pp"/>
+        <UnitName Value="Forms"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="62"/>
+        <CursorPos X="33" Y="70"/>
+        <UsageCount Value="10"/>
+      </Unit19>
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="temp.pas"/>
-        <Caret Line="81" TopLine="76"/>
+        <Caret Line="95" Column="7" TopLine="84"/>
       </Position1>
       <Position2>
-        <Filename Value="temp.pas"/>
-        <Caret Line="82" TopLine="76"/>
+        <Filename Value="settemp.pas"/>
+        <Caret Line="114" Column="20" TopLine="44"/>
       </Position2>
       <Position3>
         <Filename Value="temp.pas"/>
-        <Caret Line="85" TopLine="76"/>
+        <Caret Line="123" Column="19" TopLine="107"/>
       </Position3>
       <Position4>
-        <Filename Value="temp.pas"/>
-        <Caret Line="81" TopLine="76"/>
+        <Filename Value="settemp.pas"/>
+        <Caret Line="114" Column="41" TopLine="101"/>
       </Position4>
       <Position5>
-        <Filename Value="temp.pas"/>
-        <Caret Line="85" TopLine="76"/>
+        <Filename Value="settemp.pas"/>
+        <Caret Line="77" Column="34" TopLine="67"/>
       </Position5>
       <Position6>
-        <Filename Value="temp.pas"/>
-        <Caret Line="81" TopLine="76"/>
+        <Filename Value="settemp.pas"/>
+        <Caret Line="105" Column="44" TopLine="95"/>
       </Position6>
       <Position7>
-        <Filename Value="temp.pas"/>
-        <Caret Line="85" TopLine="76"/>
+        <Filename Value="settemp.pas"/>
+        <Caret Line="99" Column="26" TopLine="91"/>
       </Position7>
       <Position8>
-        <Filename Value="temp.pas"/>
-        <Caret Line="81" TopLine="76"/>
+        <Filename Value="settemp.pas"/>
+        <Caret Line="79" Column="4" TopLine="70"/>
       </Position8>
       <Position9>
         <Filename Value="temp.pas"/>
-        <Caret Line="87" Column="20" TopLine="80"/>
+        <Caret Line="51" TopLine="46"/>
       </Position9>
       <Position10>
         <Filename Value="temp.pas"/>
-        <Caret Line="83" TopLine="80"/>
+        <Caret Line="57" TopLine="46"/>
       </Position10>
       <Position11>
         <Filename Value="temp.pas"/>
-        <Caret Line="85" Column="8" TopLine="78"/>
+        <Caret Line="59" TopLine="46"/>
       </Position11>
       <Position12>
         <Filename Value="temp.pas"/>
-        <Caret Line="81" TopLine="78"/>
+        <Caret Line="146" Column="35" TopLine="136"/>
       </Position12>
       <Position13>
         <Filename Value="temp.pas"/>
-        <Caret Line="85" Column="51" TopLine="78"/>
+        <Caret Line="53" Column="15" TopLine="43"/>
       </Position13>
       <Position14>
         <Filename Value="temp.pas"/>
-        <Caret Line="81" TopLine="78"/>
+        <Caret Line="57" TopLine="50"/>
       </Position14>
       <Position15>
         <Filename Value="temp.pas"/>
-        <Caret Line="82" TopLine="78"/>
+        <Caret Line="59" TopLine="50"/>
       </Position15>
       <Position16>
         <Filename Value="temp.pas"/>
-        <Caret Line="83" TopLine="78"/>
+        <Caret Line="66" Column="42" TopLine="58"/>
       </Position16>
       <Position17>
         <Filename Value="temp.pas"/>
-        <Caret Line="85" TopLine="78"/>
+        <Caret Line="51" TopLine="42"/>
       </Position17>
       <Position18>
         <Filename Value="temp.pas"/>
-        <Caret Line="86" TopLine="78"/>
+        <Caret Line="57" TopLine="50"/>
       </Position18>
       <Position19>
         <Filename Value="temp.pas"/>
-        <Caret Line="87" TopLine="78"/>
+        <Caret Line="59" TopLine="50"/>
       </Position19>
       <Position20>
         <Filename Value="temp.pas"/>
-        <Caret Line="89" TopLine="78"/>
+        <Caret Line="61" TopLine="50"/>
       </Position20>
       <Position21>
         <Filename Value="temp.pas"/>
-        <Caret Line="81" TopLine="78"/>
+        <Caret Line="60" Column="44" TopLine="50"/>
       </Position21>
       <Position22>
         <Filename Value="temp.pas"/>
-        <Caret Line="82" TopLine="78"/>
+        <Caret Line="51" TopLine="48"/>
       </Position22>
       <Position23>
         <Filename Value="temp.pas"/>
-        <Caret Line="83" TopLine="78"/>
+        <Caret Line="53" TopLine="48"/>
       </Position23>
       <Position24>
         <Filename Value="temp.pas"/>
-        <Caret Line="85" TopLine="78"/>
+        <Caret Line="59" TopLine="48"/>
       </Position24>
       <Position25>
         <Filename Value="temp.pas"/>
-        <Caret Line="86" TopLine="78"/>
+        <Caret Line="61" TopLine="48"/>
       </Position25>
       <Position26>
         <Filename Value="temp.pas"/>
-        <Caret Line="87" TopLine="78"/>
+        <Caret Line="62" TopLine="49"/>
       </Position26>
       <Position27>
-        <Filename Value="temp.pas"/>
-        <Caret Line="89" TopLine="78"/>
+        <Filename Value="settemp.pas"/>
+        <Caret Line="131" Column="47" TopLine="97"/>
       </Position27>
       <Position28>
-        <Filename Value="temp.pas"/>
-        <Caret Line="90" TopLine="78"/>
+        <Filename Value="clock.pas"/>
+        <Caret Line="118" Column="15" TopLine="112"/>
       </Position28>
       <Position29>
-        <Filename Value="temp.pas"/>
-        <Caret Line="92" TopLine="79"/>
+        <Filename Value="clock.pas"/>
+        <Caret Line="103" TopLine="97"/>
       </Position29>
       <Position30>
-        <Filename Value="temp.pas"/>
-        <Caret Line="93" TopLine="80"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="14" Column="10" TopLine="4"/>
       </Position30>
     </JumpHistory>
     <RunParams>
@@ -338,7 +346,7 @@
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="main.pas"/>
-        <Line Value="176"/>
+        <Line Value="182"/>
       </Item1>
     </BreakPoints>
   </Debugging>

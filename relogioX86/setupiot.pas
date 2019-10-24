@@ -28,6 +28,7 @@ type
     Label5: TLabel;
 
 
+    procedure Button1Click(Sender: TObject);
     procedure cbTypeCChange(Sender: TObject);
     procedure ckDeviceChange(Sender: TObject);
     procedure edPortChange(Sender: TObject);
@@ -64,6 +65,18 @@ end;
 procedure TfrmSetupIoT.cbTypeCChange(Sender: TObject);
 begin
   Fsetsiot.TypeC:= cbTypeC.ItemIndex;
+end;
+
+procedure TfrmSetupIoT.Button1Click(Sender: TObject);
+begin
+  if (cbTypeC.ItemIndex = 1) then
+  begin
+
+  end
+  else
+  begin
+    ShowMessage('Not allowed type');
+  end;
 end;
 
 procedure TfrmSetupIoT.CarregaContexto();
