@@ -410,7 +410,6 @@ object frmMenu: TfrmMenu
     Caption = 'Work'
     ClientHeight = 109
     ClientWidth = 215
-    Enabled = False
     TabOrder = 3
     object CheckBox4: TCheckBox
       Left = 72
@@ -426,6 +425,7 @@ object frmMenu: TfrmMenu
       Top = 24
       Width = 104
       Caption = 'Setup'
+      OnChange = ToggleBox4Change
       TabOrder = 1
     end
     object Label4: TLabel

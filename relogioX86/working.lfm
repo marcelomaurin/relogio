@@ -8,6 +8,8 @@ object frmWorking: TfrmWorking
   ClientHeight = 106
   ClientWidth = 279
   Color = clForm
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
   LCLVersion = '2.0.2.0'
   object GroupBox1: TGroupBox
     Left = 0

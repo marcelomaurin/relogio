@@ -7,6 +7,8 @@ object frmSetupWork: TfrmSetupWork
   ClientHeight = 114
   ClientWidth = 320
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  PopupMenu = PopupMenu1
   LCLVersion = '2.0.2.0'
   object Image1: TImage
     Left = 0
@@ -96,5 +98,16 @@ object frmSetupWork: TfrmSetupWork
     Width = 85
     TabOrder = 1
     Text = '8:00'
+  end
+  object PopupMenu1: TPopupMenu
+    left = 208
+    top = 24
+    object mnFixarClock: TMenuItem
+      Caption = 'Fixar Tela'
+      OnClick = mnFixarClockClick
+    end
+    object MnStay: TMenuItem
+      Caption = 'Stay on Top'
+    end
   end
 end

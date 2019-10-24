@@ -26,19 +26,24 @@ type
         FPosX : integer;
         FPosY : integer;
         FWDay : String;
+        FFixar : boolean;
+        FStay : boolean;
         procedure SetDevice(const Value : Boolean);
         procedure SetPOSX(value : integer);
         procedure SetPOSY(value : integer);
         procedure SetWDay(value : String);
+        procedure SetFixar(value : boolean);
+        procedure SetStay(value : boolean);
         procedure Default();
   public
-
         procedure SalvaContexto();
         Procedure CarregaContexto();
         property device : boolean read ckdevice write SetDevice;
         property posx : integer read FPosX write SetPOSX;
         property posy : integer read FPosY write SetPOSY;
         property WDay : String read FWDay write SetWDay;
+        property fixar : boolean read FFixar write SetFixar;
+        property stay : boolean read FStay write SetStay;
   end;
 
 
@@ -58,6 +63,16 @@ end;
 procedure TsetWork.Default();
 begin
     ckdevice := false;
+end;
+
+procedure TsetWork.SetFixar(value : boolean);
+begin
+    FFixar := value;
+end;
+
+procedure TsetWork.SetStay(value : boolean);
+begin
+    FStay := value;
 end;
 
 procedure TsetWork.SetPOSX(value : integer);

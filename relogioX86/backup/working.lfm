@@ -1,5 +1,5 @@
 object frmWorking: TfrmWorking
-  Left = 756
+  Left = 729
   Height = 106
   Top = 120
   Width = 279
@@ -8,6 +8,8 @@ object frmWorking: TfrmWorking
   ClientHeight = 106
   ClientWidth = 279
   Color = clForm
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
   LCLVersion = '2.0.2.0'
   object GroupBox1: TGroupBox
     Left = 0

@@ -7,10 +7,10 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, PopupNotifier,
   ComCtrls, Menus, ExtCtrls, StdCtrls, splash, clock, dmDados, SetupIoT,
-  setmain, temp, lazserial;
+  setmain, temp, lazserial, SetupWork;
 
 
-const Versao = '2.3';
+const Versao = '2.3.1';
 
 
 type
@@ -71,6 +71,7 @@ type
     procedure MnRelogioClick(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure ToggleBox1Change(Sender: TObject);
+    procedure ToggleBox4Change(Sender: TObject);
   private
     Fsetmain :TSetMain;
     procedure SalvaContexto();
@@ -249,6 +250,18 @@ begin
   ckDevice.Refresh;
 
 
+end;
+
+procedure TfrmMenu.ToggleBox4Change(Sender: TObject);
+begin
+  if frmSetupWork = Nil then
+    frmSetupWork := TfrmSetupWork.create(self);
+  //frmSetupWork.Fsetsiot := Fsetsiot;
+  frmSetupWork.Showmodal();
+  //frmSetupWork.Fsetsiot.CarregaContexto();  (*Atualiza o contexto salvo*)
+  frmSetupWork.FSetWork.SalvaContexto();
+  ckDevice.Checked := frmSetupWork.FSetWork.device;
+  ckDevice.Refresh;
 end;
 
 end.
