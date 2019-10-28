@@ -29,7 +29,7 @@ type
     procedure Panel1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer
       );
     procedure Timer1Timer(Sender: TObject);
-    procedure Tfrmclock.CarregaContexto();
+    procedure CarregaContexto();
   private
     setclock :  TSetclock;
   public

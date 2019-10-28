@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, Menus,
-  LazSerial, settemp;
+  ExtCtrls, LazSerial, settemp;
 
 type
 
@@ -20,10 +20,12 @@ type
     LazSerial1: TLazSerial;
     mnFixarClock: TMenuItem;
     MnStay: TMenuItem;
+    Panel1: TPanel;
     PopupMenu1: TPopupMenu;
 
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure FormShow(Sender: TObject);
     procedure LazSerial1RxData(Sender: TObject);
     procedure mnFixarClockClick(Sender: TObject);
     procedure MnStayClick(Sender: TObject);
@@ -73,6 +75,7 @@ procedure TfrmTemp.FormCreate(Sender: TObject);
 begin
   Fsettemp := Tsettemp.create();
   CarregaContexto();
+  Brush.Style:=bsClear;
   buffer := '';
 end;
 
@@ -89,6 +92,23 @@ begin
   if Fsettemp <> nil then
   begin
     Fsettemp.Free();
+  end;
+
+end;
+
+procedure TfrmTemp.FormShow(Sender: TObject);
+var
+  a : integer;
+begin
+  (*Menu Aparece*)
+  AlphaBlend:=true;
+  AlphaBlendValue:=0;
+  Refresh;
+  for a:=0 to 255 do
+  begin
+    AlphaBlendValue:=a;
+    Refresh;
+    Sleep(10);
   end;
 
 end;
@@ -143,12 +163,14 @@ begin
   begin
     FormStyle:= fsStayOnTop;
     Fsettemp.stay := true;
+
   end
   else
   begin
     FormStyle:=fsNormal;
     Fsettemp.stay := false;
   end;
+  refresh;
   Fsettemp.SalvaContexto();
 end;
 

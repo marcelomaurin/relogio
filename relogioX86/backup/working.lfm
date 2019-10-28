@@ -1,7 +1,7 @@
 object frmWorking: TfrmWorking
-  Left = 729
+  Left = 384
   Height = 106
-  Top = 120
+  Top = 94
   Width = 279
   BorderStyle = bsNone
   Caption = 'Working'
@@ -10,6 +10,8 @@ object frmWorking: TfrmWorking
   Color = clForm
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  OnShow = FormShow
+  PopupMenu = PopupMenu1
   LCLVersion = '2.0.2.0'
   object GroupBox1: TGroupBox
     Left = 0
@@ -131,6 +133,7 @@ object frmWorking: TfrmWorking
     Caption = 'Start'
     Images = ImageList1
     ImageIndex = 0
+    OnClick = BitBtn1Click
     TabOrder = 2
   end
   object BitBtn2: TBitBtn
@@ -141,6 +144,7 @@ object frmWorking: TfrmWorking
     Caption = 'Start'
     Images = ImageList1
     ImageIndex = 0
+    OnClick = BitBtn2Click
     TabOrder = 3
   end
   object Share: TCheckBox
@@ -646,11 +650,16 @@ object frmWorking: TfrmWorking
       FF00FFFFFF00FFFFFF00FFFFFF00
     }
   end
-  object popworking: TPopupMenu
-    left = 144
-    top = 18
-    object mnWorking: TMenuItem
-      Caption = 'unlock'
+  object PopupMenu1: TPopupMenu
+    left = 96
+    top = 54
+    object mnFixarClock: TMenuItem
+      Caption = 'Fixar Tela'
+      OnClick = mnFixarClockClick
+    end
+    object MnStay: TMenuItem
+      Caption = 'Stay on Top'
+      OnClick = MnStayClick
     end
   end
 end

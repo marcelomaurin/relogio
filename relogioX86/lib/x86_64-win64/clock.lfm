@@ -1,11 +1,11 @@
 object frmclock: Tfrmclock
-  Left = 773
-  Height = 87
-  Top = 145
+  Left = 694
+  Height = 86
+  Top = 100
   Width = 235
   BorderStyle = bsNone
   Caption = 'Clock'
-  ClientHeight = 87
+  ClientHeight = 86
   ClientWidth = 235
   OnCreate = FormCreate
   OnDestroy = FormDestroy
@@ -15,12 +15,12 @@ object frmclock: Tfrmclock
   LCLVersion = '2.0.2.0'
   object Panel1: TPanel
     Left = 0
-    Height = 87
+    Height = 86
     Top = 0
     Width = 235
     Align = alClient
     BevelColor = clBlack
-    ClientHeight = 87
+    ClientHeight = 86
     ClientWidth = 235
     Color = clBackground
     ParentColor = False

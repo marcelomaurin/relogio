@@ -23,6 +23,7 @@ type
     PopupMenu1: TPopupMenu;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure FormShow(Sender: TObject);
     procedure mnFixarClockClick(Sender: TObject);
   private
     procedure CarregaContexto();
@@ -87,6 +88,24 @@ begin
     FSetWork.Free();
   end;
 end;
+
+procedure TfrmSetupWork.FormShow(Sender: TObject);
+var
+  a : integer;
+begin
+  (*Menu Aparece*)
+  AlphaBlend:=true;
+  AlphaBlendValue:=0;
+  Refresh;
+  for a:=0 to 255 do
+  begin
+    AlphaBlendValue:=a;
+    Refresh;
+    Sleep(10);
+  end;
+
+end;
+
 
 procedure TfrmSetupWork.mnFixarClockClick(Sender: TObject);
 begin

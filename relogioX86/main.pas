@@ -7,10 +7,10 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, PopupNotifier,
   ComCtrls, Menus, ExtCtrls, StdCtrls, splash, clock, dmDados, SetupIoT,
-  setmain, temp, lazserial, SetupWork;
+  setmain, temp, lazserial, SetupWork, working;
 
 
-const Versao = '2.3.2';
+const Versao = '2.3.3';
 
 
 type
@@ -90,15 +90,26 @@ implementation
 { TfrmMenu }
 
 procedure TfrmMenu.FormCreate(Sender: TObject);
+var
+  a: integer;
 begin
   Fsetmain := TSetMain.create();
   frmSplash := TfrmSplash.create(self);
+  frmSplash.AlphaBlend:=true;
+  frmSplash.AlphaBlendValue:=0;
   frmSplash.show;
+  for a:=0 to 255 do
+  begin
+    frmSplash.AlphaBlendValue:=a;
+    Sleep(10);
+    frmSplash.Refresh;
+  end;
   Application.ProcessMessages;
   dmDados1 := TdmDados1.create(self);
   frmclock := Tfrmclock.create(self);
   frmSetupwork := TfrmSetupwork.create(self);
   frmSetupIoT := TFrmSetupIoT.Create(self);
+  frmWorking := TFrmWorking.create(self);
   CarregaContexto();
 
   TrayIcon1.Visible := true;
@@ -138,8 +149,20 @@ begin
 end;
 
 procedure TfrmMenu.FormShow(Sender: TObject);
+var
+  a : integer;
 begin
-     mnMenu.Caption := 'Esconder Menu';
+  mnMenu.Caption := 'Esconder Menu';
+  (*Menu Aparece*)
+  AlphaBlend:=true;
+  AlphaBlendValue:=0;
+  frmSplash.Refresh;
+  for a:=0 to 255 do
+  begin
+    AlphaBlendValue:=a;
+    Refresh;
+    Sleep(10);
+  end;
 end;
 
 procedure TfrmMenu.Image6Click(Sender: TObject);
@@ -240,8 +263,26 @@ begin
   end;
   if ckWorking.Checked then
   begin
-    (*Nao faz nada ainda*)
+      if (frmWorking=nil) then
+      begin
+        frmWorking := Tfrmworking.create(self);
+        frmworking.Show;
+      end
+      else
+      begin
+        frmworking.show;
+      end;
+  end
+  else
+  begin
+    if frmWorking <> nil then
+    begin
+      frmWorking.close;
+      frmworking.Free ;
+      frmWorking := nil;
+    end;
   end;
+
 end;
 
 procedure TfrmMenu.ToggleBox1Change(Sender: TObject);
