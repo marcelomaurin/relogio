@@ -10,7 +10,7 @@ uses
   setmain, temp, lazserial, SetupWork, working;
 
 
-const Versao = '2.3.3';
+const Versao = '2.3.4';
 
 
 type
@@ -270,7 +270,8 @@ begin
       end
       else
       begin
-        frmworking.show;
+        //if frmWorking
+        //frmworking.show;
       end;
   end
   else

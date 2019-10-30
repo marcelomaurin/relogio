@@ -13,6 +13,7 @@ type
   { TfrmWorking }
 
   TfrmWorking = class(TForm)
+
     BitBtn1: TBitBtn;
     BitBtn2: TBitBtn;
     mnFixarClock: TMenuItem;
@@ -26,12 +27,13 @@ type
     Label3: TLabel;
     Label4: TLabel;
     Label5: TLabel;
-    Label6: TLabel;
+    lbStart: TLabel;
     Label7: TLabel;
-    Label8: TLabel;
+    lbStop: TLabel;
     Label9: TLabel;
     procedure BitBtn1Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -62,11 +64,29 @@ end;
 
 procedure TfrmWorking.BitBtn1Click(Sender: TObject);
 begin
-
+  if (Fsetworking.TimeStart=0) then
+  begin
+    Fsetworking.TimeStart:= now;
+    lbStart.caption := timetostr(Fsetworking.TimeStart) ;
+  end
+  else
+  begin
+    if (Fsetworking.TimeStop=0) then
+    begin
+        Fsetworking.TimeStop:= now;
+        lbStop.caption := timetostr(Fsetworking.TimeStop) ;
+    end
+  end;
 end;
 
 procedure TfrmWorking.BitBtn2Click(Sender: TObject);
 begin
+
+end;
+
+procedure TfrmWorking.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+  CloseAction:=caHide;
 
 end;
 
@@ -75,7 +95,7 @@ begin
   Fsetworking.posx := Left;
   Fsetworking.posy := top;
 
-  Fsetworking.SalvaContexto();
+  Fsetworking.SalvaContexto(true);
   if Fsetworking <> nil then
   begin
     Fsetworking.Free();
@@ -117,7 +137,7 @@ begin
     //self.show;
     self.refresh;
   end;
-  Fsetworking.SalvaContexto();
+  Fsetworking.SalvaContexto(true);
 end;
 
 procedure TfrmWorking.MnStayClick(Sender: TObject);
@@ -130,7 +150,7 @@ begin
   else
   begin
     FormStyle:=fsNormal;
-    setworking.stay:=false;
+    Fsetworking.stay:=false;
   end;
   refresh;
 end;

@@ -8,6 +8,7 @@ object frmWorking: TfrmWorking
   ClientHeight = 106
   ClientWidth = 279
   Color = clForm
+  OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
@@ -37,7 +38,7 @@ object frmWorking: TfrmWorking
       ParentColor = False
       ParentFont = False
     end
-    object Label6: TLabel
+    object lbStart: TLabel
       Left = 40
       Height = 15
       Top = 0
@@ -57,7 +58,7 @@ object frmWorking: TfrmWorking
       ParentColor = False
       ParentFont = False
     end
-    object Label8: TLabel
+    object lbStop: TLabel
       Left = 40
       Height = 15
       Top = 16

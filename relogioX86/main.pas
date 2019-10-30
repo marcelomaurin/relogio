@@ -10,7 +10,7 @@ uses
   setmain, temp, lazserial, SetupWork, working;
 
 
-const Versao = '2.3.3';
+const Versao = '2.3.4';
 
 
 type
@@ -45,6 +45,8 @@ type
     Label6: TLabel;
     MenuItem1: TMenuItem;
     MenuItem2: TMenuItem;
+    MenuItem4: TMenuItem;
+    mnWorking: TMenuItem;
     N1: TMenuItem;
     MnRelogio: TMenuItem;
     mnMenu: TMenuItem;
@@ -69,6 +71,7 @@ type
     procedure MenuItem3Click(Sender: TObject);
     procedure mnMenuClick(Sender: TObject);
     procedure MnRelogioClick(Sender: TObject);
+    procedure mnWorkingClick(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure ToggleBox1Change(Sender: TObject);
     procedure ToggleBox4Change(Sender: TObject);
@@ -232,6 +235,11 @@ begin
   end;
 end;
 
+procedure TfrmMenu.mnWorkingClick(Sender: TObject);
+begin
+  frmWorking.show;
+end;
+
 procedure TfrmMenu.Timer1Timer(Sender: TObject);
 begin
   //Device leitor de temperatura
@@ -267,10 +275,13 @@ begin
       begin
         frmWorking := Tfrmworking.create(self);
         frmworking.Show;
+        mnWorking.Visible:=false;
       end
       else
       begin
-        frmworking.show;
+        //if frmWorking
+        //frmworking.show;
+        mnWorking.Visible:=true;
       end;
   end
   else
@@ -280,6 +291,7 @@ begin
       frmWorking.close;
       frmworking.Free ;
       frmWorking := nil;
+      mnWorking.Visible:=false;
     end;
   end;
 
