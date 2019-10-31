@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, Buttons,
-  ExtCtrls, Menus, setworking;
+  ExtCtrls, Menus, setworking, worktime;
 
 type
 
@@ -31,6 +31,7 @@ type
     Label7: TLabel;
     lbStop: TLabel;
     Label9: TLabel;
+    Timer1: TTimer;
     procedure BitBtn1Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -40,6 +41,7 @@ type
     procedure mnFixarClockClick(Sender: TObject);
     procedure MnStayClick(Sender: TObject);
     procedure mnWorkingClick(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
   private
     Fsetworking : TSetworking;
     procedure CarregaContexto();
@@ -59,6 +61,7 @@ procedure TfrmWorking.FormCreate(Sender: TObject);
 begin
   Fsetworking := Tsetworking.create();
   CarregaContexto();
+  Timer1.Enabled := true;
   //buffer := '';
 end;
 
@@ -160,6 +163,28 @@ begin
 
 end;
 
+procedure TfrmWorking.Timer1Timer(Sender: TObject);
+var
+  tempo : TTime;
+  temporestante : ttime;
+begin
+  if (Fsetworking.TimeStart <>0) then
+  begin
+    tempo := now() - (Fsetworking.TimeStart+Fsetworking.TimeLap);
+    temporestante := 8 - tempo;
+    if (frmworktime = nil) then
+    begin
+      frmworktime := Tfrmworktime.create(self);
+      frmworktime.show;
+    end;
+    frmworktime.lbWorkTime.caption := TimeToStr(tempo);
+    frmworktime.lbworktime.refresh;
+    frmworktime.lbWorkTime1.Caption:= timetostr(temporestante);
+    frmworktime.lbworktime.refresh;
+
+  end;
+end;
+
 procedure TfrmWorking.CarregaContexto();
 begin
   Fsetworking.CarregaContexto();
@@ -182,6 +207,14 @@ begin
   begin
     BorderStyle:=bsNone;
     //mnFixarClock.Caption:='Mover Clock';
+  end;
+  if (Fsetworking.TimeStart<>0) then
+  begin
+    lbStart.Caption := timetostr(Fsetworking.TimeStart);
+  end;
+  if (Fsetworking.TimeStop<>0) then
+  begin
+    lbStop.Caption := timetostr(Fsetworking.TimeStop);
   end;
 
 end;

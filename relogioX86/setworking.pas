@@ -171,6 +171,7 @@ Constructor TSetworking.create();
 begin
     arquivo := TStringList.create();
     IdentificaArquivo(true);
+
 end;
 
 

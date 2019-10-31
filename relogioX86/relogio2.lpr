@@ -9,7 +9,7 @@ uses
   Interfaces, // this includes the LCL widgetset
   Forms, LazSerialPort, splash, clock, main, working, setmain, funcoes,
   setclock, SetupIoT, SetSIot, dmDados, temp, settemp, SetupWork, setwork,
-  setworking;
+  setworking, worktime;
 
 {$R *.res}
 
@@ -18,6 +18,7 @@ begin
   Application.Scaled:=True;
   Application.Initialize;
   Application.CreateForm(TfrmMenu, frmMenu);
+  Application.CreateForm(TfrmWorkTime, frmWorkTime);
   Application.Run;
 end.
 

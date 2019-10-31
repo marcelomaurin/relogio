@@ -170,7 +170,8 @@ end;
 Constructor TSetworking.create();
 begin
     arquivo := TStringList.create();
-    IdentificaArquivo(false);
+    IdentificaArquivo(true);
+    Timer1.ac
 end;
 
 

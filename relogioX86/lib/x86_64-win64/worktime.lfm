@@ -1,0 +1,43 @@
+object frmWorkTime: TfrmWorkTime
+  Left = 256
+  Height = 52
+  Top = 145
+  Width = 225
+  BorderStyle = bsSingle
+  Caption = 'Work Time'
+  ClientHeight = 52
+  ClientWidth = 225
+  LCLVersion = '2.0.2.0'
+  object lbWorkTime: TLabel
+    Left = 24
+    Height = 15
+    Top = 23
+    Width = 65
+    Caption = 'lbWorkTime'
+    ParentColor = False
+  end
+  object Label2: TLabel
+    Left = 16
+    Height = 15
+    Top = 5
+    Width = 56
+    Caption = 'Work Past:'
+    ParentColor = False
+  end
+  object Label3: TLabel
+    Left = 128
+    Height = 15
+    Top = 0
+    Width = 54
+    Caption = 'Work Left:'
+    ParentColor = False
+  end
+  object lbWorkTime1: TLabel
+    Left = 136
+    Height = 15
+    Top = 18
+    Width = 58
+    Caption = 'lbWorkLeft'
+    ParentColor = False
+  end
+end
