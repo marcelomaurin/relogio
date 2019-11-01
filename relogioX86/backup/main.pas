@@ -10,7 +10,7 @@ uses
   setmain, temp, lazserial, SetupWork, working;
 
 
-const Versao = '2.3.4';
+const Versao = '2.3.5';
 
 
 type
@@ -24,7 +24,6 @@ type
     CheckBox5: TCheckBox;
     ComboBox2: TComboBox;
     ComboBox3: TComboBox;
-    ComboBox4: TComboBox;
     ComboBox5: TComboBox;
     GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;
@@ -40,11 +39,12 @@ type
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
-    Label4: TLabel;
     Label5: TLabel;
     Label6: TLabel;
     MenuItem1: TMenuItem;
     MenuItem2: TMenuItem;
+    MenuItem4: TMenuItem;
+    mnWorking: TMenuItem;
     N1: TMenuItem;
     MnRelogio: TMenuItem;
     mnMenu: TMenuItem;
@@ -69,6 +69,7 @@ type
     procedure MenuItem3Click(Sender: TObject);
     procedure mnMenuClick(Sender: TObject);
     procedure MnRelogioClick(Sender: TObject);
+    procedure mnWorkingClick(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure ToggleBox1Change(Sender: TObject);
     procedure ToggleBox4Change(Sender: TObject);
@@ -167,7 +168,8 @@ end;
 
 procedure TfrmMenu.Image6Click(Sender: TObject);
 begin
-
+  FSetmain.SalvaContexto();
+  hide;
 
 end;
 
@@ -232,6 +234,11 @@ begin
   end;
 end;
 
+procedure TfrmMenu.mnWorkingClick(Sender: TObject);
+begin
+  frmWorking.show;
+end;
+
 procedure TfrmMenu.Timer1Timer(Sender: TObject);
 begin
   //Device leitor de temperatura
@@ -267,11 +274,16 @@ begin
       begin
         frmWorking := Tfrmworking.create(self);
         frmworking.Show;
+        mnWorking.Visible:=false;
       end
       else
       begin
         //if frmWorking
         //frmworking.show;
+        if mnWorking.Visible=false then
+        begin
+             mnWorking.Visible:=true;
+        end;
       end;
   end
   else
@@ -281,6 +293,7 @@ begin
       frmWorking.close;
       frmworking.Free ;
       frmWorking := nil;
+      mnWorking.Visible:=false;
     end;
   end;
 

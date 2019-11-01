@@ -1,0 +1,59 @@
+object frmWorkTime: TfrmWorkTime
+  Left = 256
+  Height = 52
+  Top = 145
+  Width = 225
+  BorderStyle = bsSingle
+  Caption = 'Work Time'
+  ClientHeight = 52
+  ClientWidth = 225
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnShow = FormShow
+  LCLVersion = '2.0.4.0'
+  object lbWorkTime: TLabel
+    Left = 24
+    Height = 15
+    Top = 23
+    Width = 65
+    Caption = 'lbWorkTime'
+    ParentColor = False
+  end
+  object Label2: TLabel
+    Left = 16
+    Height = 15
+    Top = 5
+    Width = 56
+    Caption = 'Work Past:'
+    ParentColor = False
+  end
+  object Label3: TLabel
+    Left = 128
+    Height = 15
+    Top = 0
+    Width = 54
+    Caption = 'Work Left:'
+    ParentColor = False
+  end
+  object lbWorkTime1: TLabel
+    Left = 136
+    Height = 15
+    Top = 18
+    Width = 58
+    Caption = 'lbWorkLeft'
+    ParentColor = False
+  end
+  object PopupMenu1: TPopupMenu
+    left = 124
+    top = 24
+    object mnFixarClock: TMenuItem
+      Caption = 'Fixar Tela'
+      OnClick = mnFixarClockClick
+    end
+    object MnStay: TMenuItem
+      Caption = 'Stay on Top'
+      OnClick = MnStayClick
+    end
+  end
+end

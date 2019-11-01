@@ -180,7 +180,7 @@ begin
     frmworktime.lbWorkTime.caption := TimeToStr(tempo);
     frmworktime.lbworktime.refresh;
     frmworktime.lbWorkTime1.Caption:= timetostr(temporestante);
-    frmworktime.lbworktime.refresh;
+    frmworktime.lbworktime1.refresh;
 
   end;
 end;

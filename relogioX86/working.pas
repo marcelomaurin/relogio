@@ -43,11 +43,11 @@ type
     procedure mnWorkingClick(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
   private
-    Fsetworking : TSetworking;
+
     procedure CarregaContexto();
 
   public
-
+    Fsetworking : TSetworking;
   end;
 
 var

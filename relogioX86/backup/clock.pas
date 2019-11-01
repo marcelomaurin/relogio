@@ -93,6 +93,7 @@ begin
     FormStyle:=fsNormal;
     setclock.stay:=false;
   end;
+  refresh;
 
 end;
 

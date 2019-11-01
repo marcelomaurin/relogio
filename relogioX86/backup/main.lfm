@@ -11,7 +11,7 @@ object frmMenu: TfrmMenu
   OnDestroy = FormDestroy
   OnHide = FormHide
   OnShow = FormShow
-  LCLVersion = '2.0.2.0'
+  LCLVersion = '2.0.4.0'
   object GroupBox1: TGroupBox
     Left = 8
     Height = 121
@@ -429,29 +429,6 @@ object frmMenu: TfrmMenu
       OnChange = ToggleBox4Change
       TabOrder = 1
     end
-    object Label4: TLabel
-      Left = 4
-      Height = 15
-      Top = 64
-      Width = 67
-      Caption = 'Device Type:'
-      ParentColor = False
-    end
-    object ComboBox4: TComboBox
-      Left = 4
-      Height = 23
-      Top = 80
-      Width = 156
-      ItemHeight = 15
-      Items.Strings = (
-        'None Device'
-        'ANDROID Bluetooth'
-        'ANDROID WIFI'
-        'IOS WIFI'
-      )
-      TabOrder = 2
-      Text = 'Nenhum device'
-    end
     object Image4: TImage
       Left = 8
       Height = 43
@@ -839,6 +816,14 @@ object frmMenu: TfrmMenu
     object mnMenu: TMenuItem
       Caption = 'Esconder Menu'
       OnClick = mnMenuClick
+    end
+    object MenuItem4: TMenuItem
+      Caption = '-'
+    end
+    object mnWorking: TMenuItem
+      Caption = 'Show Working'
+      Visible = False
+      OnClick = mnWorkingClick
     end
     object MenuItem3: TMenuItem
       Caption = 'Sair'

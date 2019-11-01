@@ -10,7 +10,7 @@ uses
   setmain, temp, lazserial, SetupWork, working;
 
 
-const Versao = '2.3.4';
+const Versao = '2.3.5';
 
 
 type
@@ -24,7 +24,6 @@ type
     CheckBox5: TCheckBox;
     ComboBox2: TComboBox;
     ComboBox3: TComboBox;
-    ComboBox4: TComboBox;
     ComboBox5: TComboBox;
     GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;
@@ -40,7 +39,6 @@ type
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
-    Label4: TLabel;
     Label5: TLabel;
     Label6: TLabel;
     MenuItem1: TMenuItem;
@@ -170,7 +168,8 @@ end;
 
 procedure TfrmMenu.Image6Click(Sender: TObject);
 begin
-
+  FSetmain.SalvaContexto();
+  hide;
 
 end;
 
@@ -281,8 +280,13 @@ begin
       begin
         //if frmWorking
         //frmworking.show;
-        mnWorking.Visible:=true;
+        if mnWorking.Visible=false then
+        begin
+             mnWorking.Visible:=true;
+        end;
       end;
+
+
   end
   else
   begin

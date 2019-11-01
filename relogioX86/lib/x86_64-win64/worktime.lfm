@@ -7,7 +7,12 @@ object frmWorkTime: TfrmWorkTime
   Caption = 'Work Time'
   ClientHeight = 52
   ClientWidth = 225
-  LCLVersion = '2.0.2.0'
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnShow = FormShow
+  PopupMenu = PopupMenu1
+  LCLVersion = '2.0.4.0'
   object lbWorkTime: TLabel
     Left = 24
     Height = 15
@@ -39,5 +44,17 @@ object frmWorkTime: TfrmWorkTime
     Width = 58
     Caption = 'lbWorkLeft'
     ParentColor = False
+  end
+  object PopupMenu1: TPopupMenu
+    left = 136
+    top = 8
+    object mnFixarClock: TMenuItem
+      Caption = 'Fixar Tela'
+      OnClick = mnFixarClockClick
+    end
+    object MnStay: TMenuItem
+      Caption = 'Stay on Top'
+      OnClick = MnStayClick
+    end
   end
 end
