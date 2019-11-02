@@ -29,7 +29,7 @@ type
     procedure mnFixarClockClick(Sender: TObject);
     procedure MnStayClick(Sender: TObject);
   private
-    Fsetworktime : TSetWorkTime;
+    //Fsetworktime : TSetWorkTime;
   public
 
   end;

@@ -129,7 +129,8 @@ begin
   arquivo.Append('DEVICE:'+iif(ckdevice,'1','0'));
   arquivo.Append('POSX:'+inttostr(FPOSX));
   arquivo.Append('POSY:'+inttostr(FPOSY));
-
+  arquivo.Append('FIXAR:'+booltostr(FFixar));
+  arquivo.Append('STAY:'+booltostr(FStay));
 
   arquivo.SaveToFile(filename);
 end;

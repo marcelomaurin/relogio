@@ -13,7 +13,7 @@ object frmWorking: TfrmWorking
   OnDestroy = FormDestroy
   OnShow = FormShow
   PopupMenu = PopupMenu1
-  LCLVersion = '2.0.2.0'
+  LCLVersion = '2.0.4.0'
   object GroupBox1: TGroupBox
     Left = 0
     Height = 72
@@ -664,6 +664,7 @@ object frmWorking: TfrmWorking
     end
   end
   object Timer1: TTimer
+    Enabled = False
     OnTimer = Timer1Timer
     left = 195
     top = 30

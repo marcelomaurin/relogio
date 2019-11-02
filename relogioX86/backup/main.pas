@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, PopupNotifier,
   ComCtrls, Menus, ExtCtrls, StdCtrls, splash, clock, dmDados, SetupIoT,
-  setmain, temp, lazserial, SetupWork, working;
+  setmain, temp, lazserial, SetupWork, working, dayworking, setwork;
 
 
 const Versao = '2.3.5';
@@ -74,9 +74,10 @@ type
     procedure ToggleBox1Change(Sender: TObject);
     procedure ToggleBox4Change(Sender: TObject);
   private
-    Fsetmain :TSetMain;
+    //Fsetmain :TSetMain;
     procedure SalvaContexto();
     procedure CarregaContexto();
+    procedure FechaJanelas();
   public
 
   end;
@@ -178,7 +179,7 @@ begin
   //Fsetmain.CarregaContexto();
   frmSetupIoT.Fsetsiot.CarregaContexto();
   ckDevice.Checked := frmSetupIoT.Fsetsiot.device;
-  ckWorking.Checked := frmSetupWork.FSetWork.device;
+  ckWorking.Checked := FSetWork.device;
   Left:= Fsetmain.posx;
   top:= Fsetmain.posy;
   if not Fsetmain.ckdevice then
@@ -200,8 +201,19 @@ begin
   ShowMessage('Information save!')
 end;
 
+procedure TfrmMenu.FechaJanelas();
+begin
+  if FDayWorking <> nil then
+  begin
+     //FDayWorking.close;
+     FDayWorking.destroy;
+  end;
+
+end;
+
 procedure TfrmMenu.MenuItem3Click(Sender: TObject);
 begin
+     FechaJanelas();
      Application.Terminate;
 end;
 
@@ -285,6 +297,8 @@ begin
              mnWorking.Visible:=true;
         end;
       end;
+
+
   end
   else
   begin
@@ -320,7 +334,7 @@ begin
   //frmSetupWork.Fsetsiot := Fsetsiot;
   frmSetupWork.Showmodal();
   //frmSetupWork.Fsetsiot.CarregaContexto();  (*Atualiza o contexto salvo*)
-  frmSetupWork.FSetWork.SalvaContexto();
+  FSetWork.SalvaContexto();
   ckWorking.Checked := frmSetupWork.FSetWork.device;
   ckWorking.Refresh;
 end;

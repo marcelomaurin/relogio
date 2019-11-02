@@ -40,7 +40,7 @@
         <PackageName Value="LCL"/>
       </Item4>
     </RequiredPackages>
-    <Units Count="18">
+    <Units Count="19">
       <Unit0>
         <Filename Value="relogio2.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -143,6 +143,10 @@
         <Filename Value="setworktime.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit17>
+      <Unit18>
+        <Filename Value="dayworking.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit18>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

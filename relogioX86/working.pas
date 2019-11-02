@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, Buttons,
-  ExtCtrls, Menus, setworking, worktime;
+  ExtCtrls, Menus, setworking, worktime, dayworking, setwork;
 
 type
 
@@ -45,9 +45,10 @@ type
   private
 
     procedure CarregaContexto();
+    procedure CarregaContextoDay();
 
   public
-    Fsetworking : TSetworking;
+
   end;
 
 var
@@ -60,24 +61,26 @@ implementation
 procedure TfrmWorking.FormCreate(Sender: TObject);
 begin
   Fsetworking := Tsetworking.create();
+  FDayWorking := TDayWorking.create();
   CarregaContexto();
+  CarregaContextoDay();
   Timer1.Enabled := true;
   //buffer := '';
 end;
 
 procedure TfrmWorking.BitBtn1Click(Sender: TObject);
 begin
-  if (Fsetworking.TimeStart=0) then
+  if (Fdayworking.TimeStart=0) then
   begin
-    Fsetworking.TimeStart:= now;
-    lbStart.caption := timetostr(Fsetworking.TimeStart) ;
+    FDayWorking.TimeStart:= now;
+    lbStart.caption := timetostr(FDayWorking.TimeStart) ;
   end
   else
   begin
-    if (Fsetworking.TimeStop=0) then
+    if (Fdayworking.TimeStop=0) then
     begin
-        Fsetworking.TimeStop:= now;
-        lbStop.caption := timetostr(Fsetworking.TimeStop) ;
+        FDayWorking.TimeStop:= now;
+        lbStop.caption := timetostr(FDayWorking.TimeStop) ;
     end
   end;
 end;
@@ -99,10 +102,19 @@ begin
   Fsetworking.posy := top;
 
   Fsetworking.SalvaContexto(true);
+  Fdayworking.TimeStart:= strtotime(lbStart.Caption);
+  Fdayworking.TimeStop:= strtotime(lbStop.Caption);
+  Fdayworking.SalvaContexto();
   if Fsetworking <> nil then
   begin
     Fsetworking.Free();
   end;
+
+  if Fdayworking <> nil then
+  begin
+    Fdayworking.Free();
+  end;
+
 end;
 
 procedure TfrmWorking.FormShow(Sender: TObject);
@@ -141,6 +153,7 @@ begin
     self.refresh;
   end;
   Fsetworking.SalvaContexto(true);
+  Fdayworking.SalvaContexto();
 end;
 
 procedure TfrmWorking.MnStayClick(Sender: TObject);
@@ -168,10 +181,10 @@ var
   tempo : TTime;
   temporestante : ttime;
 begin
-  if (Fsetworking.TimeStart <>0) then
+  if (FDayWorking.TimeStart <>0) then
   begin
-    tempo := now() - (Fsetworking.TimeStart+Fsetworking.TimeLap);
-    temporestante := 8 - tempo;
+    tempo := now() - (FDayWorking.TimeStart+FDayWorking.TimeLap);
+    temporestante := FSetWork.WDay - tempo;
     if (frmworktime = nil) then
     begin
       frmworktime := Tfrmworktime.create(self);
@@ -182,6 +195,19 @@ begin
     frmworktime.lbWorkTime1.Caption:= timetostr(temporestante);
     frmworktime.lbworktime1.refresh;
 
+  end;
+end;
+
+procedure TfrmWorking.CarregaContextoDay();
+begin
+  FDayWorking.CarregaContexto();
+  if (FDayWorking.TimeStart<>0) then
+  begin
+    lbStart.Caption := timetostr(FDayWorking.TimeStart);
+  end;
+  if (FDayWorking.TimeStop<>0) then
+  begin
+    lbStop.Caption := timetostr(FDayWorking.TimeStop);
   end;
 end;
 
@@ -208,14 +234,7 @@ begin
     BorderStyle:=bsNone;
     //mnFixarClock.Caption:='Mover Clock';
   end;
-  if (Fsetworking.TimeStart<>0) then
-  begin
-    lbStart.Caption := timetostr(Fsetworking.TimeStart);
-  end;
-  if (Fsetworking.TimeStop<>0) then
-  begin
-    lbStop.Caption := timetostr(Fsetworking.TimeStop);
-  end;
+
 
 end;
 

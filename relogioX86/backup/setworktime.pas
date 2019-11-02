@@ -130,6 +130,15 @@ begin
     begin
       FTypeC := strtoint(RetiraInfo(arquivo.Strings[posicao]));
     end;
+    if  BuscaChave(arquivo,'FIXAR:',posicao) then
+    begin
+      FFixar := StrToBool(RetiraInfo(arquivo.Strings[posicao]));
+    end;
+    if  BuscaChave(arquivo,'STAY:',posicao) then
+    begin
+      FStay := strtoBool(RetiraInfo(arquivo.Strings[posicao]));
+    end;
+
 end;
 
 //Metodo construtor
@@ -157,6 +166,8 @@ begin
   arquivo.Append('COMPORT:'+FCOMPORT);
   arquivo.Append('FILENEXTION:'+FFILENEXTION);
   arquivo.Append('TYPE:'+inttostr(FTYPEC));
+  arquivo.Append('FIXAR:'+booltostr(FFixar));
+  arquivo.Append('STAY:'+booltostr(FStay));
 
   arquivo.SaveToFile(filename);
 end;

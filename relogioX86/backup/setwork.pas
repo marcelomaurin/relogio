@@ -25,17 +25,17 @@ type
         ckdevice : boolean;
         FPosX : integer;
         FPosY : integer;
-        FWDay : String;
+        FWDay : ttime;
         FFixar : boolean;
         FStay : boolean;
-        FTime : String;
+        FTime : ttime;
         procedure SetDevice(const Value : Boolean);
         procedure SetPOSX(value : integer);
         procedure SetPOSY(value : integer);
-        procedure SetWDay(value : String);
+        procedure SetWDay(value : ttime);
         procedure SetFixar(value : boolean);
         procedure SetStay(value : boolean);
-        procedure SetTime(const value : String);
+        procedure SetTime(const value : ttime);
         procedure Default();
   public
         procedure SalvaContexto();
@@ -43,11 +43,14 @@ type
         property device : boolean read ckdevice write SetDevice;
         property posx : integer read FPosX write SetPOSX;
         property posy : integer read FPosY write SetPOSY;
-        property WDay : String read FWDay write SetWDay;
+        property WDay : Ttime read FWDay write SetWDay;
         property fixar : boolean read FFixar write SetFixar;
         property stay : boolean read FStay write SetStay;
-        property time : string read FTime write SetTime;
+        property time : Ttime read FTime write SetTime;
   end;
+
+  var
+    FSetWork : TSetWork;
 
 
 implementation
@@ -57,13 +60,13 @@ begin
   ckdevice := Value;
 end;
 
-procedure TsetWork.SetTime(const Value : String);
+procedure TsetWork.SetTime(const Value : Ttime);
 begin
   FTime := Value;
 end;
 
 
-procedure TsetWork.SetWDay(value : String);
+procedure TsetWork.SetWDay(value : time);
 begin
   FWDay := Value;
 end;
@@ -121,11 +124,11 @@ begin
     end;
     if  BuscaChave(arquivo,'TIME:',posicao) then
     begin
-      FTIME := RetiraInfo(arquivo.Strings[posicao]);
+      FTIME := strtotime(RetiraInfo(arquivo.Strings[posicao]));
     end;
     if  BuscaChave(arquivo,'WDAY:',posicao) then
     begin
-      FWDAY := RetiraInfo(arquivo.Strings[posicao]);
+      FWDAY := strtotime(RetiraInfo(arquivo.Strings[posicao]));
     end;
 end;
 
@@ -153,8 +156,8 @@ begin
   arquivo.Append('POSY:'+inttostr(FPOSY));
   arquivo.Append('FIXAR:'+booltostr(FFixar));
   arquivo.Append('STAY:'+booltostr(FStay));
-  arquivo.Append('TIME:'+FTIME);
-  arquivo.Append('WDAY:'+FWDA);
+  arquivo.Append('TIME:'+timetostr(FTIME));
+  arquivo.Append('WDAY:'+timetostr(FWDAY));
 
   arquivo.SaveToFile(filename);
 end;

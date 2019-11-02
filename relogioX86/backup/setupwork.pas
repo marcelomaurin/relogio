@@ -28,7 +28,7 @@ type
   private
     procedure CarregaContexto();
   public
-    FSetWork : TSetWork;
+
   end;
 
 var
@@ -46,7 +46,7 @@ begin
   Left:= FsetWork.posx;
   top:= FsetWork.posy;
   ckDevice.Checked := FsetWork.device;
-  edwday.text := Fsetwork.WDay;
+  edwday.text := timetostr(Fsetwork.WDay);
 
   if FsetWork.stay then
    begin
@@ -96,7 +96,7 @@ begin
   (*Menu Aparece*)
   AlphaBlend:=true;
   AlphaBlendValue:=0;
-  frmSplash.Refresh;
+  Refresh;
   for a:=0 to 255 do
   begin
     AlphaBlendValue:=a;

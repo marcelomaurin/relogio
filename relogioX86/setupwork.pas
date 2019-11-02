@@ -28,7 +28,7 @@ type
   private
     procedure CarregaContexto();
   public
-    FSetWork : TSetWork;
+
   end;
 
 var
@@ -46,7 +46,7 @@ begin
   Left:= FsetWork.posx;
   top:= FsetWork.posy;
   ckDevice.Checked := FsetWork.device;
-  edwday.text := Fsetwork.WDay;
+  edwday.text := timetostr(Fsetwork.WDay);
 
   if FsetWork.stay then
    begin
@@ -80,7 +80,7 @@ begin
   FSetWork.posx := Left;
   FSetWork.posy := top;
 
-  FSetWork.WDay := edwday.text;
+  FSetWork.WDay := strtotime(edwday.text);
   //Fsettemp.TypeC := cbTypeC.ItemIndex;
   FSetWork.SalvaContexto();
   if FSetWork <> nil then

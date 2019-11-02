@@ -52,7 +52,8 @@ type
         property stay : boolean read FStay write SetStay;
   end;
 
-
+var
+  FSetWorktime : TSetWorktime;
 
 implementation
 

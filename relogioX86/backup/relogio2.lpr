@@ -9,7 +9,7 @@ uses
   Interfaces, // this includes the LCL widgetset
   Forms, LazSerialPort, splash, clock, main, working, setmain, funcoes,
   setclock, SetupIoT, SetSIot, dmDados, temp, settemp, SetupWork, setwork,
-  setworking, worktime, unit1;
+  setworking, worktime;
 
 {$R *.res}
 

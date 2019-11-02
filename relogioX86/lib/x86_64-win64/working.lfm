@@ -664,6 +664,7 @@ object frmWorking: TfrmWorking
     end
   end
   object Timer1: TTimer
+    Enabled = False
     OnTimer = Timer1Timer
     left = 195
     top = 30

@@ -31,7 +31,7 @@ type
     procedure Timer1Timer(Sender: TObject);
     procedure CarregaContexto();
   private
-    setclock :  TSetclock;
+
   public
 
   end;
@@ -66,19 +66,19 @@ begin
   begin
     BorderStyle:=bsSingle;
     mnFixarClock.Caption:='Fixar Clock';
-    setclock.fixar := true;
+    Fsetclock.fixar := true;
     self.refresh;
   end
   else
   begin
     BorderStyle:=bsNone;
     mnFixarClock.Caption:='Mover Clock';
-    setclock.fixar := false;
+    Fsetclock.fixar := false;
     //self.hide;
     //self.show;
     self.refresh;
   end;
-  setclock.SalvaContexto();
+  Fsetclock.SalvaContexto();
 end;
 
 procedure Tfrmclock.MnStayClick(Sender: TObject);
@@ -86,12 +86,12 @@ begin
   if FormStyle = fsNormal then
   begin
     FormStyle:= fsStayOnTop;
-    setclock.stay:=true;
+    Fsetclock.stay:=true;
   end
   else
   begin
     FormStyle:=fsNormal;
-    setclock.stay:=false;
+    Fsetclock.stay:=false;
   end;
   refresh;
 
@@ -104,10 +104,10 @@ end;
 
 procedure Tfrmclock.CarregaContexto();
 begin
-  setclock.CarregaContexto(); (*Carrega o contexto do ambiente*)
-  Left:= setclock.posx;
-  top:= setclock.posy;
-  if setclock.stay then
+  Fsetclock.CarregaContexto(); (*Carrega o contexto do ambiente*)
+  Left:= Fsetclock.posx;
+  top:= Fsetclock.posy;
+  if Fsetclock.stay then
    begin
      FormStyle:= fsStayOnTop;
    end
@@ -115,7 +115,7 @@ begin
    begin
      FormStyle:= fsNormal;
    end;
-   if setclock.fixar then
+   if Fsetclock.fixar then
    begin
      BorderStyle:=bsSingle;
      mnFixarClock.Caption:='Fixar Clock';
@@ -130,7 +130,7 @@ end;
 
 procedure Tfrmclock.FormCreate(Sender: TObject);
 begin
-  setclock := TSetclock.create;
+  Fsetclock := TSetclock.create;
   CarregaContexto();
 
 
@@ -138,9 +138,9 @@ end;
 
 procedure Tfrmclock.FormDestroy(Sender: TObject);
 begin
-  setclock.posx := Left;
-  setclock.posy := top;
-  setclock.SalvaContexto();
+  Fsetclock.posx := Left;
+  Fsetclock.posy := top;
+  Fsetclock.SalvaContexto();
 end;
 
 procedure Tfrmclock.Panel1MouseMove(Sender: TObject; Shift: TShiftState; X,

@@ -45,6 +45,9 @@ type
         property stay : boolean read FStay write SetStay;
   end;
 
+  var
+    FSetClock : TSetClock;
+
 implementation
 
 procedure TSetclock.SetPOSX(value : integer);

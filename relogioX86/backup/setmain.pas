@@ -18,14 +18,13 @@ type
   { TfrmMenu }
 
   TSetMain = class(TObject)
+        arquivo :Tstringlist;
         FPosX : integer;
         FPosY : integer;
+        ckdevice : boolean;
         constructor create();
         destructor destroy();
   private
-        arquivo :Tstringlist;
-        ckdevice : boolean;
-
         procedure SetDevice(const Value: Boolean);
         procedure SetPOSX(value : integer);
         procedure SetPOSY(value : integer);

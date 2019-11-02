@@ -38,6 +38,9 @@ type
   end;
 
 
+  var
+    FsetMain : TSetMain;
+
 
 implementation
 
