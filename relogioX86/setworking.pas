@@ -160,6 +160,7 @@ destructor TSetworking.destroy();
 begin
   SalvaContexto(true);
   arquivo.free;
+  arquivo := nil;
 end;
 
 end.

@@ -130,7 +130,11 @@ end;
 
 procedure Tfrmclock.FormCreate(Sender: TObject);
 begin
-  Fsetclock := TSetclock.create;
+  if (FSetClock = nil) then
+  begin
+       Fsetclock := TSetclock.create;
+  end;
+
   CarregaContexto();
 
 
@@ -141,6 +145,8 @@ begin
   Fsetclock.posx := Left;
   Fsetclock.posy := top;
   Fsetclock.SalvaContexto();
+  FSetClock.free;
+  FSetClock := nil;
 end;
 
 procedure Tfrmclock.Panel1MouseMove(Sender: TObject; Shift: TShiftState; X,

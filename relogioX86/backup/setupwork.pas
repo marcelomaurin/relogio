@@ -70,7 +70,10 @@ end;
 
 procedure TfrmSetupWork.FormCreate(Sender: TObject);
 begin
-   FSetWork := TSetWork.create();
+   if (FSetWork = nil) then (* Somente carrega se nao foi criado anteriormente *)
+   begin
+      FSetWork := TSetWork.create();
+   end;
    CarregaContexto();
 end;
 
@@ -80,13 +83,16 @@ begin
   FSetWork.posx := Left;
   FSetWork.posy := top;
 
-  FSetWork.WDay := edwday.text;
+  FSetWork.WDay := strtotime(edwday.text);
   //Fsettemp.TypeC := cbTypeC.ItemIndex;
   FSetWork.SalvaContexto();
+
   if FSetWork <> nil then
   begin
     FSetWork.Free();
+    FSetWork := nil;
   end;
+
 end;
 
 procedure TfrmSetupWork.FormShow(Sender: TObject);

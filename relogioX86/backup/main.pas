@@ -335,7 +335,7 @@ begin
   frmSetupWork.Showmodal();
   //frmSetupWork.Fsetsiot.CarregaContexto();  (*Atualiza o contexto salvo*)
   FSetWork.SalvaContexto();
-  ckWorking.Checked := frmSetupWork.FSetWork.device;
+  ckWorking.Checked := FSetWork.device;
   ckWorking.Refresh;
 end;
 

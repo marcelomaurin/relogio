@@ -115,7 +115,11 @@ end;
 //Metodo construtor
 Constructor TDayWorking.create();
 begin
-    arquivo := TStringList.create();
+    if (arquivo = nil) then
+    begin
+         arquivo := TStringList.create();
+    end;
+
     IdentificaArquivo(true);
 
 end;
@@ -123,6 +127,12 @@ end;
 
 procedure TDayWorking.SalvaContexto();
 begin
+  if (arquivo=nil) then
+  begin
+       arquivo := TString.create;
+       IdentificaArquivo(true);
+  end;
+
   if (arquivo<>nil) then
   begin
        arquivo.Clear;
@@ -136,7 +146,11 @@ end;
 destructor TDayWorking.destroy();
 begin
   SalvaContexto();
-  arquivo.free;
+  if (Arquivo <> nil) then
+  begin
+       arquivo.free;
+       arquivo := nil;
+  end;
 end;
 
 end.

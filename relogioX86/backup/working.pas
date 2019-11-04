@@ -60,8 +60,15 @@ implementation
 
 procedure TfrmWorking.FormCreate(Sender: TObject);
 begin
-  Fsetworking := Tsetworking.create();
-  FDayWorking := TDayWorking.create();
+  if (Fsetworking = nil) then
+  begin
+    Fsetworking := Tsetworking.create();
+  end;
+  if (FDayWorking = nil) then
+  begin
+    FDayWorking := TDayWorking.create();
+  end;
+
   CarregaContexto();
   CarregaContextoDay();
   Timer1.Enabled := true;
@@ -98,21 +105,33 @@ end;
 
 procedure TfrmWorking.FormDestroy(Sender: TObject);
 begin
+  if (Fsetworking=nil) then
+  begin
+      Fsetworking := TSetworking.create();
+  end;
   Fsetworking.posx := Left;
   Fsetworking.posy := top;
 
   Fsetworking.SalvaContexto(true);
-  Fdayworking.TimeStart:= strtotime(lbStart.Caption);
-  Fdayworking.TimeStop:= strtotime(lbStop.Caption);
+  if (lbStart.Caption <> "--:--:--") then
+  begin
+       Fdayworking.TimeStart:= strtotime(lbStart.Caption);
+  end;
+  if (lbStop.Caption <> "--:--:--") then
+  begin
+       Fdayworking.TimeStop:= strtotime(lbStop.Caption);
+  end;
   Fdayworking.SalvaContexto();
-  if Fsetworking <> nil then
+  if (Fsetworking <> nil) then
   begin
     Fsetworking.Free();
+    Fsetworking := nil;
   end;
 
-  if Fdayworking <> nil then
+  if (Fdayworking <> nil) then
   begin
     Fdayworking.Free();
+    Fdayworking := nil;
   end;
 
 end;
@@ -179,12 +198,20 @@ end;
 procedure TfrmWorking.Timer1Timer(Sender: TObject);
 var
   tempo : TTime;
-  temporestante : ttime;
+  temporestante : TTIme;
 begin
   if (FDayWorking.TimeStart <>0) then
   begin
-    tempo := now() - (FDayWorking.TimeStart+FDayWorking.TimeLap);
-    temporestante := strtotime(FSetWork.WDay) - tempo;
+    if (FSetWork = nil) then
+    begin
+      FSetWork := TSetWork.create();
+    end;
+    if(FDayWorking = nil) then
+    begin
+      FDayWorking := TDayWorking.create();
+    end;
+    tempo := strtotime(timetostr(now())) - FDayWorking.TimeStart+FDayWorking.TimeLap;
+    temporestante := TTime(FSetWork.WDay)  - ttime(tempo) ;
     if (frmworktime = nil) then
     begin
       frmworktime := Tfrmworktime.create(self);

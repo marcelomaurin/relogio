@@ -45,7 +45,10 @@ implementation
 
 procedure TfrmWorkTime.FormCreate(Sender: TObject);
 begin
-  Fsetworktime := Tsetworktime.create();
+  if (FSetWorktime = nil) then
+  begin
+       Fsetworktime := Tsetworktime.create();
+  end;
   CarregaContexto();
   //Timer1.Enabled := true;
   //buffer := '';
@@ -93,6 +96,7 @@ begin
   if Fsetworktime <> nil then
   begin
     Fsetworktime.Free();
+    Fsetworktime := nil;
   end;
 end;
 

@@ -95,7 +95,10 @@ procedure TfrmMenu.FormCreate(Sender: TObject);
 var
   a: integer;
 begin
-  Fsetmain := TSetMain.create();
+  if (Fsetmain = nil) then
+  begin
+    Fsetmain := TSetMain.create();
+  end;
   frmSplash := TfrmSplash.create(self);
   frmSplash.AlphaBlend:=true;
   frmSplash.AlphaBlendValue:=0;
@@ -131,8 +134,11 @@ begin
 
   frmclock.Destroy();
 
-  if Fsetmain <> nil then
+  if (Fsetmain <> nil) then
+  begin
     Fsetmain.free();
+    FSetmain := nil;
+  end;
 end;
 
 procedure TfrmMenu.ComboBox5Change(Sender: TObject);
