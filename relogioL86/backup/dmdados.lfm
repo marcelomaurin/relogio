@@ -1,0 +1,10 @@
+object dmDados1: TdmDados1
+  OnCreate = DataModuleCreate
+  OnDestroy = DataModuleDestroy
+  OldCreateOrder = False
+  Height = 150
+  HorizontalOffset = 601
+  VerticalOffset = 280
+  Width = 150
+  PPI = 96
+end

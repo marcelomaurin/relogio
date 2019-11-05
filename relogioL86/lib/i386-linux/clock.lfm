@@ -1,0 +1,74 @@
+object frmclock: Tfrmclock
+  Left = 694
+  Height = 86
+  Top = 100
+  Width = 235
+  BorderStyle = bsNone
+  Caption = 'Clock'
+  ClientHeight = 86
+  ClientWidth = 235
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnHide = FormHide
+  OnShow = FormShow
+  PopupMenu = PopupMenu1
+  LCLVersion = '2.0.4.0'
+  object Panel1: TPanel
+    Left = 0
+    Height = 86
+    Top = 0
+    Width = 235
+    Align = alClient
+    BevelColor = clBlack
+    ClientHeight = 86
+    ClientWidth = 235
+    Color = clBackground
+    ParentColor = False
+    TabOrder = 0
+    OnMouseMove = Panel1MouseMove
+    object Label1: TLabel
+      Left = 24
+      Height = 37
+      Top = 8
+      Width = 152
+      Caption = 'dd/mm/yyyy'
+      Color = clBackground
+      Font.Color = clYellow
+      Font.Height = -27
+      ParentColor = False
+      ParentFont = False
+      Transparent = False
+    end
+    object Label2: TLabel
+      Left = 24
+      Height = 37
+      Top = 48
+      Width = 78
+      Caption = '--:--:--'
+      Color = clBackground
+      Font.Color = clYellow
+      Font.Height = -27
+      ParentColor = False
+      ParentFont = False
+      Transparent = False
+    end
+  end
+  object Timer1: TTimer
+    Enabled = False
+    OnTimer = Timer1Timer
+    left = 176
+    top = 28
+  end
+  object PopupMenu1: TPopupMenu
+    left = 68
+    top = 26
+    object mnFixarClock: TMenuItem
+      Caption = 'Fixar Tela'
+      OnClick = mnFixarClockClick
+    end
+    object MnStay: TMenuItem
+      Caption = 'Stay on Top'
+      OnClick = MnStayClick
+    end
+  end
+end
