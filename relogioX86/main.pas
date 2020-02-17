@@ -22,6 +22,7 @@ type
     CheckBox3: TCheckBox;
     ckWorking: TCheckBox;
     CheckBox5: TCheckBox;
+    ckDisplay: TCheckBox;
     ComboBox2: TComboBox;
     ComboBox3: TComboBox;
     ComboBox5: TComboBox;
@@ -30,12 +31,14 @@ type
     GroupBox3: TGroupBox;
     GroupBox4: TGroupBox;
     GroupBox5: TGroupBox;
+    GroupBox6: TGroupBox;
     Image1: TImage;
     Image2: TImage;
     Image3: TImage;
     Image4: TImage;
     Image5: TImage;
     Image6: TImage;
+    Image7: TImage;
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
@@ -57,6 +60,7 @@ type
     ToggleBox3: TToggleBox;
     ToggleBox4: TToggleBox;
     ToggleBox5: TToggleBox;
+    ToggleBox6: TToggleBox;
     TrayIcon1: TTrayIcon;
     procedure ComboBox5Change(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -73,6 +77,7 @@ type
     procedure Timer1Timer(Sender: TObject);
     procedure ToggleBox1Change(Sender: TObject);
     procedure ToggleBox4Change(Sender: TObject);
+    procedure ToggleBox6Change(Sender: TObject);
   private
     //Fsetmain :TSetMain;
     procedure SalvaContexto();
@@ -343,6 +348,12 @@ begin
   FSetWork.SalvaContexto();
   ckWorking.Checked := FSetWork.device;
   ckWorking.Refresh;
+
+end;
+
+procedure TfrmMenu.ToggleBox6Change(Sender: TObject);
+begin
+
 end;
 
 end.
