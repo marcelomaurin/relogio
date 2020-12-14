@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CONFIG>
+  <CHeaderFiles Count="12">
+    <File1>
+      <Merge Value="False"/>
+      <Filename Value="..\..\Nextion-C-Library\nextion\NexButton.h"/>
+    </File1>
+    <File2>
+      <Merge Value="False"/>
+      <Filename Value="..\..\Nextion-C-Library\nextion\NexConfig.h"/>
+    </File2>
+    <File3>
+      <Merge Value="False"/>
+      <Filename Value="..\..\Nextion-C-Library\nextion\NexHardware.h"/>
+    </File3>
+    <File4>
+      <Merge Value="False"/>
+      <Filename Value="..\..\Nextion-C-Library\nextion\NexNumber.h"/>
+    </File4>
+    <File5>
+      <Merge Value="False"/>
+      <Filename Value="..\..\Nextion-C-Library\nextion\NexObject.h"/>
+    </File5>
+    <File6>
+      <Merge Value="False"/>
+      <Filename Value="..\..\Nextion-C-Library\nextion\NexPage.h"/>
+    </File6>
+    <File7>
+      <Merge Value="False"/>
+      <Filename Value="..\..\Nextion-C-Library\nextion\NexProgressBar.h"/>
+    </File7>
+    <File8>
+      <Merge Value="False"/>
+      <Filename Value="..\..\Nextion-C-Library\nextion\NexSlider.h"/>
+    </File8>
+    <File9>
+      <Merge Value="False"/>
+      <Filename Value="..\..\Nextion-C-Library\nextion\NexText.h"/>
+    </File9>
+    <File10>
+      <Merge Value="False"/>
+      <Filename Value="..\..\Nextion-C-Library\nextion\Nextion.h"/>
+    </File10>
+    <File11>
+      <Merge Value="False"/>
+      <Filename Value="..\..\Nextion-C-Library\nextion\NexTouch.h"/>
+    </File11>
+    <File12>
+      <Merge Value="False"/>
+      <Filename Value="..\..\Nextion-C-Library\nextion\Serial.h"/>
+    </File12>
+  </CHeaderFiles>
+  <PreH2PasTools Count="1">
+    <Tool1 Value="object PreH2PasumconjuntodeferramentascomunsparaexecutarantesH2Pas: TPreH2PasTools&#xD;&#xA;end&#xD;&#xA;"/>
+  </PreH2PasTools>
+  <PostH2PasTools Count="1">
+    <Tool1 Value="object PostH2PasumconjuntodeferramentascomunsparaexecutarapsH2Pas: TPostH2PasTools&#xD;&#xA;end&#xD;&#xA;"/>
+  </PostH2PasTools>
+</CONFIG>
