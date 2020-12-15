@@ -7,10 +7,11 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, PopupNotifier,
   ComCtrls, Menus, ExtCtrls, StdCtrls, splash, clock, dmDados, SetupIoT,
-  setmain, temp, lazserial, SetupWork, working, dayworking, setwork;
+  setmain, temp, lazserial, SetupWork, working, dayworking, setwork,
+  SetupDisplay, setDisplay;
 
 
-const Versao = '2.3.5';
+const Versao = '2.3.6';
 
 
 type
@@ -120,6 +121,7 @@ begin
   frmSetupwork := TfrmSetupwork.create(self);
   frmSetupIoT := TFrmSetupIoT.Create(self);
   frmWorking := TFrmWorking.create(self);
+  frmSetupDisplay := TfrmSetupDisplay.create(self);
   CarregaContexto();
 
   TrayIcon1.Visible := true;
@@ -143,6 +145,12 @@ begin
   begin
     Fsetmain.free();
     FSetmain := nil;
+  end;
+
+  if (frmSetupDisplay<> nil) then
+  begin
+    frmSetupDisplay.free();
+    frmSetupDisplay := nil;
   end;
 end;
 
@@ -191,6 +199,7 @@ begin
   frmSetupIoT.Fsetsiot.CarregaContexto();
   ckDevice.Checked := frmSetupIoT.Fsetsiot.device;
   ckWorking.Checked := FSetWork.device;
+  ckDisplay.checked := FsetDisplay.device;
   Left:= Fsetmain.posx;
   top:= Fsetmain.posy;
   if not Fsetmain.ckdevice then
@@ -301,15 +310,11 @@ begin
       end
       else
       begin
-        //if frmWorking
-        //frmworking.show;
         if mnWorking.Visible=false then
         begin
              mnWorking.Visible:=true;
         end;
       end;
-
-
   end
   else
   begin
@@ -321,7 +326,25 @@ begin
       mnWorking.Visible:=false;
     end;
   end;
+  if ckDisplay.Checked then
+  begin
+    if frmSetupDisplay.FLazSerial.active then
+    begin
+       //Envia dados para porta
 
+    end
+    else
+    begin
+      try
+         frmSetupDisplay.FLazSerial.Open;
+
+      except
+         FSetDisplay.device := false;
+         ckDisplay.Checked:= FSetDisplay.device;
+         FSetDisplay.SalvaContexto();
+      end;
+    end;
+  end;
 end;
 
 procedure TfrmMenu.ToggleBox1Change(Sender: TObject);
@@ -344,8 +367,10 @@ begin
     frmSetupWork := TfrmSetupWork.create(self);
   //frmSetupWork.Fsetsiot := Fsetsiot;
   frmSetupWork.Showmodal();
+  frmSetupWork.free();
+  frmSetupWork := nil;
   //frmSetupWork.Fsetsiot.CarregaContexto();  (*Atualiza o contexto salvo*)
-  FSetWork.SalvaContexto();
+  //FSetWork.SalvaContexto();
   ckWorking.Checked := FSetWork.device;
   ckWorking.Refresh;
 
@@ -353,7 +378,16 @@ end;
 
 procedure TfrmMenu.ToggleBox6Change(Sender: TObject);
 begin
+  if frmSetupDisplay = Nil then
+  begin
+    frmSetupDisplay := TfrmSetupDisplay.create(self);
+  end;
 
+  frmSetupDisplay.Showmodal();
+  frmSetupDisplay.free();
+  frmSetupDisplay := nil;
+  ckDisplay.Checked := FSetDisplay.device;
+  ckDisplay.Refresh;
 end;
 
 end.

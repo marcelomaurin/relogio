@@ -1,17 +1,17 @@
 object frmMenu: TfrmMenu
-  Left = 479
-  Height = 404
-  Top = 141
-  Width = 479
+  Left = 306
+  Height = 525
+  Top = 155
+  Width = 487
   Caption = 'Menu'
-  ClientHeight = 404
-  ClientWidth = 479
+  ClientHeight = 525
+  ClientWidth = 487
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnHide = FormHide
   OnShow = FormShow
-  LCLVersion = '2.0.4.0'
+  LCLVersion = '2.0.10.0'
   object GroupBox1: TGroupBox
     Left = 8
     Height = 121
@@ -207,7 +207,7 @@ object frmMenu: TfrmMenu
       Left = 8
       Height = 15
       Top = 64
-      Width = 67
+      Width = 65
       Caption = 'Device Type:'
       ParentColor = False
     end
@@ -255,7 +255,7 @@ object frmMenu: TfrmMenu
       Left = 8
       Height = 15
       Top = 64
-      Width = 81
+      Width = 80
       Caption = 'Tipo de Device:'
       ParentColor = False
     end
@@ -750,10 +750,10 @@ object frmMenu: TfrmMenu
     end
   end
   object Image6: TImage
-    Left = 304
-    Height = 90
-    Top = 304
-    Width = 90
+    Left = 384
+    Height = 66
+    Top = 448
+    Width = 66
     OnClick = Image6Click
     OnDblClick = Image6DblClick
     Picture.Data = {
@@ -786,6 +786,55 @@ object frmMenu: TfrmMenu
     }
     Stretch = True
   end
+  object GroupBox6: TGroupBox
+    Left = 241
+    Height = 128
+    Top = 272
+    Width = 226
+    Caption = 'CASEMOD'
+    ClientHeight = 108
+    ClientWidth = 222
+    Enabled = False
+    TabOrder = 5
+    object ckCasemod: TCheckBox
+      Left = 72
+      Height = 19
+      Top = 5
+      Width = 131
+      Caption = 'Casemod Integration'
+      TabOrder = 0
+    end
+    object ToggleBox6: TToggleBox
+      Left = 72
+      Height = 25
+      Top = 24
+      Width = 104
+      Caption = 'Setup'
+      OnChange = ToggleBox6Change
+      TabOrder = 1
+    end
+    object Label4: TLabel
+      Left = 8
+      Height = 15
+      Top = 64
+      Width = 80
+      Caption = 'Tipo de Device:'
+      ParentColor = False
+    end
+    object ComboBox4: TComboBox
+      Left = 8
+      Height = 23
+      Top = 80
+      Width = 156
+      ItemHeight = 15
+      Items.Strings = (
+        'none device'
+        'CASEMOD Nextion/USB'
+      )
+      TabOrder = 2
+      Text = 'Nenhum device'
+    end
+  end
   object PopupNotifier1: TPopupNotifier
     Color = clInfoBk
     Icon.Data = {
@@ -794,12 +843,12 @@ object frmMenu: TfrmMenu
     Text = 'Text'
     Title = 'Caption'
     Visible = False
-    left = 192
-    top = 64
+    Left = 192
+    Top = 64
   end
   object popTray: TPopupMenu
-    left = 360
-    top = 360
+    Left = 184
+    Top = 478
     object MenuItem2: TMenuItem
       Caption = 'Registrar Atividade'
     end
@@ -7392,12 +7441,12 @@ object frmMenu: TfrmMenu
       000000000000
     }
     Hint = 'Aplicação Relógio'
-    left = 416
-    top = 360
+    Left = 240
+    Top = 478
   end
   object Timer1: TTimer
     OnTimer = Timer1Timer
-    left = 441
-    top = 290
+    Left = 265
+    Top = 408
   end
 end

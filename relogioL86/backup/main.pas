@@ -17,6 +17,7 @@ type
   { TfrmMenu }
 
   TfrmMenu = class(TForm)
+    ckCasemod: TCheckBox;
     ckDevice: TCheckBox;
     CheckBox2: TCheckBox;
     CheckBox3: TCheckBox;
@@ -24,12 +25,14 @@ type
     CheckBox5: TCheckBox;
     ComboBox2: TComboBox;
     ComboBox3: TComboBox;
+    ComboBox4: TComboBox;
     ComboBox5: TComboBox;
     GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;
     GroupBox3: TGroupBox;
     GroupBox4: TGroupBox;
     GroupBox5: TGroupBox;
+    GroupBox6: TGroupBox;
     Image1: TImage;
     Image2: TImage;
     Image3: TImage;
@@ -39,6 +42,7 @@ type
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
+    Label4: TLabel;
     Label5: TLabel;
     Label6: TLabel;
     MenuItem1: TMenuItem;
@@ -57,6 +61,7 @@ type
     ToggleBox3: TToggleBox;
     ToggleBox4: TToggleBox;
     ToggleBox5: TToggleBox;
+    ToggleBox6: TToggleBox;
     TrayIcon1: TTrayIcon;
     procedure ComboBox5Change(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -73,6 +78,7 @@ type
     procedure Timer1Timer(Sender: TObject);
     procedure ToggleBox1Change(Sender: TObject);
     procedure ToggleBox4Change(Sender: TObject);
+    procedure ToggleBox6Change(Sender: TObject);
   private
     //Fsetmain :TSetMain;
     procedure SalvaContexto();
@@ -95,7 +101,10 @@ procedure TfrmMenu.FormCreate(Sender: TObject);
 var
   a: integer;
 begin
-  Fsetmain := TSetMain.create();
+  if (Fsetmain = nil) then
+  begin
+    Fsetmain := TSetMain.create();
+  end;
   frmSplash := TfrmSplash.create(self);
   frmSplash.AlphaBlend:=true;
   frmSplash.AlphaBlendValue:=0;
@@ -131,8 +140,11 @@ begin
 
   frmclock.Destroy();
 
-  if Fsetmain <> nil then
+  if (Fsetmain <> nil) then
+  begin
     Fsetmain.free();
+    FSetmain := nil;
+  end;
 end;
 
 procedure TfrmMenu.ComboBox5Change(Sender: TObject);
@@ -337,6 +349,20 @@ begin
   FSetWork.SalvaContexto();
   ckWorking.Checked := FSetWork.device;
   ckWorking.Refresh;
+end;
+
+procedure TfrmMenu.ToggleBox6Change(Sender: TObject);
+begin
+  (*
+  if frmSetupCasemod = Nil then
+    frmSetupCasemod := TfrmSetupCasemod.create(self);
+  //frmSetupIoT.Fsetsiot := Fsetsiot;
+  frmSetupCasemod.Showmodal();
+  //frmSetupIoT.Fsetsiot.CarregaContexto();  (*Atualiza o contexto salvo*)
+  frmSetupCasemod.Fsetsiot.SalvaContexto();
+  ckCasemod.Checked := frmSetupCasemod.Fsetsiot.device;
+  ckcasemod.Refresh;
+  *)
 end;
 
 end.

@@ -18,7 +18,6 @@ begin
   Application.Scaled:=True;
   Application.Initialize;
   Application.CreateForm(TfrmMenu, frmMenu);
-  Application.CreateForm(TfrmWorkTime, frmWorkTime);
   Application.Run;
 end.
 

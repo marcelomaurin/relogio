@@ -26,19 +26,13 @@
       <FormatVersion Value="2"/>
       <Modes Count="0"/>
     </RunParams>
-    <RequiredPackages Count="4">
+    <RequiredPackages Count="2">
       <Item1>
         <PackageName Value="LazSerialPort"/>
       </Item1>
       <Item2>
-        <PackageName Value="pl_Win_DSPack"/>
-      </Item2>
-      <Item3>
-        <PackageName Value="lazupdate"/>
-      </Item3>
-      <Item4>
         <PackageName Value="LCL"/>
-      </Item4>
+      </Item2>
     </RequiredPackages>
     <Units Count="19">
       <Unit0>

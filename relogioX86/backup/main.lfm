@@ -2,16 +2,16 @@ object frmMenu: TfrmMenu
   Left = 479
   Height = 404
   Top = 141
-  Width = 724
+  Width = 617
   Caption = 'Menu'
   ClientHeight = 404
-  ClientWidth = 724
+  ClientWidth = 617
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnHide = FormHide
   OnShow = FormShow
-  LCLVersion = '2.0.6.0'
+  LCLVersion = '2.0.10.0'
   object GroupBox1: TGroupBox
     Left = 8
     Height = 121
@@ -207,7 +207,7 @@ object frmMenu: TfrmMenu
       Left = 8
       Height = 15
       Top = 64
-      Width = 67
+      Width = 65
       Caption = 'Device Type:'
       ParentColor = False
     end
@@ -255,7 +255,7 @@ object frmMenu: TfrmMenu
       Left = 8
       Height = 15
       Top = 64
-      Width = 81
+      Width = 80
       Caption = 'Tipo de Device:'
       ParentColor = False
     end
@@ -750,7 +750,7 @@ object frmMenu: TfrmMenu
     end
   end
   object Image6: TImage
-    Left = 544
+    Left = 488
     Height = 90
     Top = 112
     Width = 90
@@ -1263,12 +1263,12 @@ object frmMenu: TfrmMenu
     Text = 'Text'
     Title = 'Caption'
     Visible = False
-    left = 192
-    top = 64
+    Left = 192
+    Top = 64
   end
   object popTray: TPopupMenu
-    left = 552
-    top = 334
+    Left = 464
+    Top = 326
     object MenuItem2: TMenuItem
       Caption = 'Registrar Atividade'
     end
@@ -7861,12 +7861,12 @@ object frmMenu: TfrmMenu
       000000000000
     }
     Hint = 'Aplicação Relógio'
-    left = 608
-    top = 334
+    Left = 520
+    Top = 326
   end
   object Timer1: TTimer
     OnTimer = Timer1Timer
-    left = 633
-    top = 264
+    Left = 545
+    Top = 256
   end
 end

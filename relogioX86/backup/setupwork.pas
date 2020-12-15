@@ -87,7 +87,7 @@ begin
   //Fsettemp.TypeC := cbTypeC.ItemIndex;
   FSetWork.SalvaContexto();
 
-  if FSetWork <> nil then
+  if (FSetWork <> nil) then
   begin
     FSetWork.Free();
     FSetWork := nil;

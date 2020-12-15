@@ -10,7 +10,7 @@ object frmSetupWork: TfrmSetupWork
   OnDestroy = FormDestroy
   OnShow = FormShow
   PopupMenu = PopupMenu1
-  LCLVersion = '2.0.4.0'
+  LCLVersion = '2.0.10.0'
   object Image1: TImage
     Left = 0
     Height = 90
@@ -101,14 +101,15 @@ object frmSetupWork: TfrmSetupWork
     Text = '8:00'
   end
   object PopupMenu1: TPopupMenu
-    left = 208
-    top = 24
+    Left = 208
+    Top = 24
     object mnFixarClock: TMenuItem
       Caption = 'Fixar Tela'
       OnClick = mnFixarClockClick
     end
     object MnStay: TMenuItem
       Caption = 'Stay on Top'
+      OnClick = MnStayClick
     end
   end
 end

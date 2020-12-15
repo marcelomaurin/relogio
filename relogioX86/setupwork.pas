@@ -25,6 +25,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure mnFixarClockClick(Sender: TObject);
+    procedure MnStayClick(Sender: TObject);
   private
     procedure CarregaContexto();
   public
@@ -132,6 +133,24 @@ begin
     self.refresh;
   end;
   Fsetwork.SalvaContexto();
+end;
+
+procedure TfrmSetupWork.MnStayClick(Sender: TObject);
+begin
+  if FormStyle = fsNormal then
+  begin
+    FormStyle:= fsStayOnTop;
+    Fsetwork.stay := true;
+
+  end
+  else
+  begin
+    FormStyle:=fsNormal;
+    Fsetwork.stay := false;
+  end;
+  refresh;
+  Fsetwork.SalvaContexto();
+
 end;
 
 end.

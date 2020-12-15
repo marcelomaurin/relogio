@@ -26,18 +26,15 @@
       <FormatVersion Value="2"/>
       <Modes Count="0"/>
     </RunParams>
-    <RequiredPackages Count="3">
+    <RequiredPackages Count="2">
       <Item1>
         <PackageName Value="LazSerialPort"/>
       </Item1>
       <Item2>
-        <PackageName Value="lazupdate"/>
-      </Item2>
-      <Item3>
         <PackageName Value="LCL"/>
-      </Item3>
+      </Item2>
     </RequiredPackages>
-    <Units Count="19">
+    <Units Count="21">
       <Unit0>
         <Filename Value="relogio2.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -144,6 +141,17 @@
         <Filename Value="dayworking.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit18>
+      <Unit19>
+        <Filename Value="setupdisplay.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmSetupDisplay"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="SetupDisplay"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="setdisplay.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit20>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
