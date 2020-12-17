@@ -8,7 +8,7 @@ uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, PopupNotifier,
   ComCtrls, Menus, ExtCtrls, StdCtrls, splash, clock, dmDados, SetupIoT,
   setmain, temp, lazserial, SetupWork, working, dayworking, setwork,
-  SetupDisplay, setDisplay;
+  SetupDisplay, setDisplay, display;
 
 
 const Versao = '2.3.6';
@@ -326,24 +326,14 @@ begin
       mnWorking.Visible:=false;
     end;
   end;
-  if ckDisplay.Checked then
+  if ckDisplay.Checked then //Ativa tela de Comunicacao com display
   begin
-    if frmSetupDisplay.FLazSerial.active then
-    begin
-       //Envia dados para porta
+     if (frmDisplay=nil) then
+     begin
+         frmDisplay := TFrmDisplay.create();
+         frmDisplay.hide;
+     end;
 
-    end
-    else
-    begin
-      try
-         frmSetupDisplay.FLazSerial.Open;
-
-      except
-         FSetDisplay.device := false;
-         ckDisplay.Checked:= FSetDisplay.device;
-         FSetDisplay.SalvaContexto();
-      end;
-    end;
   end;
 end;
 
@@ -384,10 +374,12 @@ begin
   end;
 
   frmSetupDisplay.Showmodal();
-  frmSetupDisplay.free();
-  frmSetupDisplay := nil;
   ckDisplay.Checked := FSetDisplay.device;
   ckDisplay.Refresh;
+  frmSetupDisplay.free();
+  frmSetupDisplay := nil;
+
+
 end;
 
 end.

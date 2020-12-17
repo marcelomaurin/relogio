@@ -23,6 +23,7 @@ type
     Panel1: TPanel;
     PopupMenu1: TPopupMenu;
 
+
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -31,9 +32,13 @@ type
     procedure MnStayClick(Sender: TObject);
   private
     buffer : string;
+    FTemperatura : String;
+    FHumidade : String;
   public
     Fsettemp : TSettemp;
     procedure CarregaContexto();
+    property Humidade : String read FHumidade;
+    property Temperatura : String read FTemperatura;
   end;
 
 var
@@ -124,6 +129,7 @@ begin
   begin
     aux := copy(buffer,posicao+9,pos(#13,buffer)-(posicao+9));
     label4.Caption := aux;
+    FHumidade:= aux;
     buffer := copy(buffer,pos(#13,buffer)+2, Length(buffer));
   end;
   posicao  :=  pos('Temperatura:',buffer);
@@ -131,6 +137,7 @@ begin
   begin
     aux:=  copy(buffer,posicao+12,pos(#13,buffer)-13);
     Label2.Caption := aux;
+    FTemperatura:= aux;
     buffer := copy(buffer,pos(#13,buffer)+2, Length(buffer));
   end;
 

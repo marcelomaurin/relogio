@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-  Menus, setdisplay, LazSerial;
+  Menus, setdisplay, LazSerial,funcoes;
 
 type
 

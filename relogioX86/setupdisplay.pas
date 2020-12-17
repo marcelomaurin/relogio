@@ -20,7 +20,7 @@ type
     mnFixarClock: TMenuItem;
     MnStay: TMenuItem;
     PopupMenu1: TPopupMenu;
-    FLazSerial : TLazSerial;
+    //FLazSerial : TLazSerial;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -78,9 +78,10 @@ begin
 
    end;
    CarregaContexto();
-   FLazSerial := TLazSerial.Create(self);
-   FLazSerial.BaudRate:= br__9600;
-   FLazSerial.Device:= FSetDisplay.DPort;
+   (*
+   //FLazSerial := TLazSerial.Create(self);
+   //FLazSerial.BaudRate:= br__9600;
+   //FLazSerial.Device:= FSetDisplay.DPort;
    if FLazSerial.Active then
    begin
       try
@@ -89,7 +90,7 @@ begin
          FLazSerial.Active:=false;
       end;
    end;
-
+   *)
 end;
 
 procedure TfrmSetupDisplay.FormDestroy(Sender: TObject);
@@ -100,12 +101,12 @@ begin
   FSetDisplay.DPort := edDPort.text;
   //Fsettemp.TypeC := cbTypeC.ItemIndex;
   FSetDisplay.SalvaContexto();
-
+  (*
   if FLazSerial.Active then
   begin
        FLazSerial.Close;
   end;
-
+  *)
   if (FSetDisplay <> nil) then
   begin
     FSetDisplay.Free();

@@ -22,6 +22,8 @@ type
     MnStay: TMenuItem;
     Panel1: TPanel;
     PopupMenu1: TPopupMenu;
+    FTemperatura : String;
+    FHumidade : String;
 
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -34,6 +36,8 @@ type
   public
     Fsettemp : TSettemp;
     procedure CarregaContexto();
+    property Humidade : String read FHumidade;
+    property Temperatura : String read FTemperatura;
   end;
 
 var
@@ -124,6 +128,7 @@ begin
   begin
     aux := copy(buffer,posicao+9,pos(#13,buffer)-(posicao+9));
     label4.Caption := aux;
+    FHumidade:= aux;
     buffer := copy(buffer,pos(#13,buffer)+2, Length(buffer));
   end;
   posicao  :=  pos('Temperatura:',buffer);
@@ -131,6 +136,7 @@ begin
   begin
     aux:=  copy(buffer,posicao+12,pos(#13,buffer)-13);
     Label2.Caption := aux;
+    FTemperatura:= aux;
     buffer := copy(buffer,pos(#13,buffer)+2, Length(buffer));
   end;
 
@@ -170,7 +176,7 @@ begin
     FormStyle:=fsNormal;
     Fsettemp.stay := false;
   end;
-  r
+  refresh;
   Fsettemp.SalvaContexto();
 end;
 
