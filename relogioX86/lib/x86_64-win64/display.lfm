@@ -1,0 +1,26 @@
+object frmDisplay: TfrmDisplay
+  Left = 647
+  Height = 115
+  Top = 216
+  Width = 245
+  Caption = 'Display'
+  OnCreate = FormCreate
+  LCLVersion = '2.0.10.0'
+  object LazSerial1: TLazSerial
+    Active = False
+    BaudRate = br___110
+    DataBits = db8bits
+    Parity = pNone
+    FlowControl = fcNone
+    StopBits = sbOne
+    Device = 'COM1'
+    RcvLineCRLF = False
+    Left = 123
+    Top = 28
+  end
+  object Timer1: TTimer
+    OnTimer = Timer1Timer
+    Left = 185
+    Top = 28
+  end
+end
