@@ -2,10 +2,13 @@ unit funcoes;
 
 {$mode objfpc}{$H+}
 
+
 interface
 
 uses
   Classes, SysUtils;
+
+
 
 Function RetiraInfo(Value : string): string;
 function BuscaChave( lista : TStringList; Ref: String; var posicao:integer): boolean;
@@ -54,7 +57,7 @@ begin
      begin
        item := lista.Strings[contador];
        indo := pos(Ref,item);
-       if (indo >= 0) then
+       if (indo > 0) then
        begin
             posicao := contador;
             resultado := true;
@@ -62,6 +65,23 @@ begin
        end;
      end;
      result := resultado;
+end;
+
+function GetTotalCpuUsagePct(): Double;
+//var
+  //ProcessID: TProcessID;
+  //RunningProcessIDs : TArray<TProcessID>;
+begin
+
+  Result := 0.0;
+  (*
+  RunningProcessIDs := GetRunningProcessIDs;
+
+  DeleteNonExistingProcessIDsFromCache(RunningProcessIDs);
+
+  for ProcessID in RunningProcessIDs do
+    Result := Result + GetProcessCpuUsagePct( ProcessID );
+  *)
 end;
 
 end.

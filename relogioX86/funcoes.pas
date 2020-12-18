@@ -2,14 +2,18 @@ unit funcoes;
 
 {$mode objfpc}{$H+}
 
+
 interface
 
 uses
   Classes, SysUtils;
 
+
+
 Function RetiraInfo(Value : string): string;
 function BuscaChave( lista : TStringList; Ref: String; var posicao:integer): boolean;
 function iif(condicao : boolean; verdade : variant; falso: variant):variant;
+function GetTotalCpuUsagePct(): Double;
 
 implementation
 
@@ -62,6 +66,23 @@ begin
        end;
      end;
      result := resultado;
+end;
+
+function GetTotalCpuUsagePct(): Double;
+//var
+  //ProcessID: TProcessID;
+  //RunningProcessIDs : TArray<TProcessID>;
+begin
+
+  Result := 0.0;
+  (*
+  RunningProcessIDs := GetRunningProcessIDs;
+
+  DeleteNonExistingProcessIDsFromCache(RunningProcessIDs);
+
+  for ProcessID in RunningProcessIDs do
+    Result := Result + GetProcessCpuUsagePct( ProcessID );
+  *)
 end;
 
 end.

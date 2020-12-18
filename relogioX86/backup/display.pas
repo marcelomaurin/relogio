@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, LazSerial,
-  setdisplay, temp;
+  setdisplay, temp, funcoes;
 
 type
 
@@ -60,11 +60,11 @@ begin
   begin
      LazSerial1.WriteData('Data.txt="'+datetostr(now)+'"'+#255+#255+#255);
      LazSerial1.WriteData('Hora.txt="'+timetostr(now)+'"'+#255+#255+#255);
-     if (temp.frmTemp<> nil) then
+     if (temp.frmTemp<>nil) then
      begin
         LazSerial1.WriteData('Temp1.txt="'+temp.frmTemp.Temperatura+'"'+#255+#255+#255);
         LazSerial1.WriteData('Hum1.txt="'+temp.frmTemp.Humidade+'"'+#255+#255+#255);
-     begin
+        LazSerial1.WriteData('CPU01.val="'+inttostr(GetTotalCpuUsagePct())+'"'+#255+#255+#255);
      end;
   end;
 
