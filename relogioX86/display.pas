@@ -55,6 +55,8 @@ begin
 end;
 
 procedure TfrmDisplay.Timer1Timer(Sender: TObject);
+var
+  info : double;
 begin
   if LazSerial1.Active then
   begin
@@ -64,7 +66,12 @@ begin
      begin
         LazSerial1.WriteData('Temp1.txt="'+temp.frmTemp.Temperatura+'"'+#255+#255+#255);
         LazSerial1.WriteData('Hum1.txt="'+temp.frmTemp.Humidade+'"'+#255+#255+#255);
-        LazSerial1.WriteData('CPU01.val="'+floattostr(GetTotalCpuUsagePct())+'"'+#255+#255+#255);
+        info := GetTotalCpuUsagePct();
+        LazSerial1.WriteData('CPU01.txt="'+format('%.2f',[info])+'"'+#255+#255+#255);
+        LazSerial1.WriteData('prog02.val='+inttostr(trunc(info))+#255+#255+#255);
+        LazSerial1.WriteData('val02.txt="'+format('%.2f',[info])+'"'#255+#255+#255);
+
+
      end;
   end;
 
