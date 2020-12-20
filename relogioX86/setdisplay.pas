@@ -27,6 +27,7 @@ type
         FPosY : integer;
         FFixar : boolean;
         FStay : boolean;
+        FComputer : String;
         FDPort : String;
         procedure SetDevice(const Value : Boolean);
         procedure SetPOSX(value : integer);
@@ -34,6 +35,7 @@ type
         procedure SetDPort(value : string);
         procedure SetFixar(value : boolean);
         procedure SetStay(value : boolean);
+        procedure SetComputer(value : string);
         procedure Default();
   public
         procedure SalvaContexto();
@@ -44,6 +46,7 @@ type
         property DPort : String read FDPort write SetDPort;
         property fixar : boolean read FFixar write SetFixar;
         property stay : boolean read FStay write SetStay;
+        property computer: string read FComputer write SetComputer;
   end;
 
   var
@@ -61,13 +64,17 @@ begin
   FDPort := Value;
 end;
 
-
+procedure TsetDisplay.SetComputer(value : string);
+begin
+  FComputer := Value;
+end;
 
 //Valores default do codigo
 procedure TsetDisplay.Default();
 begin
     FDevice := false;
     FDPort := 'COM1';
+    FComputer := 'COMPUTER';
 end;
 
 procedure TsetDisplay.SetFixar(value : boolean);
@@ -119,6 +126,10 @@ begin
     begin
       FDPort := RetiraInfo(arquivo.Strings[posicao]);
     end;
+    if  BuscaChave(arquivo,'COMPUTER:',posicao) then
+    begin
+      FComputer := RetiraInfo(arquivo.Strings[posicao]);
+    end;
 end;
 
 //Metodo construtor
@@ -146,6 +157,7 @@ begin
   arquivo.Append('FIXAR:'+booltostr(FFixar));
   arquivo.Append('STAY:'+booltostr(FStay));
   arquivo.Append('DPORT:'+FDPort);
+  arquivo.Append('COMPUTER:'+FComputer);
   arquivo.SaveToFile(filename);
 end;
 

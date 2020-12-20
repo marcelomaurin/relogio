@@ -22,8 +22,7 @@ type
     MnStay: TMenuItem;
     Panel1: TPanel;
     PopupMenu1: TPopupMenu;
-    FTemperatura : String;
-    FHumidade : String;
+
 
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -33,6 +32,8 @@ type
     procedure MnStayClick(Sender: TObject);
   private
     buffer : string;
+    FTemperatura : String;
+    FHumidade : String;
   public
     Fsettemp : TSettemp;
     procedure CarregaContexto();

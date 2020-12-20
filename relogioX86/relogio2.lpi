@@ -34,7 +34,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="23">
+    <Units Count="25">
       <Unit0>
         <Filename Value="relogio2.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -166,6 +166,15 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="PsApi"/>
       </Unit22>
+      <Unit23>
+        <Filename Value="D:\fpcupdeluxe\fpcupdeluxe\ccr\tlazserial\lazserial.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="LazSerial"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="uSMBIOS.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit24>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

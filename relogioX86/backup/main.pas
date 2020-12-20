@@ -330,7 +330,7 @@ begin
   begin
      if (frmDisplay=nil) then
      begin
-         frmDisplay := TFrmDisplay.create();
+         frmDisplay := TFrmDisplay.create(self);
          frmDisplay.hide;
      end;
 

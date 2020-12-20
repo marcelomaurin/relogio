@@ -15,8 +15,10 @@ type
   TfrmSetupDisplay = class(TForm)
     ckDevice: TCheckBox;
     edDPort: TEdit;
+    edComputer: TEdit;
     Image1: TImage;
     Label1: TLabel;
+    Label2: TLabel;
     mnFixarClock: TMenuItem;
     MnStay: TMenuItem;
     PopupMenu1: TPopupMenu;
@@ -48,6 +50,7 @@ begin
   top:= FsetDisplay.posy;
   ckDevice.Checked := FsetDisplay.device;
   edDPort.text := FsetDisplay.DPort;
+  edComputer.text := FSetDisplay.Computer;
 
   if FsetDisplay.stay then
    begin
@@ -99,6 +102,7 @@ begin
   FSetDisplay.posx := Left;
   FSetDisplay.posy := top;
   FSetDisplay.DPort := edDPort.text;
+  FSetDisplay.computer:= edComputer.text;
   //Fsettemp.TypeC := cbTypeC.ItemIndex;
   FSetDisplay.SalvaContexto();
   (*

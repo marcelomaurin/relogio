@@ -7,7 +7,7 @@ interface
 
 uses
 windows, Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
-StdCtrls, ExtCtrls, jwaWinBase;
+StdCtrls, ExtCtrls, jwaWinBase, UTF8Process, uSMBIOS;
 
 
 
@@ -15,7 +15,9 @@ Function RetiraInfo(Value : string): string;
 function BuscaChave( lista : TStringList; Ref: String; var posicao:integer): boolean;
 function iif(condicao : boolean; verdade : variant; falso: variant):variant;
 function GetTotalCpuUsagePct(): double;
-function GetProcessorUsage : double;
+function GetProcessorUsage : integer;
+function GetCPUCount : integer;
+function GetMemorySize : DWORD;
 
 implementation
 
@@ -24,6 +26,50 @@ var LastTickCount     : cardinal = 0;
     FLastIdleTime: Int64;
     FLastKernelTime: Int64;
     FLastUserTime: Int64;
+
+function GetCPUCount : integer;
+begin
+  result := GetSystemThreadCount;
+end;
+
+function GetMemorySize : DWORD;
+Var
+  SMBios : TSMBios;
+  LPhysicalMemArr  : TPhysicalMemoryArrayInformation;
+begin
+ SMBios:=TSMBios.Create;
+  try
+      //WriteLn('Physical Memory Array Information');
+      //WriteLn('--------------------------------');
+      if SMBios.HasPhysicalMemoryArrayInfo then
+      for LPhysicalMemArr in SMBios.PhysicalMemoryArrayInfo do
+      begin
+        //WriteLn('Location         '+LPhysicalMemArr.GetLocationStr);
+        //WriteLn('Use              '+LPhysicalMemArr.GetUseStr);
+        //WriteLn('Error Correction '+LPhysicalMemArr.GetErrorCorrectionStr);
+        if LPhysicalMemArr.RAWPhysicalMemoryArrayInformation^.MaximumCapacity<>$80000000 then
+        begin
+            result := LPhysicalMemArr.RAWPhysicalMemoryArrayInformation^.MaximumCapacity/1024;
+            break;
+        end
+        //  WriteLn(Format('Maximum Capacity %d Kb',[LPhysicalMemArr.RAWPhysicalMemoryArrayInformation^.MaximumCapacity]))
+        else
+        begin
+          //WriteLn(Format('Maximum Capacity %d bytes',[LPhysicalMemArr.RAWPhysicalMemoryArrayInformation^.ExtendedMaximumCapacity]));
+          result :=LPhysicalMemArr.RAWPhysicalMemoryArrayInformation^.ExtendedMaximumCapacity/1024;
+          break;
+        end;
+
+        //WriteLn(Format('Memory devices   %d',[LPhysicalMemArr.RAWPhysicalMemoryArrayInformation^.NumberofMemoryDevices]));
+        //WriteLn;
+      end
+      else
+      //Writeln('No Physical Memory Array Info was found');
+      result := 0;
+  finally
+   SMBios.Free;
+  end;
+end;
 
 function iif(condicao : boolean; verdade : variant; falso: variant):variant;
 begin

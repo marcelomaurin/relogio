@@ -1,7 +1,7 @@
 object frmTemp: TfrmTemp
-  Left = 977
+  Left = 978
   Height = 114
-  Top = 95
+  Top = 96
   Width = 241
   AlphaBlendValue = 0
   Caption = 'Temperatura'

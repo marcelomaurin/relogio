@@ -22,7 +22,7 @@ type
     destructor destroy();
   private
         arquivo :Tstringlist;
-        ckdevice : boolean;
+        FDEVICE : boolean;
         FPosX : integer;
         FPosY : integer;
         FFixar : boolean;
@@ -38,7 +38,7 @@ type
   public
         procedure SalvaContexto();
         Procedure CarregaContexto();
-        property device : boolean read ckdevice write SetDevice;
+        property device : boolean read FDevice write SetDevice;
         property posx : integer read FPosX write SetPOSX;
         property posy : integer read FPosY write SetPOSY;
         property DPort : String read FDPort write SetDPort;
@@ -53,7 +53,7 @@ implementation
 
 procedure TsetDisplay.SetDevice(const Value : Boolean);
 begin
-  ckdevice := Value;
+     FDevice := Value;
 end;
 
 procedure TsetDisplay.SetDPort(value : string);
@@ -66,7 +66,7 @@ end;
 //Valores default do codigo
 procedure TsetDisplay.Default();
 begin
-    ckdevice := false;
+    FDevice := false;
     FDPort := 'COM1';
 end;
 
@@ -97,7 +97,7 @@ var
 begin
     if  BuscaChave(arquivo,'DEVICE:',posicao) then
     begin
-      ckdevice := (RetiraInfo(arquivo.Strings[posicao])='1');
+      FDevice := (RetiraInfo(arquivo.Strings[posicao])='1');
     end;
     if  BuscaChave(arquivo,'POSX:',posicao) then
     begin
@@ -140,7 +140,7 @@ end;
 procedure TsetDisplay.SalvaContexto();
 begin
   arquivo.Clear;
-  arquivo.Append('DEVICE:'+iif(ckdevice,'1','0'));
+  arquivo.Append('DEVICE:'+iif(FDEVICE,'1','0'));
   arquivo.Append('POSX:'+inttostr(FPOSX));
   arquivo.Append('POSY:'+inttostr(FPOSY));
   arquivo.Append('FIXAR:'+booltostr(FFixar));

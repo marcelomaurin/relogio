@@ -1,7 +1,7 @@
 object frmDisplay: TfrmDisplay
-  Left = 647
+  Left = 648
   Height = 115
-  Top = 216
+  Top = 217
   Width = 245
   Caption = 'Display'
   OnCreate = FormCreate
