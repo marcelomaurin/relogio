@@ -19,10 +19,13 @@
         <ComponentName Value="frmSplash"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="-1"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="3"/>
         <TopLine Value="16"/>
         <CursorPos X="37" Y="17"/>
         <UsageCount Value="120"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit1>
       <Unit2>
         <Filename Value="clock.pas"/>
@@ -41,10 +44,12 @@
         <ComponentName Value="frmMenu"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="338"/>
-        <CursorPos X="3" Y="276"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="13"/>
+        <CursorPos X="22" Y="14"/>
         <UsageCount Value="120"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit3>
       <Unit4>
         <Filename Value="working.pas"/>
@@ -215,12 +220,12 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Display"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="60"/>
-        <CursorPos X="31" Y="71"/>
+        <TopLine Value="13"/>
+        <CursorPos X="6" Y="77"/>
         <UsageCount Value="59"/>
         <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit21>
       <Unit22>
         <Filename Value="psapi.pas"/>
@@ -308,7 +313,7 @@
         <UsageCount Value="17"/>
       </Unit32>
     </Units>
-    <JumpHistory Count="12" HistoryIndex="11">
+    <JumpHistory Count="13" HistoryIndex="12">
       <Position1>
         <Filename Value="funcoes.pas"/>
         <Caret Line="51" Column="85" TopLine="43"/>
@@ -357,6 +362,10 @@
         <Filename Value="display.pas"/>
         <Caret Line="71" Column="28" TopLine="64"/>
       </Position12>
+      <Position13>
+        <Filename Value="main.pas"/>
+        <Caret Line="344" Column="15" TopLine="337"/>
+      </Position13>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

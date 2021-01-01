@@ -49,14 +49,14 @@ begin
         //WriteLn('Error Correction '+LPhysicalMemArr.GetErrorCorrectionStr);
         if LPhysicalMemArr.RAWPhysicalMemoryArrayInformation^.MaximumCapacity<>$80000000 then
         begin
-            result := LPhysicalMemArr.RAWPhysicalMemoryArrayInformation^.MaximumCapacity/1024;
+            result := LPhysicalMemArr.RAWPhysicalMemoryArrayInformation^.MaximumCapacity div 1024;
             break;
         end
         //  WriteLn(Format('Maximum Capacity %d Kb',[LPhysicalMemArr.RAWPhysicalMemoryArrayInformation^.MaximumCapacity]))
         else
         begin
           //WriteLn(Format('Maximum Capacity %d bytes',[LPhysicalMemArr.RAWPhysicalMemoryArrayInformation^.ExtendedMaximumCapacity]));
-          result :=LPhysicalMemArr.RAWPhysicalMemoryArrayInformation^.ExtendedMaximumCapacity/1024;
+          result :=LPhysicalMemArr.RAWPhysicalMemoryArrayInformation^.ExtendedMaximumCapacity div 1024;
           break;
         end;
 

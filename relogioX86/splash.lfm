@@ -1,20 +1,20 @@
 object frmSplash: TfrmSplash
   Left = 445
-  Height = 229
+  Height = 233
   Top = 208
-  Width = 210
+  Width = 214
   BorderStyle = bsNone
   Caption = 'Splash'
-  ClientHeight = 229
-  ClientWidth = 210
+  ClientHeight = 233
+  ClientWidth = 214
   OnShow = FormShow
   Position = poMainFormCenter
-  LCLVersion = '2.0.2.0'
+  LCLVersion = '2.0.10.0'
   object Image1: TImage
     Left = 0
-    Height = 229
+    Height = 233
     Top = 0
-    Width = 210
+    Width = 214
     Align = alClient
     Picture.Data = {
       0A544A706567496D6167650F1A0000FFD8FFE000104A46494600010100000100
@@ -232,7 +232,7 @@ object frmSplash: TfrmSplash
     Left = 40
     Height = 28
     Top = 8
-    Width = 134
+    Width = 133
     Caption = 'Project Relógio'
     Font.Height = -20
     ParentColor = False

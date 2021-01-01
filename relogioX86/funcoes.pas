@@ -39,32 +39,21 @@ Var
 begin
  SMBios:=TSMBios.Create;
   try
-      //WriteLn('Physical Memory Array Information');
-      //WriteLn('--------------------------------');
       if SMBios.HasPhysicalMemoryArrayInfo then
       for LPhysicalMemArr in SMBios.PhysicalMemoryArrayInfo do
       begin
-        //WriteLn('Location         '+LPhysicalMemArr.GetLocationStr);
-        //WriteLn('Use              '+LPhysicalMemArr.GetUseStr);
-        //WriteLn('Error Correction '+LPhysicalMemArr.GetErrorCorrectionStr);
         if LPhysicalMemArr.RAWPhysicalMemoryArrayInformation^.MaximumCapacity<>$80000000 then
         begin
             result := LPhysicalMemArr.RAWPhysicalMemoryArrayInformation^.MaximumCapacity div 1024;
             break;
         end
-        //  WriteLn(Format('Maximum Capacity %d Kb',[LPhysicalMemArr.RAWPhysicalMemoryArrayInformation^.MaximumCapacity]))
         else
         begin
-          //WriteLn(Format('Maximum Capacity %d bytes',[LPhysicalMemArr.RAWPhysicalMemoryArrayInformation^.ExtendedMaximumCapacity]));
           result :=LPhysicalMemArr.RAWPhysicalMemoryArrayInformation^.ExtendedMaximumCapacity div 1024;
           break;
         end;
-
-        //WriteLn(Format('Memory devices   %d',[LPhysicalMemArr.RAWPhysicalMemoryArrayInformation^.NumberofMemoryDevices]));
-        //WriteLn;
       end
       else
-      //Writeln('No Physical Memory Array Info was found');
       result := 0;
   finally
    SMBios.Free;
@@ -155,10 +144,7 @@ end;
 //https://forum.lazarus.freepascal.org/index.php?topic=38839.0
 function GetTotalCpuUsagePct(): double;
 begin
-  //Result := floattostr(GetProcessorUsage)+'%';
   Result :=  GetCPU();
-  //Result :=   Format('%.2f', GetProcessorUsage) + '%';
-   //  Result := Format('%.2f', [(SysTime - IdleDiff)/SysTime * 100]) + '%';
 end;
 
 function GetProcessorTime : int64;

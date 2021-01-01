@@ -11,7 +11,7 @@ uses
   SetupDisplay, setDisplay, display;
 
 
-const Versao = '2.3.6';
+const Versao = '2.3.7';
 
 
 type
