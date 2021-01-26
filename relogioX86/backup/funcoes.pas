@@ -7,7 +7,7 @@ interface
 
 uses
 windows, Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
-StdCtrls, ExtCtrls, jwaWinBase, UTF8Process, uSMBIOS;
+StdCtrls, ExtCtrls, jwaWinBase, UTF8Process, uSMBIOS, Process;
 
 
 
@@ -18,8 +18,12 @@ function GetTotalCpuUsagePct(): double;
 function GetProcessorUsage : integer;
 function GetCPUCount : integer;
 function GetMemorySize : DWORD;
+function PeganomeMaquina : string;
+function GetGPUTemperature: integer;
 
 implementation
+
+uses main;
 
 var LastTickCount     : cardinal = 0;
     LastProcessorTime : int64    = 0;
@@ -32,6 +36,40 @@ begin
   result := GetSystemThreadCount;
 end;
 
+function GetGPUTemperature: string;
+var
+   cmd : TProcess;
+   AStringList: TStringList;
+begin
+   cmd := TProcess.Create(nil);
+   // Cria o objeto TStringList.
+   AStringList := TStringList.Create;
+   cmd.CommandLine:='nvidia-smi -i 0 --format=csv,noheader --query-gpu=temperature.gpu';
+
+   // Nós definiremos uma opção para onde o programa
+   // é executado. Esta opção verificará que nosso programa
+   // não continue enquanto o programa que nós executamos
+   // não pare de executar. Também agora vamos mostrar a ele que
+   // que nós precisamos ler a saída do arquivo.
+   cmd.Options := cmd.Options + [poWaitOnExit, poUsePipes];
+
+   cmd.Execute;
+   // Esta parte não é alcançada enquanto ppc386 não parar a execução.
+
+     // Agora lida a saida do programa nós colocaremos
+     // ela na TStringList.
+     AStringList.LoadFromStream(cmd.Output);
+
+     // Salvamos a saida para um arquivo.
+     //AStringList.SaveToFile('output.txt');
+     result := trim(AStringList.Text);
+
+     // Agora que o arquivo foi salvo nós podemos liberar a
+     // TStringList e o TProcess.
+     AStringList.Free;
+     cmd.Free;
+end;
+
 function GetMemorySize : DWORD;
 Var
   SMBios : TSMBios;
@@ -39,32 +77,21 @@ Var
 begin
  SMBios:=TSMBios.Create;
   try
-      //WriteLn('Physical Memory Array Information');
-      //WriteLn('--------------------------------');
       if SMBios.HasPhysicalMemoryArrayInfo then
       for LPhysicalMemArr in SMBios.PhysicalMemoryArrayInfo do
       begin
-        //WriteLn('Location         '+LPhysicalMemArr.GetLocationStr);
-        //WriteLn('Use              '+LPhysicalMemArr.GetUseStr);
-        //WriteLn('Error Correction '+LPhysicalMemArr.GetErrorCorrectionStr);
         if LPhysicalMemArr.RAWPhysicalMemoryArrayInformation^.MaximumCapacity<>$80000000 then
         begin
             result := LPhysicalMemArr.RAWPhysicalMemoryArrayInformation^.MaximumCapacity div 1024;
             break;
         end
-        //  WriteLn(Format('Maximum Capacity %d Kb',[LPhysicalMemArr.RAWPhysicalMemoryArrayInformation^.MaximumCapacity]))
         else
         begin
-          //WriteLn(Format('Maximum Capacity %d bytes',[LPhysicalMemArr.RAWPhysicalMemoryArrayInformation^.ExtendedMaximumCapacity]));
           result :=LPhysicalMemArr.RAWPhysicalMemoryArrayInformation^.ExtendedMaximumCapacity div 1024;
           break;
         end;
-
-        //WriteLn(Format('Memory devices   %d',[LPhysicalMemArr.RAWPhysicalMemoryArrayInformation^.NumberofMemoryDevices]));
-        //WriteLn;
       end
       else
-      //Writeln('No Physical Memory Array Info was found');
       result := 0;
   finally
    SMBios.Free;
@@ -81,6 +108,22 @@ begin
      begin
        result := falso
      end;
+end;
+
+function PeganomeMaquina : string;
+var
+  SMBios : TSMBios;
+   LSystem: TSystemInformation;
+   UUID   : Array[0..31] of AnsiChar;
+begin
+  SMBios:=TSMBios.Create;
+   try
+     LSystem:=SMBios.SysInfo;
+     result := LSystem.ProductNameStr;
+   finally
+    SMBios.Free;
+   end;
+
 end;
 
 //Retira o bloco de informação
@@ -155,10 +198,7 @@ end;
 //https://forum.lazarus.freepascal.org/index.php?topic=38839.0
 function GetTotalCpuUsagePct(): double;
 begin
-  //Result := floattostr(GetProcessorUsage)+'%';
   Result :=  GetCPU();
-  //Result :=   Format('%.2f', GetProcessorUsage) + '%';
-   //  Result := Format('%.2f', [(SysTime - IdleDiff)/SysTime * 100]) + '%';
 end;
 
 function GetProcessorTime : int64;

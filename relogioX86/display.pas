@@ -58,6 +58,7 @@ procedure TfrmDisplay.Timer1Timer(Sender: TObject);
 var
   info : double;
   valor : integer;
+  info2 : string;
 begin
   if LazSerial1.Active then
   begin
@@ -77,6 +78,11 @@ begin
      LazSerial1.WriteData('computer.txt="'+setdisplay.FSetDisplay.computer+'"'#255+#255+#255);
      LazSerial1.WriteData('Proc01.txt="'+inttostr(GetCPUCount())+'"'#255+#255+#255);
      LazSerial1.WriteData('Memoria.txt="'+format('%d Mbytes',[funcoes.GetMemorySize()])+'"'#255+#255+#255);
+
+     info2 := inttostr(strtoint(trim(GetGPUTemperature)));
+     LazSerial1.WriteData('GPU0.txt="'+info2+' C"'+#255+#255+#255);
+     LazSerial1.WriteData('add 6,0,'+ info2 +#255+#255+#255);
+
   end;
 
 end;

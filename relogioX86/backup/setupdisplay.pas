@@ -50,6 +50,7 @@ begin
   top:= FsetDisplay.posy;
   ckDevice.Checked := FsetDisplay.device;
   edDPort.text := FsetDisplay.DPort;
+  edComputer.text := FSetDisplay.Computer;
 
   if FsetDisplay.stay then
    begin
@@ -101,6 +102,7 @@ begin
   FSetDisplay.posx := Left;
   FSetDisplay.posy := top;
   FSetDisplay.DPort := edDPort.text;
+  FSetDisplay.computer:= edComputer.text;
   //Fsettemp.TypeC := cbTypeC.ItemIndex;
   FSetDisplay.SalvaContexto();
   (*

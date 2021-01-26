@@ -58,6 +58,7 @@ procedure TfrmDisplay.Timer1Timer(Sender: TObject);
 var
   info : double;
   valor : integer;
+  info2 : string;
 begin
   if LazSerial1.Active then
   begin
@@ -67,19 +68,21 @@ begin
      begin
         LazSerial1.WriteData('Temp1.txt="'+temp.frmTemp.Temperatura+'"'+#255+#255+#255);
         LazSerial1.WriteData('Hum1.txt="'+temp.frmTemp.Humidade+'"'+#255+#255+#255);
-        info := GetTotalCpuUsagePct();
-        valor := trunc(info);
-        LazSerial1.WriteData('CPU01.txt="'+format('%.2f',[info])+'"'+#255+#255+#255);
-        LazSerial1.WriteData('add 5,0,'+ format('%d',[valor])+#255+#255+#255);
-        LazSerial1.WriteData('prog02.val='+inttostr(trunc(info))+#255+#255+#255);
-        LazSerial1.WriteData('val02.txt="'+format('%.2f',[info])+'"'#255+#255+#255);
-        LazSerial1.WriteData('computer.txt="'+setdisplay.FSetDisplay.computer+'"'#255+#255+#255);
-        LazSerial1.WriteData('Proc01.txt="'+inttostr(GetCPUCount())+'"'#255+#255+#255);
-
-        LazSerial1.WriteData('Memoria.txt="'+format('%d Mbytes',[funcoes.GetMemorySize()])+'"'#255+#255+#255);
-
-
      end;
+     info := GetTotalCpuUsagePct();
+     valor := trunc(info);
+     LazSerial1.WriteData('CPU01.txt="'+format('%.2f',[info])+'"'+#255+#255+#255);
+     LazSerial1.WriteData('add 5,0,'+ format('%d',[valor])+#255+#255+#255);
+     LazSerial1.WriteData('prog02.val='+inttostr(trunc(info))+#255+#255+#255);
+     LazSerial1.WriteData('val02.txt="'+format('%.2f',[info])+'"'#255+#255+#255);
+     LazSerial1.WriteData('computer.txt="'+setdisplay.FSetDisplay.computer+'"'#255+#255+#255);
+     LazSerial1.WriteData('Proc01.txt="'+inttostr(GetCPUCount())+'"'#255+#255+#255);
+     LazSerial1.WriteData('Memoria.txt="'+format('%d Mbytes',[funcoes.GetMemorySize()])+'"'#255+#255+#255);
+
+     info2 := inttostr(strtoint(trim(GetGPUTemperature)));
+     LazSerial1.WriteData('GPU0.txt="'+info2+'C"'+#255+#255+#255);
+     LazSerial1.WriteData('add 6,0,'+ info2 +#255+#255+#255);
+
   end;
 
 end;

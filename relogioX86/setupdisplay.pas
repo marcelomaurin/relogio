@@ -50,7 +50,10 @@ begin
   top:= FsetDisplay.posy;
   ckDevice.Checked := FsetDisplay.device;
   edDPort.text := FsetDisplay.DPort;
-  edComputer.text := FSetDisplay.Computer;
+  if (FSetDisplay.Computer<>'') then
+    edComputer.text := FSetDisplay.Computer
+  else
+      edComputer.text :=PeganomeMaquina; //Mostra nome da maquina real na bios
 
   if FsetDisplay.stay then
    begin
@@ -78,7 +81,6 @@ begin
    if (FSetDisplay = nil) then (* Somente carrega se nao foi criado anteriormente *)
    begin
       FSetDisplay := TSetDisplay.create();
-
    end;
    CarregaContexto();
    (*

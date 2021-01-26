@@ -7,11 +7,11 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, PopupNotifier,
   ComCtrls, Menus, ExtCtrls, StdCtrls, splash, clock, dmDados, SetupIoT,
-  setmain, temp, lazserial, SetupWork, working, dayworking, setwork,
+  setmain, temp, lazserial,  SetupWork, working, dayworking, setwork,
   SetupDisplay, setDisplay, display;
 
 
-const Versao = '2.3.7';
+const Versao = '2.3.8';
 
 
 type

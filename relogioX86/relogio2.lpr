@@ -7,9 +7,10 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, LazSerialPort, LazSerial, splash, clock, main, working, setmain,
-  funcoes, setclock, SetupIoT, SetSIot, dmDados, temp, settemp, SetupWork,
-  setwork, setworking, worktime, SetupDisplay, setdisplay, Display, uSMBIOS;
+  Forms, LazSerialPort, LazSerial, cmdbox, splash, clock, main, working,
+  setmain, funcoes, setclock, SetupIoT, SetSIot, dmDados, temp, settemp,
+  SetupWork, setwork, setworking, worktime, SetupDisplay, setdisplay, Display,
+  uSMBIOS;
 
 {$R *.res}
 
