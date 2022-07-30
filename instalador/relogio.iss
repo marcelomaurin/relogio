@@ -2,11 +2,12 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Relogio2"
-#define MyAppVersion "2.3.7"
+#define MyAppVersion "2.3.11"
 #define MyAppPublisher "Maurinsoft"
 #define MyAppURL "http://maurinsoft.com.br"
 #define MyAppExeName "relogio2.exe"
-
+#define ToolsName "NsightSystems-2020.5.1.85-5ee086b.msi"
+#define Startup "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp"
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
 ; Do not use the same AppId value in installers for other applications.
@@ -21,7 +22,7 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DisableProgramGroupPage=yes
-OutputBaseFilename=setup
+OutputBaseFilename=win_setup_2.3.11
 Compression=lzma
 SolidCompression=yes
 PrivilegesRequired=admin 
@@ -35,12 +36,17 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 [Files]
 ; Mude seu binario p o caminho correto
 Source: "D:\projetos\maurinsoft\relogio\relogioX86\relogio2.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\projetos\maurinsoft\relogio\instalador\tools\nvidia-smi.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\projetos\maurinsoft\relogio\instalador\tools\nvml.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\projetos\maurinsoft\relogio\instalador\tools\NsightSystems-2020.5.1.85-5ee086b.msi"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
 Name: "{commonprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
-Name: "{commonstartup}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
+Name: "{userstartup}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"
+ Name: "{#Startup}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"
+;Name: "{commonstartup}\{#ToolsName}"; Filename: "{app}\{#ToolsName}"; Tasks: desktopicon
 ;Name: "{userstartup}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
 
 
@@ -49,4 +55,4 @@ Name: "{commonstartup}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: 
 ;Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,MyApp}"; Flags: runascurrentuser nowait postinstall skipifsilent
 Filename: "{app}\{#MyAppExeName}"; Flags: runascurrentuser; Parameters: "-install -svcName ""{#MyAppExeName}"" -svcDesc ""MyApp"" -mainExe ""{#MyAppExeName}""  "
-
+Filename: "{app}\{#ToolsName}"; Flags: runascurrentuser; Parameters: "-install -svcName ""{#ToolsName}"" -svcDesc ""MyApp"" -mainExe ""{#ToolsName}""  "
